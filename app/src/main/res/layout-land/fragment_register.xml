@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_login_landscape"
+    tools:context=".fragments.RegisterFragment">
+
+
+    <ImageView
+        android:id="@+id/imv_logo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin25"
+        android:contentDescription="@string/Logo"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@id/edt_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <EditText
+        android:id="@+id/edt_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/email"
+        android:fontFamily="@font/sunshiney"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size"
+        android:layout_marginBottom="@dimen/margin40"
+        android:layout_marginStart="@dimen/margin40"
+        app:layout_constraintTop_toBottomOf="@id/imv_logo"
+        app:layout_constraintBottom_toBottomOf="@id/edt_password"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <EditText
+        android:id="@+id/edt_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:autofillHints="@string/email"
+        android:fontFamily="@font/sunshiney"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="@dimen/margin40"
+        app:layout_constraintTop_toBottomOf="@id/edt_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <EditText
+        android:id="@+id/edt_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin40"
+        android:autofillHints="@string/password"
+        android:fontFamily="@font/sunshiney"
+        android:hint="@string/password"
+        android:inputType="numberPassword"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.4" />
+
+
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/btn_register"
+        app:layout_constraintStart_toStartOf="@id/btn_register"
+        app:layout_constraintBottom_toTopOf="@id/btn_register" />
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/selector_simple_button"
+        android:drawableStart="@drawable/ic_paw"
+        android:drawableEnd="@drawable/ic_paw"
+        android:fontFamily="@font/sunshiney"
+        android:text="@string/register"
+        android:textAllCaps="false"
+        android:textColor="@color/white_alpha"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/margin25"
+        app:layout_constraintEnd_toEndOf="@id/edt_password"
+        app:layout_constraintHeight_percent="0.12"
+        app:layout_constraintStart_toStartOf="@id/edt_password"
+        app:layout_constraintTop_toBottomOf="@id/edt_password"
+        app:layout_constraintWidth_percent="0.3" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

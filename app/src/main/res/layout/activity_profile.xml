@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/light_orange_1"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_user_profile"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="-50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="60dp">
+
+
+        <ImageView
+            android:id="@+id/imv_wallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wallpaper_profile" />
+
+        <TextView
+            android:id="@+id/tv_hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="@dimen/margin50"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/sunshiney"
+            android:text="@string/hello"/>
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/margin50"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/sunshiney"
+            android:text="Username"
+            android:textSize="38sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center|end"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="@dimen/margin30">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_profile_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/default_profile_pic"
+                app:civ_border_color="@color/dark_orange"
+                app:civ_border_width="6dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_change_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="onClickChangePicture"
+                app:backgroundTint="@color/light_orange_2"
+                app:fabSize="mini"
+                app:layout_constraintBottom_toBottomOf="@id/civ_profile_image"
+                app:layout_constraintEnd_toEndOf="@id/civ_profile_image"
+                app:srcCompat="@drawable/ic_edit" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_account_settings"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="-30dp"
+        android:background="@drawable/selector_simple_button"
+        android:drawableStart="@drawable/ic_settings"
+        android:fontFamily="@font/sunshiney"
+        android:text="@string/account_settings"
+        android:textAllCaps="false"
+        android:textColor="@color/dark_orange"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.068"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_user_profile"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <Button
+        android:id="@+id/btn_add_announcement"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/selector_profile_big_button"
+        android:drawableEnd="@drawable/ic_playlist_add"
+        android:fontFamily="@font/sunshiney"
+        android:text="@string/add_announcement"
+        android:textAllCaps="false"
+        android:textColor="@color/white_alpha"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.080"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_account_settings"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <Button
+        android:id="@+id/btn_my_announcements"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/selector_profile_big_button"
+        android:drawableEnd="@drawable/ic_list_bulleted"
+        android:fontFamily="@font/sunshiney"
+        android:text="@string/my_announcements"
+        android:textAllCaps="false"
+        android:textColor="@color/white_alpha"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.080"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_add_announcement"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <Button
+        android:id="@+id/btn_all_announcements"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/selector_profile_big_button"
+        android:drawableEnd="@drawable/ic_list_bulleted"
+        android:fontFamily="@font/sunshiney"
+        android:text="@string/all_announcements"
+        android:textAllCaps="false"
+        android:textColor="@color/white_alpha"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.080"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_my_announcements"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <Button
+        android:id="@+id/btn_favorites"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="@dimen/margin30"
+        android:background="@drawable/selector_profile_big_button"
+        android:drawableEnd="@drawable/ic_favorite"
+        android:fontFamily="@font/sunshiney"
+        android:text="@string/favorites"
+        android:textAllCaps="false"
+        android:textColor="@color/white_alpha"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintHeight_percent="0.082"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_all_announcements"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <Button
+        android:id="@+id/btn_messages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="@dimen/margin30"
+        android:background="@drawable/selector_profile_big_button"
+        android:drawableEnd="@drawable/ic_chat"
+        android:fontFamily="@font/sunshiney"
+        android:text="@string/messages"
+        android:textAllCaps="false"
+        android:textColor="@color/white_alpha"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.082"
+        app:layout_constraintTop_toBottomOf="@id/btn_all_announcements"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/selector_transparent_button"
+        android:drawableStart="@drawable/ic_logout"
+        android:drawableTint="@color/orange"
+        android:fontFamily="@font/sunshiney"
+        android:onClick="onClickLogOut"
+        android:text="@string/log_out"
+        android:textAllCaps="false"
+        android:textColor="@color/orange"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.070"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_favorites"
+        app:layout_constraintWidth_percent="0.37" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
