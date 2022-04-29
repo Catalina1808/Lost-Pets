@@ -4,10 +4,9 @@
     package="com.example.lostmypet">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-
-
 
     <application
         android:icon="@mipmap/icon_app"
@@ -15,14 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LostMyPet">
-
-
+        <activity
+            android:name=".activities.AddAnnouncementActivity"
+            android:label="@string/title_add_announcement_activity" />
         <activity
             android:name=".activities.ProfileActivity"
             android:label="@string/title_activity_profile" />
         <activity
             android:name=".activities.WelcomeActivity"
-            android:label="@string/title_activity_welcome">
+            android:label="@string/title_activity_welcome"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

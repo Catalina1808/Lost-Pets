@@ -32,4 +32,7 @@
     <string name="favorites">Favorites</string>
     <string name="log_out">Log out</string>
     <string name="messages">Messages</string>
+    <string name="title_add_announcement_activity">AddAnnouncementActivity</string>
+    <string name="icon_dog">Icon dog</string>
+    <string name="scrollview">ScrollView</string>
 </resources>

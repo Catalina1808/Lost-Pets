@@ -1,16 +1,14 @@
 package com.example.lostmypet.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,29 +22,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.lostmypet.R;
-import com.example.lostmypet.interfaces.OnFragmentActivityCommunication;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.io.IOException;
-import java.net.URL;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    public final static int PICK_PHOTO_CODE = 1046;
-    private int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
+    private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
     private FirebaseUser currentUser;
     private StorageReference storageReference;
     private ImageView userImage;
-    private TextView usernameTextView;
+    private Button addAnnouncementBtn;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +42,14 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         //Get the firebase user
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         assert currentUser != null;
 
         //Get the image and username from UI
-        usernameTextView = (TextView) findViewById(R.id.tv_username);
+        TextView usernameTextView = (TextView) findViewById(R.id.tv_username);
         userImage = (ImageView) findViewById(R.id.civ_profile_image);
+        addAnnouncementBtn = findViewById(R.id.btn_add_announcement);
 
         //Set username on screen
         String message = currentUser.getDisplayName();
@@ -69,26 +58,26 @@ public class ProfileActivity extends AppCompatActivity {
         //Get the firebase storage reference and verify if the user has a profile pic to get
         storageReference = FirebaseStorage.getInstance().getReference("Users/"+currentUser.getUid());
 
-        if(storageReference!=null) {
-           storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    String imageURL = uri.toString();
-                    Glide.with(getApplicationContext()).load(imageURL).into(userImage);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(getApplicationContext(), "The user does not have a profile image or it could not be loaded.",
-                            Toast.LENGTH_SHORT).show();
-                }
-            });
+        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+            String imageURL = uri.toString();
+            Glide.with(getApplicationContext()).load(imageURL).into(userImage);
+        }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), "The user does not have a profile image or it could not be loaded.",
+                 Toast.LENGTH_SHORT).show());
 
-        }
+
+        //Set the click listener for the add announcement button
+        addAnnouncementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfileActivity.this, AddAnnouncementActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
     public void onClickLogOut(View view){
+        mAuth.signOut();
         Intent intent = new Intent(ProfileActivity.this, WelcomeActivity.class);
         startActivity(intent);
     }
@@ -107,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -128,6 +117,7 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
                         //Get uri from image from gallery
+                        assert result.getData() != null;
                         Uri photoUri = result.getData().getData();
 
                         //Put the image in the ImageView on screen
@@ -135,18 +125,14 @@ public class ProfileActivity extends AppCompatActivity {
 
                         //Save the image in Firebase Storage
                         storageReference = FirebaseStorage.getInstance().getReference("Users/"+currentUser.getUid());
-                        storageReference.putFile(photoUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                Toast.makeText(getApplicationContext(), "User Profile updated",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        storageReference.putFile(photoUri).addOnSuccessListener(taskSnapshot -> Toast.makeText(getApplicationContext(), "User Profile updated",
+                                Toast.LENGTH_SHORT).show());
 
                     }}
             });
 
     // Trigger gallery selection for a photo
+    @SuppressLint("QueryPermissionsNeeded")
     public void onPickPhoto() {
         // Create intent for picking a photo from the gallery
         Intent intent = new Intent(Intent.ACTION_PICK,

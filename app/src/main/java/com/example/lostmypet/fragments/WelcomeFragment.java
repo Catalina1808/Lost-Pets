@@ -47,14 +47,9 @@ public class WelcomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        view.findViewById(R.id.btn_register).setOnClickListener(v -> {
-            goToRegister();
+        view.findViewById(R.id.btn_register).setOnClickListener(v -> goToRegister());
 
-        });
-
-        view.findViewById(R.id.btn_login).setOnClickListener(v -> {
-            goToLogin();
-        });
+        view.findViewById(R.id.btn_login).setOnClickListener(v -> goToLogin());
 
     }
 

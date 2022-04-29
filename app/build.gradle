@@ -66,4 +66,18 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.firebaseui:firebase-ui-database:2.1.0'
+
+    //Mapbox dependencies
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v7:0.6.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.5.0'
+    implementation "com.mapbox.navigation:ui-dropin:2.5.0-alpha.3"
+    //   implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:6.4.0'
+
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation:0.41.0'
+    implementation('com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.41.0') {
+        transitive = true
+    }
+
+    implementation("com.google.android.gms:play-services-location:19.0.1")
 }
