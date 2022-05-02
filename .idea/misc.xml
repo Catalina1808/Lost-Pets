@@ -12,15 +12,18 @@
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/drawable/ic_favorite.xml" value="0.1495" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/drawable/ic_paw.xml" value="0.204" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/drawable/ic_paw_focused.xml" value="0.204" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/drawable/selector_simple_button.xml" value="0.2095" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/drawable/selector_transparent_button.xml" value="0.2095" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/drawable/selector_transparent_spinner.xml" value="0.2095" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/drawable/switch_thumb_selector.xml" value="0.19" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/font/cedarville_cursive.xml" value="0.22710004221190375" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/font/sacramento.xml" value="0.22710004221190375" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/font/sunshiney.xml" value="0.22710004221190375" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_login.xml" value="0.1" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_register.xml" value="0.4328223624887286" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_welcome.xml" value="0.4328223624887286" />
-        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_add_announcement.xml" value="0.264" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_add_announcement.xml" value="0.16" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_add_first_location.xml" value="0.2" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_profile.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_welcome.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/fragment_login.xml" value="0.20521590423257802" />

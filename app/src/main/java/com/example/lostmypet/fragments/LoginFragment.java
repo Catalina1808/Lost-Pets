@@ -149,7 +149,7 @@ public class LoginFragment extends Fragment {
     }
 
 
-    void saveEmail(EditText text) {
+    private void saveEmail(EditText text) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("EMAIL", text.getText().toString());

@@ -23,17 +23,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE-FIREBASE.txt'
-        exclude 'META-INF/NOTICE'
+        resources {
+            excludes += ['META-INF/LICENSE', 'META-INF/LICENSE-FIREBASE.txt', 'META-INF/NOTICE']
+        }
     }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'com.example.lostmypet'
 }
 
 dependencies {

@@ -37,14 +37,15 @@
                 android:id="@+id/edt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin25"
-                android:layout_marginEnd="@dimen/margin25"
+                android:layout_marginStart="@dimen/margin30"
+                android:layout_marginEnd="@dimen/margin30"
                 android:layout_marginBottom="@dimen/margin25"
                 android:background="@drawable/custom_input"
                 android:drawableStart="@drawable/custom_paw_icon"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/sunshiney"
-                android:hint="Name"
+                android:hint="@string/name"
+                android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:padding="10dp"
                 android:textColor="@color/dark_orange"
@@ -54,23 +55,35 @@
                 android:id="@+id/spn_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin25"
-                android:layout_marginEnd="@dimen/margin25"
+                android:layout_marginStart="@dimen/margin30"
+                android:layout_marginEnd="@dimen/margin30"
                 android:layout_marginBottom="@dimen/margin25"
                 android:backgroundTint="@color/light_orange_2"
                 android:popupBackground="@android:color/transparent" />
+
+            <Spinner
+                android:id="@+id/spn_animal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin30"
+                android:layout_marginEnd="@dimen/margin30"
+                android:layout_marginBottom="@dimen/margin25"
+                android:backgroundTint="@color/light_orange_2"
+                android:popupBackground="@android:color/transparent" />
+
 
             <EditText
                 android:id="@+id/edt_breed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin25"
-                android:layout_marginEnd="@dimen/margin25"
+                android:layout_marginStart="@dimen/margin30"
+                android:layout_marginEnd="@dimen/margin30"
                 android:background="@drawable/custom_input"
                 android:drawableStart="@drawable/custom_paw_icon"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/sunshiney"
-                android:hint="Breed"
+                android:hint="@string/breed"
+                android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:padding="10dp"
                 android:textColor="@color/dark_orange"
@@ -83,10 +96,10 @@
                 android:layout_marginEnd="@dimen/margin25"
                 android:layout_marginBottom="@dimen/margin25"
                 android:fontFamily="@font/sunshiney"
-                android:text="Example: labrador"
+                android:text="@string/example_breed"
                 android:textColor="@color/orange"
                 android:textStyle="italic" />
-
+            <!--
             <EditText
                 android:id="@+id/edt_animal"
                 android:layout_width="match_parent"
@@ -114,18 +127,22 @@
                 android:textColor="@color/orange"
                 android:textStyle="italic" />
 
+                    -->
+
+
             <EditText
                 android:id="@+id/edt_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin25"
-                android:layout_marginEnd="@dimen/margin25"
+                android:layout_marginStart="@dimen/margin30"
+                android:layout_marginEnd="@dimen/margin30"
                 android:layout_marginBottom="@dimen/margin25"
                 android:background="@drawable/custom_input"
                 android:drawableStart="@drawable/custom_paw_icon"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/sunshiney"
-                android:hint="Description"
+                android:hint="@string/description"
+                android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
                 android:textColor="@color/dark_orange"
@@ -135,8 +152,8 @@
                 android:id="@+id/spn_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin25"
-                android:layout_marginEnd="@dimen/margin25"
+                android:layout_marginStart="@dimen/margin30"
+                android:layout_marginEnd="@dimen/margin30"
                 android:layout_marginBottom="@dimen/margin25"
                 android:backgroundTint="@color/light_orange_2"
                 android:popupBackground="@android:color/transparent" />
@@ -153,16 +170,19 @@
                 android:drawableEnd="@drawable/ic_image"
                 android:drawableTint="@color/orange"
                 android:fontFamily="@font/sunshiney"
-                android:text="Add image"
+                android:onClick="onClickAddImage"
+                android:text="@string/add_image"
                 android:textAllCaps="false"
                 android:textColor="@color/white_alpha"
                 android:textSize="18sp" />
 
             <ImageView
+                android:id="@+id/imv_pet"
                 android:layout_width="220dp"
                 android:layout_height="220dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/margin25"
+                android:contentDescription="@string/pet_image_description"
                 android:src="@drawable/icon_image" />
 
             <Button
@@ -177,7 +197,7 @@
                 android:drawableEnd="@drawable/ic_location"
                 android:drawableTint="@color/orange"
                 android:fontFamily="@font/sunshiney"
-                android:text="Add location"
+                android:text="@string/add_location"
                 android:textAllCaps="false"
                 android:textColor="@color/white_alpha"
                 android:textSize="18sp" />
@@ -193,7 +213,7 @@
                 android:drawablePadding="10dp"
                 android:ems="10"
                 android:fontFamily="@font/sunshiney"
-                android:hint="Coordinates"
+                android:hint="@string/coordinates"
                 android:textSize="20sp"
                 app:drawableStartCompat="@drawable/ic_location"
                 app:drawableTint="@color/orange" />
@@ -208,11 +228,11 @@
                 android:layout_marginBottom="@dimen/margin25"
                 android:background="@drawable/selector_simple_button"
                 android:drawableStart="@drawable/ic_done"
-                android:drawableTint="@color/dark_orange_2"
+                android:drawableTint="@color/light_orange_1"
                 android:fontFamily="@font/sunshiney"
-                android:text="Done"
+                android:text="@string/done"
                 android:textAllCaps="false"
-                android:textColor="@color/dark_orange_2"
+                android:textColor="@color/light_orange_1"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 

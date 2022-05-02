@@ -3,7 +3,7 @@
 
 
     <item  android:state_selected="true">
-        <shape>  <stroke android:width="2dp" android:color="@color/orange" />
+        <shape>  <stroke android:width="3dp" android:color="@color/orange" />
 
             <solid android:color="@color/light_orange_2" />
 
@@ -17,7 +17,7 @@
     </item>
 
     <item android:state_pressed="true">
-        <shape>  <stroke android:width="2dp" android:color="@color/orange" />
+        <shape>  <stroke android:width="3dp" android:color="@color/orange" />
             <solid android:color="@color/light_orange_2" />
             <corners android:radius="10dp"/>
             <padding
@@ -29,7 +29,7 @@
     </item>
 
     <item><shape>
-        <stroke android:width="2dp" android:color="@color/light_orange_2" />
+        <stroke android:width="3dp" android:color="@color/light_orange_2" />
 
         <solid android:color="@color/light_orange_1" />
 

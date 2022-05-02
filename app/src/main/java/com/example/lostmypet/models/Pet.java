@@ -13,24 +13,15 @@ public class Pet {
     private String description;
     private String breed;
     private String animal;
-    private String imageURL;
 
-    public Pet(String name, Gender gender, String description, String breed, String animal, String imageURL) {
+    public Pet(String name, Gender gender, String description, String breed, String animal) {
         this.name = name;
         this.gender = gender;
         this.description = description;
         this.breed = breed;
         this.animal = animal;
-        this.imageURL = imageURL;
     }
 
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
 
     public String getName() {
         return name;

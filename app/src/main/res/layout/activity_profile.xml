@@ -118,7 +118,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.080"
+        app:layout_constraintHeight_percent="0.08"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_account_settings"
         app:layout_constraintVertical_chainStyle="packed"
