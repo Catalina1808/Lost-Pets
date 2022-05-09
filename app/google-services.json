@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "290224364715",
+    "firebase_url": "https://lostmypet-32687-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "lostmypet-32687",
     "storage_bucket": "lostmypet-32687.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "290224364715-btb878ik9llj7com6kvd7jq45jrvf6u8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lostmypet",
+            "certificate_hash": "c5ad21822610cb93dbb2c6748618442b6690519d"
+          }
+        },
         {
           "client_id": "290224364715-8f7o6njel7mh2cvhqrs9ljh0h4getb6f.apps.googleusercontent.com",
           "client_type": 3

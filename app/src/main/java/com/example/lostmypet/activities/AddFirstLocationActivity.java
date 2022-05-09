@@ -78,6 +78,7 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
                     intent.putExtra("LATITUDE", position.latitude());
                     intent.putExtra("LONGITUDE", position.longitude());
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(AddFirstLocationActivity.this, "You should select a place on the map.",
                             Toast.LENGTH_LONG).show();
@@ -108,22 +109,10 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
                         switchMapStyle.setText(getResources().getString(R.string.satellite_view));
                         switchMapStyle.setTextColor(Color.WHITE);
                     }
-                    addMarkersOnMap();
                 }
             }
         });
     }
-
-    //add markers on map after changing map style
-    private void addMarkersOnMap(){
-
-        if(position !=null){
-            symbolManager.create(new SymbolOptions()
-                    .withLatLng(new LatLng(position.latitude(), position.longitude()))
-                    .withIconImage("myMarker"));
-        }
-    }
-
 
     //add first mark on map
 

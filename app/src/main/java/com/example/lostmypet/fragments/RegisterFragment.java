@@ -13,8 +13,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.lostmypet.DAO.DAOUser;
 import com.example.lostmypet.R;
 import com.example.lostmypet.helpers.UtilsValidators;
+import com.example.lostmypet.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -24,6 +26,9 @@ public class RegisterFragment extends Fragment {
 
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private ProgressBar progressBar;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private EditText phoneEditText;
 
     public static RegisterFragment newInstance() {
 
@@ -57,43 +62,40 @@ public class RegisterFragment extends Fragment {
 
         progressBar = view.findViewById(R.id.pb_loading);
 
-        view.findViewById(R.id.btn_register).setOnClickListener(v -> validateEmailAndPassword());
+        emailEditText = view.findViewById(R.id.edt_email);
+        passwordEditText = view.findViewById(R.id.edt_password);
+        phoneEditText = view.findViewById(R.id.edt_phone);
+
+        view.findViewById(R.id.btn_register).setOnClickListener(view1 -> {
+            if(validateFields()){
+                createFireBaseUser();
+            }
+        });
     }
 
-    private void validateEmailAndPassword(){
-        if(getView()==null)
-        {
-            return;
-        }
-        EditText emailEditText=getView().findViewById(R.id.edt_email);
-        EditText passwordEditText=getView().findViewById(R.id.edt_password);
-        String email=emailEditText.getText().toString();
-        String password=passwordEditText.getText().toString();
+    private boolean validateFields(){
+        boolean isValidated = getView() != null;
 
-        if(!UtilsValidators.isValidEmail(email))
+        if(!UtilsValidators.isValidEmail(emailEditText.getText().toString()))
         {
             emailEditText.setError("Invalid Email");
-            return;
+            isValidated=false;
         }
-        else
-        {
-            emailEditText.setError(null);
-        }
-
-        if(!UtilsValidators.isValidPassword(password))
+        if(!UtilsValidators.isValidPassword(passwordEditText.getText().toString()))
         {
             passwordEditText.setError("Invalid Password");
-            return;
+            isValidated=false;
         }
-        else
+        if(!UtilsValidators.isValidPhone(phoneEditText.getText().toString()))
         {
-            passwordEditText.setError(null);
+            phoneEditText.setError("Invalid Phone");
+            isValidated=false;
         }
 
-        createFireBaseUser(email, password);
+        return isValidated;
     }
 
-    private void createFireBaseUser(String email, String password){
+    private void createFireBaseUser(){
         if(getActivity()==null)
         {
             return;
@@ -101,7 +103,7 @@ public class RegisterFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(getActivity(), task->{
+        mAuth.createUserWithEmailAndPassword(emailEditText.getText().toString(), passwordEditText.getText().toString()).addOnCompleteListener(getActivity(), task->{
             progressBar.setVisibility(View.GONE);
             if(task.isSuccessful())
             {
@@ -116,6 +118,10 @@ public class RegisterFragment extends Fragment {
                                 String username=usernameEditText.getText().toString();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
                                 user.updateProfile(profileUpdates);
+
+                                DAOUser daoUser = new DAOUser();
+                                User userModel = new User(username, phoneEditText.getText().toString());
+                                daoUser.add(userModel, user.getUid());
 
                                 AlertDialog.Builder builder= new AlertDialog.Builder(requireContext());
                                 builder.setTitle("Almost done")

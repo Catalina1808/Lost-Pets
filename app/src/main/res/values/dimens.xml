@@ -19,7 +19,8 @@
     <dimen name="margin25">25dp</dimen>
     <dimen name="margin30">25dp</dimen>
     <dimen name="margin40">40dp</dimen>
-    <dimen name="text_size">25sp</dimen>
+    <dimen name="text_size_25">25sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="fragment_horizontal_margin">16dp</dimen>
     <dimen name="fragment_vertical_margin">16dp</dimen>

@@ -33,7 +33,6 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private StorageReference storageReference;
     private ImageView userImage;
-    private Button addAnnouncementBtn;
     private FirebaseAuth mAuth;
 
     @Override
@@ -46,9 +45,12 @@ public class ProfileActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         assert currentUser != null;
 
+        TextView usernameTextView;
+        Button addAnnouncementBtn;
+
         //Get the image and username from UI
-        TextView usernameTextView = (TextView) findViewById(R.id.tv_username);
-        userImage = (ImageView) findViewById(R.id.civ_profile_image);
+        usernameTextView = findViewById(R.id.tv_username);
+        userImage = findViewById(R.id.civ_profile_image);
         addAnnouncementBtn = findViewById(R.id.btn_add_announcement);
 
         //Set username on screen
@@ -66,12 +68,9 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         //Set the click listener for the add announcement button
-        addAnnouncementBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ProfileActivity.this, AddAnnouncementActivity.class);
-                startActivity(intent);
-            }
+        addAnnouncementBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(ProfileActivity.this, AddAnnouncementActivity.class);
+            startActivity(intent);
         });
 
     }
@@ -80,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth.signOut();
         Intent intent = new Intent(ProfileActivity.this, WelcomeActivity.class);
         startActivity(intent);
+        finishAffinity();
     }
 
 

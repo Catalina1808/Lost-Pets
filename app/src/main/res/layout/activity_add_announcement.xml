@@ -197,6 +197,7 @@
                 android:drawableEnd="@drawable/ic_location"
                 android:drawableTint="@color/orange"
                 android:fontFamily="@font/sunshiney"
+                android:onClick="onAddLocationButtonClick"
                 android:text="@string/add_location"
                 android:textAllCaps="false"
                 android:textColor="@color/white_alpha"
@@ -216,7 +217,10 @@
                 android:hint="@string/coordinates"
                 android:textSize="20sp"
                 app:drawableStartCompat="@drawable/ic_location"
-                app:drawableTint="@color/orange" />
+                app:drawableTint="@color/orange"
+                android:focusable="true"
+                android:clickable="true"
+                android:focusableInTouchMode="true"/>
 
             <Button
                 android:id="@+id/btn_add_announcement"
@@ -230,6 +234,8 @@
                 android:drawableStart="@drawable/ic_done"
                 android:drawableTint="@color/light_orange_1"
                 android:fontFamily="@font/sunshiney"
+
+                android:onClick="onAddAnnouncementButtonClick"
                 android:text="@string/done"
                 android:textAllCaps="false"
                 android:textColor="@color/light_orange_1"

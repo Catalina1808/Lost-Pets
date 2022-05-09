@@ -1,44 +1,39 @@
 package com.example.lostmypet.models;
 
 
-import com.mapbox.geojson.Point;
-
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class Announcement {
 
-    public enum Type {
-        LOST,
-        FOUND,
-        GIVE_AWAY
-    }
-
-    private Type type;
-    private List<Point> location;
+    private String type;
+    private ArrayList<Map<String, String>> coordinates;
     private String userID;
     private String petID;
 
-    public Announcement(Type type, List<Point> location, String userID, String petID) {
+    public Announcement(){};
+
+    public Announcement(String type, ArrayList<Map<String, String>> coordinates, String userID, String petID) {
         this.type = type;
-        this.location = location;
+        this.coordinates = coordinates;
         this.userID = userID;
         this.petID = petID;
     }
 
-    public Type getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public List<Point> getLocation() {
-        return location;
+    public ArrayList<Map<String, String>> getCoordinates() {
+        return coordinates;
     }
 
-    public void setLocation(List<Point> location) {
-        this.location = location;
+    public void setCoordinates(ArrayList<Map<String, String>> coordinates) {
+        this.coordinates = coordinates;
     }
 
     public String getUserID() {

@@ -1,35 +1,33 @@
 package com.example.lostmypet.activities;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.lostmypet.DAO.DAOAnnouncement;
+import com.example.lostmypet.DAO.DAOPet;
 import com.example.lostmypet.R;
+import com.example.lostmypet.helpers.UtilsValidators;
 import com.example.lostmypet.models.Announcement;
 import com.example.lostmypet.models.Pet;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,35 +39,32 @@ import com.mapbox.android.core.permissions.PermissionsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class AddAnnouncementActivity extends AppCompatActivity {
-
-    public static final String ANDROID_RESOURCE = "android.resource://";
 
     private Spinner genderSpinner;
     private Spinner typeSpinner;
     private Spinner animalSpinner;
-    private Button addImageButton;
     private ImageView petImageView;
-    private Button addLocationButton;
-    private TextView coordinatesTextView;
     private EditText nameEditText;
     private EditText breedEditText;
     private EditText descriptionEditText;
+    private TextView coordinatesTextView;
 
 
     private PermissionsManager permissionsManager;
     private Uri photoUri;
 
+    //the point on the map
+    private Map<String, String> locationPoint;
+
     //auth elements
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
     private FirebaseUser currentUser;
-    private StorageReference storageReference;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +72,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_announcement);
 
         //Get the firebase user
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         assert currentUser != null;
 
@@ -86,13 +81,13 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         setAnimalSpinner();
         setTypeSpinner();
 
-        addImageButton = findViewById(R.id.btn_add_image);
         petImageView = findViewById(R.id.imv_pet);
-        addLocationButton = findViewById(R.id.btn_add_location);
         coordinatesTextView = findViewById(R.id.tv_location);
         nameEditText = findViewById(R.id.edt_name);
         breedEditText = findViewById(R.id.edt_breed);
         descriptionEditText = findViewById(R.id.edt_description);
+
+        locationPoint= new HashMap<>();
 
 
 //        if (savedInstanceState != null)
@@ -107,7 +102,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 //        }
 
 
-
         //get coordinates from AddFirstLocationActivity
         Intent intent = getIntent();
         if(intent.getExtras()!=null){
@@ -116,35 +110,10 @@ public class AddAnnouncementActivity extends AppCompatActivity {
             double longitude = intent.getExtras().getDouble("LONGITUDE");
             String coordinates = "Latitude:" + latitude + "\nLongitude:"+ longitude;
             coordinatesTextView.setText(coordinates);
+            String latitudeStr = Double.toString(latitude).replace(".", ",");
+            String longitudeStr = Double.toString(longitude).replace(".", ",");
+            locationPoint.put(latitudeStr, longitudeStr);
         }
-
-        addLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveIntemsToSharedPreferences();
-                Intent intent = new Intent(AddAnnouncementActivity.this, AddFirstLocationActivity.class);
-
-                //Ask for location permission
-                if (!PermissionsManager.areLocationPermissionsGranted(AddAnnouncementActivity.this)){
-                     permissionsManager = new PermissionsManager(new PermissionsListener() {
-                         @Override
-                         public void onExplanationNeeded(List<String> permissionsToExplain) {
-                             Toast.makeText(AddAnnouncementActivity.this, "You should grant this permission to see your current location!",
-                                     Toast.LENGTH_LONG).show();
-                         }
-
-                         @Override
-                         public void onPermissionResult(boolean granted) {
-                             startActivity(intent);
-                         }
-                     });
-                    permissionsManager.requestLocationPermissions(AddAnnouncementActivity.this);
-                }
-                else {
-                    startActivity(intent);
-                }
-            }
-        });
     }
 
 
@@ -188,54 +157,33 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         if(Objects.equals(uriString, "null")){
             petImageView.setImageResource(R.drawable.icon_image);
         } else {
-            petImageView.setImageURI(Uri.parse(uriString));
+            photoUri = Uri.parse(uriString);
+            petImageView.setImageURI(photoUri);
         }
     }
 
     private void setGenderSpinner(){
-        List<String> enumGender = new ArrayList<String>(
+        List<String> enumGender = new ArrayList<>(
                 Arrays.asList(getResources().getString(R.string.female),
                         getResources().getString(R.string.male),
                         getResources().getString(R.string.unknown)));
 
-        genderSpinner = (Spinner)findViewById(R.id.spn_gender);
-        ArrayAdapter<String>adapter = new ArrayAdapter<String>(this,
+        genderSpinner = findViewById(R.id.spn_gender);
+        ArrayAdapter<String>adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, enumGender);
         adapter.setDropDownViewResource(R.layout.spinner_layout);
         genderSpinner.setAdapter(adapter);
-        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                switch (position) {
-                    case 0:
-                        // Whatever you want to happen when the first item gets selected
-                        break;
-                    case 1:
-                        // Whatever you want to happen when the second item gets selected
-                        break;
-                    case 2:
-                        // Whatever you want to happen when the thrid item gets selected
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
     }
 
     private void setTypeSpinner(){
-        List<String> enumType = new ArrayList<String>(
+        List<String> enumType = new ArrayList<>(
                 Arrays.asList(getResources().getString(R.string.lost),
                         getResources().getString(R.string.found),
                         getResources().getString(R.string.give_away)));
 
-        typeSpinner = (Spinner)findViewById(R.id.spn_type);
-        ArrayAdapter<String>adapterType = new ArrayAdapter<String>(this,
+        typeSpinner = findViewById(R.id.spn_type);
+        ArrayAdapter<String>adapterType = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, enumType);
         adapterType.setDropDownViewResource(R.layout.spinner_layout);
         typeSpinner.setAdapter(adapterType);
@@ -243,7 +191,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
     }
 
     private void setAnimalSpinner(){
-        List<String> enumAnimal = new ArrayList<String>(
+        List<String> enumAnimal = new ArrayList<>(
                 Arrays.asList(getResources().getString(R.string.dog),
                         getResources().getString(R.string.cat),
                         getResources().getString(R.string.rabbit),
@@ -251,8 +199,8 @@ public class AddAnnouncementActivity extends AppCompatActivity {
                         getResources().getString(R.string.other)));
 
 
-        animalSpinner = (Spinner)findViewById(R.id.spn_animal);
-        ArrayAdapter<String>adapterAnimal = new ArrayAdapter<String>(this,
+        animalSpinner = findViewById(R.id.spn_animal);
+        ArrayAdapter<String>adapterAnimal = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, enumAnimal);
         adapterAnimal.setDropDownViewResource(R.layout.spinner_layout);
         animalSpinner.setAdapter(adapterAnimal);
@@ -271,17 +219,20 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 onPickPhoto();
-                Toast.makeText(AddAnnouncementActivity.this, "Permission granted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddAnnouncementActivity.this, "Permission granted!",
+                        Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(AddAnnouncementActivity.this, "Permission denied!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddAnnouncementActivity.this, "Permission denied!",
+                        Toast.LENGTH_SHORT).show();
             }
         } else {
             permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -301,13 +252,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
                         //Put the image in the ImageView on screen
                         petImageView.setImageURI(photoUri);
 
-                        //Get the firebase storage reference
-                      //  storageReference = FirebaseStorage.getInstance().getReference("Announcements/"+currentUser.getUid());
-
-                        //Save the image in Firebase Storage
-                      //  storageReference.putFile(photoUri).addOnSuccessListener(taskSnapshot -> Toast.makeText(getApplicationContext(), "User Profile updated",
-                       //         Toast.LENGTH_SHORT).show());
-
                     }}
             });
 
@@ -326,4 +270,116 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         }
     }
 
+    private boolean validatedFields(){
+
+        boolean validated = true;
+        if(!UtilsValidators.isEmptyField(nameEditText.getText().toString()))
+        {
+            nameEditText.setError("You should enter a name");
+            validated = false;
+        }
+//        else
+//        {
+//            nameEditText.setError(null);
+//        }
+
+        if(!UtilsValidators.isEmptyField(descriptionEditText.getText().toString()))
+        {
+            descriptionEditText.setError("You should enter a description");
+            validated = false;
+        }
+
+        if(!UtilsValidators.isEmptyField(coordinatesTextView.getText().toString()))
+        {
+            coordinatesTextView.setError("You should enter a location");
+            validated = false;
+        }
+
+        return validated;
+        //addAnnouncement();
+    }
+
+    public void addAnnouncement(){
+        DAOAnnouncement daoAnnouncement = new DAOAnnouncement();
+        DAOPet daoPet = new DAOPet();
+
+        Pet pet = new Pet(nameEditText.getText().toString(),
+                genderSpinner.getSelectedItem().toString(),
+                descriptionEditText.getText().toString(),
+                breedEditText.getText().toString(),
+                animalSpinner.getSelectedItem().toString());
+
+        daoPet.add(pet);
+        String petId = daoPet.getId();
+
+        ArrayList<Map<String, String>> locations = new ArrayList<>();
+        locations.add(locationPoint);
+
+        Announcement announcement = new Announcement(typeSpinner.getSelectedItem().toString(),
+                locations,
+                currentUser.getUid(),
+                petId);
+
+        daoAnnouncement.add(announcement).
+                addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
+                        "Announcement inserted",
+                        Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
+                        "Insertion failed",
+                        Toast.LENGTH_SHORT).show());
+
+
+        if(photoUri!=null) {
+            //Get the firebase storage reference
+            String announcementId = daoAnnouncement.getId();
+            StorageReference storageReference = FirebaseStorage.getInstance()
+                    .getReference("Announcements/").child(announcementId);
+
+            // Save the image in Firebase Storage
+            storageReference.putFile(photoUri).
+                    addOnSuccessListener(taskSnapshot -> Toast.makeText(getApplicationContext(),
+                            "User Profile updated",
+                            Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    public void onAddAnnouncementButtonClick(View view) {
+        if(validatedFields())
+            addAnnouncement();
+    }
+
+
+    public void onAddLocationButtonClick(View view) {
+        saveIntemsToSharedPreferences();
+        Intent intent = new Intent(AddAnnouncementActivity.this,
+                AddFirstLocationActivity.class);
+
+        //Ask for location permission
+        if (!PermissionsManager.areLocationPermissionsGranted(AddAnnouncementActivity.this)){
+            permissionsManager = new PermissionsManager(new PermissionsListener() {
+                @Override
+                public void onExplanationNeeded(List<String> permissionsToExplain) {
+                    Toast.makeText(AddAnnouncementActivity.this,
+                            "You should grant this permission to see your current location!",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onPermissionResult(boolean granted) {
+                    startActivity(intent);
+                }
+            });
+            permissionsManager.requestLocationPermissions(AddAnnouncementActivity.this);
+        }
+        else {
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(AddAnnouncementActivity.this, ProfileActivity.class);
+        startActivity(intent);
+        finishAffinity();
+    }
 }

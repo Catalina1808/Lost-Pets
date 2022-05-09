@@ -2,19 +2,15 @@ package com.example.lostmypet.models;
 
 public class Pet {
 
-    public enum Gender {
-        Male,
-        Female,
-        Unknown
-    }
-
     private String name;
-    private Gender gender;
+    private String gender;
     private String description;
     private String breed;
     private String animal;
 
-    public Pet(String name, Gender gender, String description, String breed, String animal) {
+    public Pet(){};
+
+    public Pet(String name, String gender, String description, String breed, String animal) {
         this.name = name;
         this.gender = gender;
         this.description = description;
@@ -31,11 +27,11 @@ public class Pet {
         this.name = name;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
