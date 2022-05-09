@@ -7,15 +7,14 @@ import java.util.Map;
 public class Announcement {
 
     private String type;
-    private ArrayList<Map<String, String>> coordinates;
+  //  private ArrayList<Map<String, String>> coordinates;
     private String userID;
     private String petID;
 
     public Announcement(){};
 
-    public Announcement(String type, ArrayList<Map<String, String>> coordinates, String userID, String petID) {
+    public Announcement(String type, String userID, String petID) {
         this.type = type;
-        this.coordinates = coordinates;
         this.userID = userID;
         this.petID = petID;
     }
@@ -26,14 +25,6 @@ public class Announcement {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public ArrayList<Map<String, String>> getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(ArrayList<Map<String, String>> coordinates) {
-        this.coordinates = coordinates;
     }
 
     public String getUserID() {

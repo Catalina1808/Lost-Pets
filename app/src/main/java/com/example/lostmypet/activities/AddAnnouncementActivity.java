@@ -25,10 +25,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lostmypet.DAO.DAOAnnouncement;
+import com.example.lostmypet.DAO.DAOLocationPoint;
 import com.example.lostmypet.DAO.DAOPet;
 import com.example.lostmypet.R;
 import com.example.lostmypet.helpers.UtilsValidators;
 import com.example.lostmypet.models.Announcement;
+import com.example.lostmypet.models.LocationPoint;
 import com.example.lostmypet.models.Pet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -60,7 +62,8 @@ public class AddAnnouncementActivity extends AppCompatActivity {
     private Uri photoUri;
 
     //the point on the map
-    private Map<String, String> locationPoint;
+    private double longitude;
+    private double latitude;
 
     //auth elements
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
@@ -87,7 +90,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         breedEditText = findViewById(R.id.edt_breed);
         descriptionEditText = findViewById(R.id.edt_description);
 
-        locationPoint= new HashMap<>();
 
 
 //        if (savedInstanceState != null)
@@ -106,13 +108,13 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent.getExtras()!=null){
             getFromSharedPreferences();
-            double latitude = intent.getExtras().getDouble("LATITUDE");
-            double longitude = intent.getExtras().getDouble("LONGITUDE");
+            latitude = intent.getExtras().getDouble("LATITUDE");
+            longitude = intent.getExtras().getDouble("LONGITUDE");
             String coordinates = "Latitude:" + latitude + "\nLongitude:"+ longitude;
             coordinatesTextView.setText(coordinates);
-            String latitudeStr = Double.toString(latitude).replace(".", ",");
-            String longitudeStr = Double.toString(longitude).replace(".", ",");
-            locationPoint.put(latitudeStr, longitudeStr);
+//            String latitudeStr = Double.toString(latitude).replace(".", ",");
+//            String longitudeStr = Double.toString(longitude).replace(".", ",");
+//            locationPoint.put(latitudeStr, longitudeStr);
         }
     }
 
@@ -273,7 +275,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
     private boolean validatedFields(){
 
         boolean validated = true;
-        if(!UtilsValidators.isEmptyField(nameEditText.getText().toString()))
+        if(UtilsValidators.isEmptyField(nameEditText.getText().toString()))
         {
             nameEditText.setError("You should enter a name");
             validated = false;
@@ -283,13 +285,13 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 //            nameEditText.setError(null);
 //        }
 
-        if(!UtilsValidators.isEmptyField(descriptionEditText.getText().toString()))
+        if(UtilsValidators.isEmptyField(descriptionEditText.getText().toString()))
         {
             descriptionEditText.setError("You should enter a description");
             validated = false;
         }
 
-        if(!UtilsValidators.isEmptyField(coordinatesTextView.getText().toString()))
+        if(UtilsValidators.isEmptyField(coordinatesTextView.getText().toString()))
         {
             coordinatesTextView.setError("You should enter a location");
             validated = false;
@@ -302,6 +304,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
     public void addAnnouncement(){
         DAOAnnouncement daoAnnouncement = new DAOAnnouncement();
         DAOPet daoPet = new DAOPet();
+        DAOLocationPoint daoLocationPoint = new DAOLocationPoint();
 
         Pet pet = new Pet(nameEditText.getText().toString(),
                 genderSpinner.getSelectedItem().toString(),
@@ -312,12 +315,13 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         daoPet.add(pet);
         String petId = daoPet.getId();
 
-        ArrayList<Map<String, String>> locations = new ArrayList<>();
-        locations.add(locationPoint);
+//        ArrayList<Map<String, String>> locations = new ArrayList<>();
+//        locations.add(locationPoint);
+
+        String userID = currentUser.getUid();
 
         Announcement announcement = new Announcement(typeSpinner.getSelectedItem().toString(),
-                locations,
-                currentUser.getUid(),
+                userID,
                 petId);
 
         daoAnnouncement.add(announcement).
@@ -328,10 +332,14 @@ public class AddAnnouncementActivity extends AppCompatActivity {
                         "Insertion failed",
                         Toast.LENGTH_SHORT).show());
 
+        //add location point
+        String announcementId = daoAnnouncement.getId();
+        LocationPoint locationPoint = new LocationPoint(latitude, longitude, announcementId, userID);
+        daoLocationPoint.add(locationPoint);
+
 
         if(photoUri!=null) {
             //Get the firebase storage reference
-            String announcementId = daoAnnouncement.getId();
             StorageReference storageReference = FirebaseStorage.getInstance()
                     .getReference("Announcements/").child(announcementId);
 
