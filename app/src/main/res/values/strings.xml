@@ -68,4 +68,10 @@
     <string name="streets_view">Streets view</string>
     <string name="save_location">Save location</string>
     <string name="phone">Phone</string>
+    <string name="background_image_description">background image</string>
+    <string name="btn_change_picture_description">button to change the user image</string>
+    <string name="animal">Animal</string>
+    <string name="type">Type</string>
+    <string name="more">More</string>
+    <string name="city">City</string>
 </resources>

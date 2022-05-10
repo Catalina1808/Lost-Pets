@@ -47,11 +47,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         TextView usernameTextView;
         Button addAnnouncementBtn;
+        Button allAnnouncementsBtn;
 
         //Get the image and username from UI
         usernameTextView = findViewById(R.id.tv_username);
         userImage = findViewById(R.id.civ_profile_image);
         addAnnouncementBtn = findViewById(R.id.btn_add_announcement);
+        allAnnouncementsBtn = findViewById(R.id.btn_all_announcements);
 
         //Set username on screen
         String message = currentUser.getDisplayName();
@@ -71,6 +73,14 @@ public class ProfileActivity extends AppCompatActivity {
         addAnnouncementBtn.setOnClickListener(view -> {
             Intent intent = new Intent(ProfileActivity.this, AddAnnouncementActivity.class);
             startActivity(intent);
+        });
+
+        allAnnouncementsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, AllAnnouncementsActivity.class);
+                startActivity(intent);
+            }
         });
 
     }

@@ -1,9 +1,16 @@
 package com.example.lostmypet.DAO;
 
+import androidx.annotation.NonNull;
+
 import com.example.lostmypet.models.Announcement;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class DAOAnnouncement {
     private DatabaseReference databaseReference;
@@ -19,7 +26,30 @@ public class DAOAnnouncement {
         //if(pet == null) throw exc
 
         id = databaseReference.push().getKey();
+        announcement.setAnnouncementID(id);
         return databaseReference.child(id).setValue(announcement);
+    }
+
+    public ArrayList<Announcement> getAll(){
+        //if(pet == null) throw exc
+        ArrayList<Announcement> announcementList = new ArrayList<>();
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Announcement announcement = dataSnapshot.getValue(Announcement.class);
+                    announcementList.add(announcement);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        return announcementList;
     }
 
     public String getId() {

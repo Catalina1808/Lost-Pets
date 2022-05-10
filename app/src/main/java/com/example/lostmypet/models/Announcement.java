@@ -1,15 +1,11 @@
 package com.example.lostmypet.models;
 
-
-import java.util.ArrayList;
-import java.util.Map;
-
 public class Announcement {
 
     private String type;
-  //  private ArrayList<Map<String, String>> coordinates;
     private String userID;
     private String petID;
+    private String announcementID;
 
     public Announcement(){};
 
@@ -17,6 +13,14 @@ public class Announcement {
         this.type = type;
         this.userID = userID;
         this.petID = petID;
+    }
+
+    public String getAnnouncementID() {
+        return announcementID;
+    }
+
+    public void setAnnouncementID(String announcementID) {
+        this.announcementID = announcementID;
     }
 
     public String getType() {

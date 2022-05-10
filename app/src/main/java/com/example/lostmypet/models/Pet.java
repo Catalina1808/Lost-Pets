@@ -7,8 +7,9 @@ public class Pet {
     private String description;
     private String breed;
     private String animal;
+    private String petID;
 
-    public Pet(){};
+    public Pet(){}
 
     public Pet(String name, String gender, String description, String breed, String animal) {
         this.name = name;
@@ -18,6 +19,13 @@ public class Pet {
         this.animal = animal;
     }
 
+    public String getPetID() {
+        return petID;
+    }
+
+    public void setPetID(String petID) {
+        this.petID = petID;
+    }
 
     public String getName() {
         return name;

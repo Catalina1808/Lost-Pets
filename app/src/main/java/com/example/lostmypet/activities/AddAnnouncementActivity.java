@@ -41,9 +41,7 @@ import com.mapbox.android.core.permissions.PermissionsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class AddAnnouncementActivity extends AppCompatActivity {
@@ -112,9 +110,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
             longitude = intent.getExtras().getDouble("LONGITUDE");
             String coordinates = "Latitude:" + latitude + "\nLongitude:"+ longitude;
             coordinatesTextView.setText(coordinates);
-//            String latitudeStr = Double.toString(latitude).replace(".", ",");
-//            String longitudeStr = Double.toString(longitude).replace(".", ",");
-//            locationPoint.put(latitudeStr, longitudeStr);
         }
     }
 
@@ -280,10 +275,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
             nameEditText.setError("You should enter a name");
             validated = false;
         }
-//        else
-//        {
-//            nameEditText.setError(null);
-//        }
 
         if(UtilsValidators.isEmptyField(descriptionEditText.getText().toString()))
         {
@@ -314,10 +305,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
         daoPet.add(pet);
         String petId = daoPet.getId();
-
-//        ArrayList<Map<String, String>> locations = new ArrayList<>();
-//        locations.add(locationPoint);
-
         String userID = currentUser.getUid();
 
         Announcement announcement = new Announcement(typeSpinner.getSelectedItem().toString(),
@@ -344,10 +331,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
                     .getReference("Announcements/").child(announcementId);
 
             // Save the image in Firebase Storage
-            storageReference.putFile(photoUri).
-                    addOnSuccessListener(taskSnapshot -> Toast.makeText(getApplicationContext(),
-                            "User Profile updated",
-                            Toast.LENGTH_SHORT).show());
+            storageReference.putFile(photoUri);
         }
     }
 

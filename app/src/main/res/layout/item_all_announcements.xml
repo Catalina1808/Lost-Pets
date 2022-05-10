@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_orange_1"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/selector_transparent_button"
+                android:fontFamily="@font/sunshiney"
+                android:hint="@string/type"
+                android:textColor="@color/dark_orange_2"
+                android:textSize="@dimen/text_size_20" />
+
+            <ImageView
+                android:id="@+id/imv_pet"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/background_welcome_landscape" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/sacramento"
+                    android:hint="@string/name"
+                    android:textColor="@color/dark_orange"
+                    android:textSize="@dimen/text_size_30"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imv_gender"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_animal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/sunshiney"
+                android:hint="@string/animal"
+                android:textColor="@color/dark_orange"
+                android:textSize="@dimen/text_size_22" />
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="15dp"
+                android:drawableTint="@color/dark_orange"
+                android:fontFamily="@font/sunshiney"
+                android:hint="@string/city"
+                android:textColor="@color/dark_orange"
+                android:textSize="@dimen/text_size_20"
+                app:drawableStartCompat="@drawable/ic_location" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_simple_button"
+                    android:drawableEnd="@drawable/ic_read_more"
+                    android:drawableTint="@color/dark_orange"
+                    android:fontFamily="@font/sunshiney"
+                    android:text="@string/more"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white_alpha"
+                    android:textSize="@dimen/text_size_20" />
+
+                <ImageButton
+                    android:id="@+id/imbtn_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="30dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_favorite"
+                    app:tint="@color/dark_orange_alpha" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
