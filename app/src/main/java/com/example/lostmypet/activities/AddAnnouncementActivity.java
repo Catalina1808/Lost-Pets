@@ -26,12 +26,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lostmypet.DAO.DAOAnnouncement;
 import com.example.lostmypet.DAO.DAOLocationPoint;
-import com.example.lostmypet.DAO.DAOPet;
 import com.example.lostmypet.R;
 import com.example.lostmypet.helpers.UtilsValidators;
 import com.example.lostmypet.models.Announcement;
 import com.example.lostmypet.models.LocationPoint;
-import com.example.lostmypet.models.Pet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
@@ -294,22 +292,18 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
     public void addAnnouncement(){
         DAOAnnouncement daoAnnouncement = new DAOAnnouncement();
-        DAOPet daoPet = new DAOPet();
         DAOLocationPoint daoLocationPoint = new DAOLocationPoint();
 
-        Pet pet = new Pet(nameEditText.getText().toString(),
+        String userID = currentUser.getUid();
+
+        Announcement announcement = new Announcement(typeSpinner.getSelectedItem().toString(),
+                userID,
+                nameEditText.getText().toString(),
                 genderSpinner.getSelectedItem().toString(),
                 descriptionEditText.getText().toString(),
                 breedEditText.getText().toString(),
                 animalSpinner.getSelectedItem().toString());
 
-        daoPet.add(pet);
-        String petId = daoPet.getId();
-        String userID = currentUser.getUid();
-
-        Announcement announcement = new Announcement(typeSpinner.getSelectedItem().toString(),
-                userID,
-                petId);
 
         daoAnnouncement.add(announcement).
                 addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
@@ -322,7 +316,13 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         //add location point
         String announcementId = daoAnnouncement.getId();
         LocationPoint locationPoint = new LocationPoint(latitude, longitude, announcementId, userID);
-        daoLocationPoint.add(locationPoint);
+        daoLocationPoint.add(locationPoint).
+                addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
+                        "Announcement inserted",
+                        Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
+                        "Insertion failed",
+                        Toast.LENGTH_SHORT).show());;
 
 
         if(photoUri!=null) {

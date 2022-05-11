@@ -13,6 +13,7 @@ public class AnnouncementItemRV {
     public AnnouncementItemRV(String name, String animal, String city, String type, String gender, String announcementId) {
         this.name = name;
         this.animal = animal;
+        this.city = city;
         this.type = type;
         this.gender = gender;
         this.announcementId = announcementId;

@@ -1,6 +1,5 @@
 package com.example.lostmypet.DAO;
 
-import com.example.lostmypet.models.Pet;
 import com.example.lostmypet.models.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
