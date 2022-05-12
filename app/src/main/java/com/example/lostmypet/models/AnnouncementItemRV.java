@@ -1,22 +1,66 @@
 package com.example.lostmypet.models;
 
-public class AnnouncementItemRV {
+import com.mapbox.mapboxsdk.geometry.LatLng;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Map;
+
+public class AnnouncementItemRV  implements Serializable {
     String name;
     String animal;
     String city;
     String type;
     String gender;
     String announcementId;
+    String userId;
+    String breed;
+    String description;
+    String favoriteID;
+    ArrayList<Map<Double, Double>> locations;
 
-    public AnnouncementItemRV() {}
 
-    public AnnouncementItemRV(String name, String animal, String city, String type, String gender, String announcementId) {
-        this.name = name;
-        this.animal = animal;
-        this.city = city;
-        this.type = type;
-        this.gender = gender;
-        this.announcementId = announcementId;
+    public AnnouncementItemRV() {
+    }
+
+    public String getFavoriteID() {
+        return favoriteID;
+    }
+
+    public void setFavoriteID(String favoriteID) {
+        this.favoriteID = favoriteID;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public ArrayList<Map<Double, Double>> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(ArrayList<Map<Double, Double>> locations) {
+        this.locations = locations;
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getGender() {

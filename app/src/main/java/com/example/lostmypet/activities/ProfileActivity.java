@@ -32,7 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
     private FirebaseUser currentUser;
     private StorageReference storageReference;
-    private ImageView userImage;
+    private ImageView userImageView;
     private FirebaseAuth mAuth;
 
     @Override
@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         //Get the image and username from UI
         usernameTextView = findViewById(R.id.tv_username);
-        userImage = findViewById(R.id.civ_profile_image);
+        userImageView = findViewById(R.id.civ_profile_image);
         addAnnouncementBtn = findViewById(R.id.btn_add_announcement);
         allAnnouncementsBtn = findViewById(R.id.btn_all_announcements);
 
@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             String imageURL = uri.toString();
-            Glide.with(getApplicationContext()).load(imageURL).into(userImage);
+            Glide.with(getApplicationContext()).load(imageURL).into(userImageView);
         }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), "The user does not have a profile image or it could not be loaded.",
                  Toast.LENGTH_SHORT).show());
 
@@ -75,12 +75,9 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        allAnnouncementsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, AllAnnouncementsActivity.class);
-                startActivity(intent);
-            }
+        allAnnouncementsBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, AllAnnouncementsActivity.class);
+            startActivity(intent);
         });
 
     }
@@ -131,7 +128,7 @@ public class ProfileActivity extends AppCompatActivity {
                         Uri photoUri = result.getData().getData();
 
                         //Put the image in the ImageView on screen
-                        userImage.setImageURI(photoUri);
+                        userImageView.setImageURI(photoUri);
 
                         //Save the image in Firebase Storage
                         storageReference = FirebaseStorage.getInstance().getReference("Users/"+currentUser.getUid());

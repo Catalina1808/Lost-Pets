@@ -26,28 +26,4 @@ public class DAOLocationPoint {
         return databaseReference.push().setValue(locationPoint);
     }
 
-    public ArrayList<LocationPoint> getByAnnouncementID(String announcementID){
-        //if(pet == null) throw exc
-        ArrayList<LocationPoint> locationsList = new ArrayList<>();
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    LocationPoint locationPoint = dataSnapshot.getValue(LocationPoint.class);
-                    if(locationPoint != null && locationPoint.getAnnouncementID().equals(announcementID)) {
-                        locationsList.add(locationPoint);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return locationsList;
-    }
-
 }

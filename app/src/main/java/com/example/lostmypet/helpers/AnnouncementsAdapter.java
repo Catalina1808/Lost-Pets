@@ -1,19 +1,34 @@
 package com.example.lostmypet.helpers;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.lostmypet.DAO.DAOAnnouncement;
+import com.example.lostmypet.DAO.DAOFavorite;
+import com.example.lostmypet.DAO.DAOLocationPoint;
 import com.example.lostmypet.R;
+import com.example.lostmypet.activities.ViewAnnouncementActivity;
+import com.example.lostmypet.activities.WelcomeActivity;
+import com.example.lostmypet.models.Announcement;
 import com.example.lostmypet.models.AnnouncementItemRV;
+import com.example.lostmypet.models.Favorite;
+import com.example.lostmypet.models.LocationPoint;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -21,8 +36,8 @@ import java.util.ArrayList;
 
 public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAdapter.AnnouncementsViewHolder> {
 
-    private Context context;
-    private ArrayList<AnnouncementItemRV> list;
+    private final Context context;
+    private final ArrayList<AnnouncementItemRV> list;
 
     public AnnouncementsAdapter(Context context, ArrayList<AnnouncementItemRV> list) {
         this.context = context;
@@ -47,7 +62,14 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
             holder.city.setText(announcement.getCity());
         }
         holder.type.setText(announcement.getType());
-        if(announcement.getGender().equals(context.getResources().getString(R.string.female))){
+        if(announcement.getFavoriteID()!=null) {
+            holder.favoriteButton.setColorFilter(ContextCompat.getColor(context, R.color.red),
+                    android.graphics.PorterDuff.Mode.SRC_IN);
+        } else {
+            holder.favoriteButton.setColorFilter(ContextCompat.getColor(context,
+                    R.color.dark_orange_alpha_2), android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+            if(announcement.getGender().equals(context.getResources().getString(R.string.female))){
             holder.genderImage.setImageResource(R.drawable.female_icon);
         } else if(announcement.getGender().equals(context.getResources().getString(R.string.male))){
             holder.genderImage.setImageResource(R.drawable.male_icon);
@@ -72,6 +94,9 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
 
         TextView name, animal, city, type;
         ImageView petImage, genderImage;
+        Button moreButton;
+        ImageButton favoriteButton;
+
         public AnnouncementsViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -81,6 +106,67 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
             type=itemView.findViewById(R.id.tv_type);
             petImage=itemView.findViewById(R.id.imv_pet);
             genderImage=itemView.findViewById(R.id.imv_gender);
+            moreButton=itemView.findViewById(R.id.btn_more);
+            favoriteButton=itemView.findViewById(R.id.imbtn_favorite);
+
+            moreButton.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ViewAnnouncementActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("announcement", list.get(getAdapterPosition()));
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            });
+
+            //change the heart color when an announcement is added or deleted from the favorites
+            favoriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(list.get(getAdapterPosition()).getFavoriteID()==null) {
+                        favoriteButton.setColorFilter(ContextCompat.getColor(context, R.color.red),
+                                android.graphics.PorterDuff.Mode.SRC_IN);
+                        addToFavorite();
+                    } else {
+                        favoriteButton.setColorFilter(ContextCompat.getColor(context, R.color.dark_orange_alpha_2),
+                                android.graphics.PorterDuff.Mode.SRC_IN);
+                        deleteFromFavorite();
+                    }
+                }
+            });
+
         }
-    }
+
+        //add the announcement to favorites
+        public void addToFavorite(){
+            DAOFavorite daoFavorite = new DAOFavorite();
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+
+            Favorite favorite = new Favorite(currentUser.getUid(),
+                    list.get(getAdapterPosition()).getAnnouncementId());
+
+            daoFavorite.add(favorite).
+                    addOnSuccessListener(succes -> Toast.makeText(context,
+                            "Announcement added to favorite",
+                            Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(err -> Toast.makeText(context,
+                            "Insertion failed",
+                            Toast.LENGTH_SHORT).show());
+
+            list.get(getAdapterPosition()).setFavoriteID(daoFavorite.getId());
+            }
+
+        public void deleteFromFavorite(){
+            DAOFavorite daoFavorite = new DAOFavorite();
+            daoFavorite.remove(list.get(getAdapterPosition()).getFavoriteID()).
+                    addOnSuccessListener(succes -> Toast.makeText(context,
+                            "Announcement removed from favorite",
+                            Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(err -> Toast.makeText(context,
+                            "Removal failed",
+                            Toast.LENGTH_SHORT).show());
+
+
+            list.get(getAdapterPosition()).setFavoriteID(null);
+        }
+        }
 }

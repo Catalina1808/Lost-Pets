@@ -22,7 +22,6 @@
                 app:cardCornerRadius="50dp"
                 android:layout_gravity="center"
                 app:cardElevation="0dp"
-
                 android:layout_marginEnd="15dp"
                 android:layout_weight="1"
                 android:foreground="@drawable/background_image_orange_border"
@@ -33,7 +32,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_launcher_background" />
+                    app:srcCompat="@drawable/ic_launcher_background"
+                    android:contentDescription="@string/pet_image_description" />
             </androidx.cardview.widget.CardView>
 
 
@@ -90,7 +90,8 @@
                     android:layout_height="22dp"
                     android:layout_gravity="start"
                     android:layout_marginTop="10dp"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    tools:srcCompat="@tools:sample/avatars"
+                    android:contentDescription="@string/gender_symbol_description" />
             </LinearLayout>
 
             <TextView
@@ -110,18 +111,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:layout_marginEnd="15dp"
-                android:drawableTint="@color/dark_orange"
                 android:fontFamily="@font/sunshiney"
                 android:hint="@string/city"
                 android:textColor="@color/dark_orange"
                 android:textSize="@dimen/text_size_20"
-                app:drawableStartCompat="@drawable/ic_location" />
+                app:drawableStartCompat="@drawable/ic_location"
+                app:drawableTint="@color/dark_orange" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginEnd="5dp"
+                android:clipToPadding="false"
+                android:padding="5dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -147,7 +150,8 @@
                     android:layout_marginEnd="15dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/ic_favorite"
-                    app:tint="@color/dark_orange_alpha_2" />
+                    app:tint="@color/dark_orange_alpha_2"
+                    android:contentDescription="@string/imtbn_favorite_description" />
             </LinearLayout>
 
         </LinearLayout>

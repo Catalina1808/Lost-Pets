@@ -322,7 +322,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
                         "Insertion failed",
-                        Toast.LENGTH_SHORT).show());;
+                        Toast.LENGTH_SHORT).show());
 
 
         if(photoUri!=null) {

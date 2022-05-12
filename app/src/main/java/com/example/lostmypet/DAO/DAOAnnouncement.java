@@ -30,27 +30,6 @@ public class DAOAnnouncement {
         return databaseReference.child(id).setValue(announcement);
     }
 
-    public ArrayList<Announcement> getAll(){
-        //if(pet == null) throw exc
-        ArrayList<Announcement> announcementList = new ArrayList<>();
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Announcement announcement = dataSnapshot.getValue(Announcement.class);
-                    announcementList.add(announcement);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        return announcementList;
-    }
 
     public String getId() {
         return id;
