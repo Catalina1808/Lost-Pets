@@ -233,7 +233,7 @@
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/sunshiney"
             android:text="@string/have_you_seen_it"
-            android:textColor="@color/dark_orange"
+            android:textColor="@color/white_alpha"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -258,18 +258,18 @@
                 android:onClick="onAddLocationClick"
                 android:text="@string/add_location_on_map"
                 android:textAllCaps="false"
-                android:textColor="@color/white_alpha"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_or"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/sunshiney"
-                android:text="@string/or"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:textColor="@color/dark_orange"
+                android:fontFamily="@font/sunshiney"
+                android:text="@string/or"
+                android:textColor="@color/white_alpha"
                 android:textSize="18sp" />
 
             <Button
@@ -282,7 +282,7 @@
                 android:fontFamily="@font/sunshiney"
                 android:text="@string/go_to_comments"
                 android:textAllCaps="false"
-                android:textColor="@color/white_alpha"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
 

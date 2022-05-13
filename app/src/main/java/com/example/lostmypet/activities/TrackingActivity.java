@@ -190,7 +190,6 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
             mapboxNavigation = new MapboxNavigation(navigationOptions);
             mapboxNavigation.requestRoutes(routeOptions, TrackingActivity.this);
         }
-
     }
 
 
@@ -209,6 +208,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     private void removeLocationPoints(){
         for(LocationPoint locationPoint: locationPoints) {
             if (locationPoint.getUserID().equals(currentUser.getUid())) {
+                coordonates.remove(Point.fromLngLat(locationPoint.getLongitude(), locationPoint.getLatitude()));
                 daoLocationPoint.remove(locationPoint.getLocationPointID()).
                         addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
                                 "Location points removed",
@@ -218,9 +218,12 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
                                 Toast.LENGTH_SHORT).show());
             }
         }
-//        symbolManager.deleteAll();
-//        addMarkersOnMap();
-//        makeRoutes();
+        symbolManager.deleteAll();
+        if (navigationMapRoute != null) {
+            navigationMapRoute.removeRoute();
+        }
+        addMarkersOnMap();
+        makeRoutes();
     }
 
 
@@ -246,7 +249,6 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
                         }
 
                 }
-                makeRoutes();//???
             }
 
             @Override
