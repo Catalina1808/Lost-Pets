@@ -80,4 +80,5 @@
     <string name="add_location_on_map">Add location \n on map</string>
     <string name="or">or</string>
     <string name="go_to_comments">Go to \n comments</string>
+    <string name="delete_my_locations">Delete my locations</string>
 </resources>

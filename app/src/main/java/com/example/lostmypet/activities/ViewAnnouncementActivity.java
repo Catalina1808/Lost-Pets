@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Date;
 import java.util.Objects;
 
 public class ViewAnnouncementActivity extends AppCompatActivity {
@@ -218,5 +219,14 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show());
 
         announcementItemRV.setFavoriteID(null);
+    }
+
+    public void onAddLocationClick(View view) {
+        Intent intent = new Intent(this, TrackingActivity.class);
+       // Bundle bundle = new Bundle();
+       // bundle.putSerializable("locations", announcementItemRV.getLocations());
+        //intent.putExtras(bundle);
+        intent.putExtra("announcementID", announcementItemRV.getAnnouncementId());
+        this.startActivity(intent);
     }
 }

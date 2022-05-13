@@ -124,6 +124,23 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
 
             }
         });
+
+        databaseReferenceAnnouncements.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                announcements.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Announcement announcement = dataSnapshot.getValue(Announcement.class);
+                    announcements.add(announcement);
+                }
+                setAnnouncements();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void getLocations(){

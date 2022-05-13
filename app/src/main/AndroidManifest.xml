@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LostMyPet">
         <activity
+            android:name=".activities.TrackingActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ViewAnnouncementActivity"
             android:exported="false" />
         <activity

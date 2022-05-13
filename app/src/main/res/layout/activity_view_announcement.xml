@@ -255,6 +255,7 @@
                 android:drawableEnd="@drawable/ic_location"
                 android:drawableTint="@color/dark_orange"
                 android:fontFamily="@font/sunshiney"
+                android:onClick="onAddLocationClick"
                 android:text="@string/add_location_on_map"
                 android:textAllCaps="false"
                 android:textColor="@color/white_alpha"

@@ -1,20 +1,13 @@
 package com.example.lostmypet.DAO;
 
-import androidx.annotation.NonNull;
-
-import com.example.lostmypet.models.Announcement;
 import com.example.lostmypet.models.LocationPoint;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class DAOLocationPoint {
     private DatabaseReference databaseReference;
+    private String id;
 
     public DAOLocationPoint(){
         FirebaseDatabase db = FirebaseDatabase.getInstance(
@@ -23,7 +16,20 @@ public class DAOLocationPoint {
     }
 
     public Task<Void> add(LocationPoint locationPoint){
-        return databaseReference.push().setValue(locationPoint);
+        id = databaseReference.push().getKey();
+        locationPoint.setLocationPointID(id);
+        return databaseReference.child(id).setValue(locationPoint);
     }
+
+    //get the id after inseting in database
+    public String getId() {
+        return id;
+    }
+
+    public Task<Void> remove(String key){
+        return databaseReference.child(key).removeValue();
+    }
+
+
 
 }
