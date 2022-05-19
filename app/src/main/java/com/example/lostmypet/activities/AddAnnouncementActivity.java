@@ -53,7 +53,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
     private EditText descriptionEditText;
     private TextView coordinatesTextView;
 
-
+    private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
     private PermissionsManager permissionsManager;
     private Uri photoUri;
 
@@ -62,7 +62,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
     private double latitude;
 
     //auth elements
-    private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
     private FirebaseUser currentUser;
 
     @Override
@@ -287,7 +286,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         }
 
         return validated;
-        //addAnnouncement();
     }
 
     public void addAnnouncement(){

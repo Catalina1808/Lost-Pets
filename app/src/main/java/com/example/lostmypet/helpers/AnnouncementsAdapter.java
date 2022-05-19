@@ -18,16 +18,12 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.lostmypet.DAO.DAOAnnouncement;
 import com.example.lostmypet.DAO.DAOFavorite;
-import com.example.lostmypet.DAO.DAOLocationPoint;
 import com.example.lostmypet.R;
+import com.example.lostmypet.activities.EditAnnouncementActivity;
 import com.example.lostmypet.activities.ViewAnnouncementActivity;
-import com.example.lostmypet.activities.WelcomeActivity;
-import com.example.lostmypet.models.Announcement;
 import com.example.lostmypet.models.AnnouncementItemRV;
 import com.example.lostmypet.models.Favorite;
-import com.example.lostmypet.models.LocationPoint;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
@@ -55,7 +51,7 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
     @NonNull
     @Override
     public AnnouncementsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_all_announcements, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_announcement, parent, false);
         return  new AnnouncementsViewHolder(view);
     }
 
@@ -127,6 +123,14 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
 
             moreButton.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ViewAnnouncementActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("announcement", list.get(getAdapterPosition()));
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            });
+
+            editButton.setOnClickListener(v -> {
+                Intent intent = new Intent(context, EditAnnouncementActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("announcement", list.get(getAdapterPosition()));
                 intent.putExtras(bundle);

@@ -115,8 +115,6 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         genderImageView= findViewById(R.id.imv_gender);
         userImageView = findViewById(R.id.imv_user);
         favoriteImageButton = findViewById(R.id.imbtn_favorite);
-//        Button addLocationButton = findViewById(R.id.btn_add_location);
-//        Button commentsButton = findViewById(R.id.btn_comments);
         nameTextView = findViewById(R.id.tv_name);
         animalTextView = findViewById(R.id.tv_animal);
         breedTextView = findViewById(R.id.tv_breed);
@@ -218,9 +216,6 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
 
     public void onAddLocationClick(View view) {
         Intent intent = new Intent(this, TrackingActivity.class);
-       // Bundle bundle = new Bundle();
-       // bundle.putSerializable("locations", announcementItemRV.getLocations());
-        //intent.putExtras(bundle);
         intent.putExtra("announcementID", announcementItemRV.getAnnouncementId());
         this.startActivity(intent);
     }

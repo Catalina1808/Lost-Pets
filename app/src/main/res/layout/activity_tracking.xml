@@ -35,6 +35,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom">
+
+            <Button
+                android:id="@+id/btn_delete_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_simple_button"
+                android:drawableEnd="@drawable/ic_location"
+                android:drawableTint="@color/dark_orange_alpha"
+                android:fontFamily="@font/sunshiney"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="center"
+                android:text="@string/delete_all_locations"
+                android:textAllCaps="false"
+                android:textColor="@color/white_alpha"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintWidth_percent="0.5"
+                style="?android:attr/buttonBarButtonStyle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_gravity="bottom"
@@ -54,7 +78,7 @@
                 android:text="@string/save_location"
                 android:textAllCaps="false"
                 android:textColor="@color/white_alpha"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:visibility="visible"
                 app:layout_constraintWidth_percent="0.5"
                 style="?android:attr/buttonBarButtonStyle" />
@@ -71,10 +95,12 @@
                 android:text="@string/delete_my_locations"
                 android:textAllCaps="false"
                 android:textColor="@color/white_alpha"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:visibility="visible"
                 app:layout_constraintWidth_percent="0.5"
                 style="?android:attr/buttonBarButtonStyle" />
+        </LinearLayout>
+
         </LinearLayout>
 
     </com.mapbox.mapboxsdk.maps.MapView>

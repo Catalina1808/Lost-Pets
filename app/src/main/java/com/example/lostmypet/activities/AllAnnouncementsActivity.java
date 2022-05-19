@@ -46,7 +46,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_announcements);
+        setContentView(R.layout.announcements_list);
 
         //get the current user
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

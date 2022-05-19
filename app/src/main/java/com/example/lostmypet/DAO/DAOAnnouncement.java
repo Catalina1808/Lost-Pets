@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DAOAnnouncement {
     private DatabaseReference databaseReference;
@@ -30,6 +31,10 @@ public class DAOAnnouncement {
         return databaseReference.child(id).setValue(announcement);
     }
 
+
+    public Task<Void> update (String key, HashMap<String, Object> hashMap){
+        return databaseReference.child(key).updateChildren(hashMap);
+    }
 
     public String getId() {
         return id;

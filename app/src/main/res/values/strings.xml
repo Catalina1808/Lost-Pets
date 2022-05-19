@@ -83,4 +83,8 @@
     <string name="delete_my_locations">Delete my locations</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="change_image">Change image</string>
+    <string name="change_location">Change location</string>
+    <string name="update">Update</string>
+    <string name="delete_all_locations">Delete all locations</string>
 </resources>

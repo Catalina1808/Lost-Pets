@@ -100,11 +100,17 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         //get UI elements
         saveLocationButton = findViewById(R.id.btn_add_location);
         Button deleteLocationButton = findViewById(R.id.btn_delete_locations);
+        Button deleteAllButton = findViewById(R.id.btn_delete_all);
         switchMapStyle = findViewById(R.id.switchMapStyle);
 
         //get announcementID from the sender activity
         Intent intent = getIntent();
         announcementID = intent.getStringExtra("announcementID");
+        Boolean editable = intent.getBooleanExtra("editable", false);
+        if(editable){
+            deleteAllButton.setVisibility(View.VISIBLE);
+            deleteAllButton.setOnClickListener(v -> removeAllLocationPoints());
+        }
 
 
         coordinates = new ArrayList<>();
@@ -185,6 +191,25 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
                                 "Removal failed",
                                 Toast.LENGTH_SHORT).show());
             }
+        }
+        symbolManager.deleteAll();
+        if (navigationMapRoute != null) {
+            navigationMapRoute.removeRoute();
+        }
+        addMarkersOnMap();
+        makeRoutes();
+    }
+
+    private void removeAllLocationPoints(){
+        for(LocationPoint locationPoint: locationPoints) {
+                coordinates.remove(Point.fromLngLat(locationPoint.getLongitude(), locationPoint.getLatitude()));
+                daoLocationPoint.remove(locationPoint.getLocationPointID()).
+                        addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
+                                "Location points removed",
+                                Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
+                                "Removal failed",
+                                Toast.LENGTH_SHORT).show());
         }
         symbolManager.deleteAll();
         if (navigationMapRoute != null) {
