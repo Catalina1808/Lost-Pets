@@ -10,17 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,29 +25,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.lostmypet.DAO.DAOAnnouncement;
-import com.example.lostmypet.DAO.DAOFavorite;
-import com.example.lostmypet.DAO.DAOLocationPoint;
 import com.example.lostmypet.R;
 import com.example.lostmypet.helpers.UtilsValidators;
-import com.example.lostmypet.models.Announcement;
 import com.example.lostmypet.models.AnnouncementItemRV;
-import com.example.lostmypet.models.LocationPoint;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
-import com.mapbox.geojson.Point;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class EditAnnouncementActivity extends AppCompatActivity {
 
@@ -71,19 +56,13 @@ public class EditAnnouncementActivity extends AppCompatActivity {
     private PermissionsManager permissionsManager;
     private Uri photoUri;
 
-    private int locationsNumber=0;
-
     private FirebaseStorage firebaseStorage;
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
-    private DAOAnnouncement daoAnnouncement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_announcement);
-
-        //get the database object for announcements
-        daoAnnouncement = new DAOAnnouncement();
 
         //get firebase storage for photos
         firebaseStorage = FirebaseStorage.getInstance();
@@ -224,7 +203,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-            permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            //permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 

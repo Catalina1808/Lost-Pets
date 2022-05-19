@@ -1,5 +1,6 @@
 package com.example.lostmypet.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -426,6 +427,22 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
 //        NavigationLauncher.startNavigation(MainActivity.this, options);
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(locationPoints.isEmpty()){
+            AlertDialog.Builder builder= new AlertDialog.Builder(this);
+            builder.setTitle("Be careful!")
+                    .setMessage("You should have at least one point on the map so the " +
+                            "other users know where your pet can be.")
+                    .setIcon(R.drawable.ic_location)
+                    .setPositiveButton("Ok", (dialog, which) -> {
+                    });
+            builder.create().show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }
