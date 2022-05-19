@@ -32,8 +32,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-public class AllAnnouncementsActivity extends AppCompatActivity {
-
+public class MyAnnouncementsActivity extends AppCompatActivity {
     private AnnouncementsAdapter announcementsAdapter;
     private ArrayList<AnnouncementItemRV> recyclerViewList;
     private ArrayList<Announcement> announcements;
@@ -66,7 +65,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerViewList = new ArrayList<>();
-        announcementsAdapter = new AnnouncementsAdapter(this, recyclerViewList);
+        announcementsAdapter = new AnnouncementsAdapter(this, recyclerViewList, true);
         recyclerView.setAdapter(announcementsAdapter);
 
         announcements = new ArrayList<>();
@@ -104,7 +103,8 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
     }
 
     public void getAnnouncements(){
-        DatabaseReference databaseReferenceAnnouncements = database.getReference(Announcement.class.getSimpleName());
+        DatabaseReference databaseReferenceAnnouncements = database.getReference(
+                Announcement.class.getSimpleName());
 
         databaseReferenceAnnouncements.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -112,7 +112,10 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                 announcements.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Announcement announcement = dataSnapshot.getValue(Announcement.class);
-                    announcements.add(announcement);
+                    if(Objects.equals(Objects.requireNonNull(announcement).getUserID(),
+                            currentUser.getUid())) {
+                        announcements.add(announcement);
+                    }
                 }
                 setAnnouncements();
             }
@@ -129,7 +132,10 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                 announcements.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Announcement announcement = dataSnapshot.getValue(Announcement.class);
-                    announcements.add(announcement);
+                    if(Objects.equals(Objects.requireNonNull(announcement).getUserID(),
+                            currentUser.getUid())) {
+                        announcements.add(announcement);
+                    }
                 }
                 setAnnouncements();
             }
@@ -183,8 +189,8 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                 if(locationPoint.getAnnouncementID().equals(announcement.getAnnouncementID())){
                     List<Address> addresses = null;
                     try {
-                    addresses = geocoder.getFromLocation(locationPoint.getLatitude(),
-                            locationPoint.getLongitude(), 1);
+                        addresses = geocoder.getFromLocation(locationPoint.getLatitude(),
+                                locationPoint.getLongitude(), 1);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -195,7 +201,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                     Map<Double, Double> location = new HashMap<>();
                     location.put(locationPoint.getLatitude(), locationPoint.getLongitude());
                     locationsList.add(location);
-                    }
+                }
             }
 
             for(Favorite favorite: favorites){

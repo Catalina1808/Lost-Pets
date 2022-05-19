@@ -136,6 +136,7 @@
         android:background="@drawable/selector_profile_big_button"
         android:drawableEnd="@drawable/ic_list_bulleted"
         android:fontFamily="@font/sunshiney"
+        android:onClick="onMyAnnouncementsBtnClick"
         android:text="@string/my_announcements"
         android:textAllCaps="false"
         android:textColor="@color/white_alpha"

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,10 +39,17 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
 
     private final Context context;
     private final ArrayList<AnnouncementItemRV> list;
+    private boolean isEditable = false;
 
     public AnnouncementsAdapter(Context context, ArrayList<AnnouncementItemRV> list) {
         this.context = context;
         this.list = list;
+    }
+
+    public AnnouncementsAdapter(Context context, ArrayList<AnnouncementItemRV> list, boolean isEditable) {
+        this.context = context;
+        this.list = list;
+        this.isEditable = isEditable;
     }
 
     @NonNull
@@ -76,6 +84,10 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
         } else {
             holder.genderImage.setVisibility(View.GONE);
         }
+        if(isEditable){
+            holder.layoutEditable.setVisibility(View.VISIBLE);
+        }
+
         StorageReference storageReference = FirebaseStorage.getInstance()
                 .getReference("Announcements/").child(announcement.getAnnouncementId());
         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
@@ -94,8 +106,9 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
 
         TextView name, animal, city, type;
         ImageView petImage, genderImage;
-        Button moreButton;
-        ImageButton favoriteButton;
+        Button moreButton, editButton;
+        ImageButton favoriteButton, deleteButton;
+        LinearLayout layoutEditable;
 
         public AnnouncementsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -107,7 +120,10 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
             petImage=itemView.findViewById(R.id.imv_pet);
             genderImage=itemView.findViewById(R.id.imv_gender);
             moreButton=itemView.findViewById(R.id.btn_more);
+            editButton=itemView.findViewById(R.id.btn_edit);
+            deleteButton=itemView.findViewById(R.id.imbtn_delete);
             favoriteButton=itemView.findViewById(R.id.imbtn_favorite);
+            layoutEditable=itemView.findViewById(R.id.layout_editable);
 
             moreButton.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ViewAnnouncementActivity.class);

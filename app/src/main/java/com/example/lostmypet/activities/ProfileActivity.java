@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,14 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
         assert currentUser != null;
 
         TextView usernameTextView;
-        Button addAnnouncementBtn;
-        Button allAnnouncementsBtn;
 
         //Get the image and username from UI
         usernameTextView = findViewById(R.id.tv_username);
         userImageView = findViewById(R.id.civ_profile_image);
-        addAnnouncementBtn = findViewById(R.id.btn_add_announcement);
-        allAnnouncementsBtn = findViewById(R.id.btn_all_announcements);
 
         //Set username on screen
         String message = currentUser.getDisplayName();
@@ -67,18 +62,6 @@ public class ProfileActivity extends AppCompatActivity {
             Glide.with(getApplicationContext()).load(imageURL).into(userImageView);
         }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), "The user does not have a profile image or it could not be loaded.",
                  Toast.LENGTH_SHORT).show());
-
-
-        //Set the click listener for the buttons
-//        addAnnouncementBtn.setOnClickListener(view -> {
-//            Intent intent = new Intent(ProfileActivity.this, AddAnnouncementActivity.class);
-//            startActivity(intent);
-//        });
-//
-//        allAnnouncementsBtn.setOnClickListener(v -> {
-//            Intent intent = new Intent(ProfileActivity.this, AllAnnouncementsActivity.class);
-//            startActivity(intent);
-//        });
 
     }
 
@@ -166,6 +149,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void onFavoritesBtnClick(View view) {
         Intent intent = new Intent(ProfileActivity.this, FavoritesActivity.class);
+        startActivity(intent);
+    }
+
+    public void onMyAnnouncementsBtnClick(View view) {
+        Intent intent = new Intent(ProfileActivity.this, MyAnnouncementsActivity.class);
         startActivity(intent);
     }
 }

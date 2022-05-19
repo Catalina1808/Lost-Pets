@@ -118,22 +118,45 @@
                 app:drawableStartCompat="@drawable/ic_location"
                 app:drawableTint="@color/dark_orange" />
 
-            <Button
-                android:id="@+id/btn_edit"
+            <LinearLayout
+                android:id="@+id/layout_editable"
                 android:visibility="gone"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="-5dp"
                 android:layout_marginEnd="5dp"
-                android:background="@drawable/selector_simple_button"
-                android:drawableEnd="@drawable/ic_edit_list"
-                android:drawableTint="@color/dark_orange"
-                android:fontFamily="@font/sunshiney"
-                android:text="@string/edit"
-                android:textAllCaps="false"
-                android:textColor="@color/white_alpha"
-                android:textSize="@dimen/text_size_20" />
+                android:clipToPadding="false"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_simple_button"
+                    android:drawableEnd="@drawable/ic_edit"
+                    android:drawableTint="@color/dark_orange"
+                    android:fontFamily="@font/sunshiney"
+                    android:text="@string/edit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white_alpha"
+                    android:textSize="@dimen/text_size_20" />
+
+                <ImageButton
+                    android:id="@+id/imbtn_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingTop="6dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/selector_simple_button"
+                    android:src="@drawable/ic_delete"
+                    app:tint="@color/dark_orange"
+                    android:contentDescription="@string/imtbn_favorite_description" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
