@@ -118,6 +118,23 @@
                 app:drawableStartCompat="@drawable/ic_location"
                 app:drawableTint="@color/dark_orange" />
 
+            <Button
+                android:id="@+id/btn_edit"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="-5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/selector_simple_button"
+                android:drawableEnd="@drawable/ic_edit_list"
+                android:drawableTint="@color/dark_orange"
+                android:fontFamily="@font/sunshiney"
+                android:text="@string/edit"
+                android:textAllCaps="false"
+                android:textColor="@color/white_alpha"
+                android:textSize="@dimen/text_size_20" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

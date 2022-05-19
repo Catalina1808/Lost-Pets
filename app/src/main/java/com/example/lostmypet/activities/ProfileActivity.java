@@ -69,16 +69,16 @@ public class ProfileActivity extends AppCompatActivity {
                  Toast.LENGTH_SHORT).show());
 
 
-        //Set the click listener for the add announcement button
-        addAnnouncementBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(ProfileActivity.this, AddAnnouncementActivity.class);
-            startActivity(intent);
-        });
-
-        allAnnouncementsBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(ProfileActivity.this, AllAnnouncementsActivity.class);
-            startActivity(intent);
-        });
+        //Set the click listener for the buttons
+//        addAnnouncementBtn.setOnClickListener(view -> {
+//            Intent intent = new Intent(ProfileActivity.this, AddAnnouncementActivity.class);
+//            startActivity(intent);
+//        });
+//
+//        allAnnouncementsBtn.setOnClickListener(v -> {
+//            Intent intent = new Intent(ProfileActivity.this, AllAnnouncementsActivity.class);
+//            startActivity(intent);
+//        });
 
     }
 
@@ -154,4 +154,18 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
+    public void onAddAnnouncementBtnClick(View view) {
+        Intent intent = new Intent(ProfileActivity.this, AddAnnouncementActivity.class);
+        startActivity(intent);
+    }
+
+    public void onAllAnnouncementsBtnClick(View view) {
+        Intent intent = new Intent(ProfileActivity.this, AllAnnouncementsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onFavoritesBtnClick(View view) {
+        Intent intent = new Intent(ProfileActivity.this, FavoritesActivity.class);
+        startActivity(intent);
+    }
 }

@@ -81,4 +81,5 @@
     <string name="or">or</string>
     <string name="go_to_comments">Go to \n comments</string>
     <string name="delete_my_locations">Delete my locations</string>
+    <string name="edit">Edit</string>
 </resources>
