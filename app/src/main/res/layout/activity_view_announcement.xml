@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange"
+    android:background="@color/light_orange_1"
     android:orientation="vertical"
     tools:context=".activities.ViewAnnouncementActivity">
 
@@ -23,7 +23,7 @@
             android:layout_marginEnd="40dp"
             app:cardCornerRadius="100dp"
             app:strokeWidth="8dp"
-            app:strokeColor="@color/light_orange_1">
+            app:strokeColor="@color/light_orange_2">
 
             <ImageView
                 android:id="@+id/imv_pet"
@@ -41,7 +41,7 @@
             android:layout_marginTop="-30dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            app:cardBackgroundColor="@color/light_orange_1"
+            app:cardBackgroundColor="@color/light_orange_2"
             app:cardCornerRadius="40dp">
 
 
@@ -174,7 +174,7 @@
                 android:layout_height="70dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="10dp"
-                app:civ_border_color="@color/dark_orange"
+                app:civ_border_color="@color/light_orange_2"
                 app:civ_border_width="6dp"
                 tools:src="@tools:sample/avatars" />
 
@@ -251,7 +251,7 @@
                 android:id="@+id/btn_add_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_simple_button"
+                android:background="@drawable/selector_profile_big_button"
                 android:drawableEnd="@drawable/ic_location"
                 android:drawableTint="@color/dark_orange"
                 android:fontFamily="@font/sunshiney"
@@ -276,7 +276,7 @@
                 android:id="@+id/btn_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_simple_button"
+                android:background="@drawable/selector_profile_big_button"
                 android:drawableEnd="@drawable/ic_comment"
                 android:drawableTint="@color/dark_orange"
                 android:fontFamily="@font/sunshiney"

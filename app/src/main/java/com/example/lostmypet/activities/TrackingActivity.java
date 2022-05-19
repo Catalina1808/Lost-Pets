@@ -8,21 +8,17 @@ import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.location.Location;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
+
 import androidx.appcompat.widget.SwitchCompat;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lostmypet.DAO.DAOLocationPoint;
 import com.example.lostmypet.R;
 import com.example.lostmypet.models.LocationPoint;
-import com.example.lostmypet.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,10 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mapbox.android.core.location.LocationEngine;
-import com.mapbox.android.core.location.LocationEngineCallback;
-import com.mapbox.android.core.location.LocationEngineProvider;
-import com.mapbox.android.core.location.LocationEngineResult;
 import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.DirectionsCriteria;
@@ -50,7 +42,6 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
-import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin;
 import com.mapbox.navigation.base.options.NavigationOptions;
 import com.mapbox.navigation.base.route.NavigationRoute;
 import com.mapbox.navigation.base.route.NavigationRouterCallback;
@@ -69,28 +60,18 @@ import timber.log.Timber;
 
 public class TrackingActivity extends AppCompatActivity implements NavigationRouterCallback, OnMapReadyCallback, PermissionsListener, MapboxMap.OnMapClickListener {
 
-
-    private static final String TAG = "";
-    long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
-    long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
-
     private MapView mapView;
     private MapboxMap map;
     private PermissionsManager permissionsManager;
-    private LocationEngine locationEngine;
-    private LocationLayerPlugin locationLayerPlugin;
-    private Point originPosition;
     private Point destinationPosition;
     private SymbolManager symbolManager;
     private Button saveLocationButton;
-    private Button deleteLocationButton;
     private SwitchCompat switchMapStyle;
     private MapboxNavigation mapboxNavigation;
     private NavigationMapRoute navigationMapRoute;
-    private List<Point> coordonates;
+    private List<Point> coordinates;
     private Symbol symbol;
     private boolean pressedButton;
-    private Location originLocation;
 
     private ArrayList<LocationPoint> locationPoints;
     private String announcementID;
@@ -118,7 +99,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
 
         //get UI elements
         saveLocationButton = findViewById(R.id.btn_add_location);
-        deleteLocationButton = findViewById(R.id.btn_delete_locations);
+        Button deleteLocationButton = findViewById(R.id.btn_delete_locations);
         switchMapStyle = findViewById(R.id.switchMapStyle);
 
         //get announcementID from the sender activity
@@ -126,66 +107,53 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         announcementID = intent.getStringExtra("announcementID");
 
 
-        coordonates = new ArrayList<>();
+        coordinates = new ArrayList<>();
         locationPoints = new ArrayList<>();
         getLocations();
         //enableLocation();
 
         pressedButton = false;
 
-        saveLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pressedButton = true;
-                coordonates.add(destinationPosition);
-                makeRoutes();
-                addLocationPoint(destinationPosition.latitude(), destinationPosition.longitude());
+        saveLocationButton.setOnClickListener(view -> {
+            pressedButton = true;
+            coordinates.add(destinationPosition);
+            makeRoutes();
+            addLocationPoint(destinationPosition.latitude(), destinationPosition.longitude());
 
-            }
         });
 
-        deleteLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeLocationPoints();
-            }
-        });
+        deleteLocationButton.setOnClickListener(v -> removeLocationPoints());
 
-        switchMapStyle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switchMapStyle.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
-                //declare a new Style.OnStyleLoaded to add the marker to the style
-                Style.OnStyleLoaded styleLoaded = new Style.OnStyleLoaded() {
-                    @Override
-                    public void onStyleLoaded(@NonNull Style style) {
-                        symbolManager.setIconAllowOverlap(true);
-                        style.addImage("myMarker", BitmapFactory.decodeResource(getResources(), R.drawable.paw_mark_map));
-                    }
-                };
+            //declare a new Style.OnStyleLoaded to add the marker to the style
+            Style.OnStyleLoaded styleLoaded = style -> {
+                symbolManager.setIconAllowOverlap(true);
+                style.addImage("myMarker", BitmapFactory.decodeResource(getResources(), R.drawable.paw_mark_map));
+            };
 
-                //set map style
-                if (map != null) {
-                    if (isChecked) {
-                        map.setStyle(Style.MAPBOX_STREETS, styleLoaded);
-                        switchMapStyle.setText("Streets view");
-                        switchMapStyle.setTextColor(Color.BLACK);
-                    } else {
-                        map.setStyle(Style.SATELLITE_STREETS, styleLoaded);
-                        switchMapStyle.setText("Satellite view");
-                        switchMapStyle.setTextColor(Color.WHITE);
-                    }
-                    addMarkersOnMap();
+            //set map style
+            if (map != null) {
+                if (isChecked) {
+                    map.setStyle(Style.MAPBOX_STREETS, styleLoaded);
+                    switchMapStyle.setText(R.string.streets_view);
+                    switchMapStyle.setTextColor(Color.BLACK);
+                } else {
+                    map.setStyle(Style.SATELLITE_STREETS, styleLoaded);
+                    switchMapStyle.setText(R.string.satellite_view);
+                    switchMapStyle.setTextColor(Color.WHITE);
                 }
+                addMarkersOnMap();
             }
         });
     }
 
     private void makeRoutes(){
-        if(coordonates.size()>=2) {
+        if(coordinates.size()>=2) {
             if (mapboxNavigation != null) {
                 mapboxNavigation.onDestroy();
             }
-            RouteOptions routeOptions = RouteOptions.builder().coordinatesList(coordonates).profile(DirectionsCriteria.PROFILE_DRIVING).user("mapbox").geometries("polyline6").steps(true).build();
+            RouteOptions routeOptions = RouteOptions.builder().coordinatesList(coordinates).profile(DirectionsCriteria.PROFILE_DRIVING).user("mapbox").geometries("polyline6").steps(true).build();
             NavigationOptions navigationOptions = new NavigationOptions.Builder(TrackingActivity.this).accessToken(getString(R.string.mapbox_access_token)).build();
             mapboxNavigation = new MapboxNavigation(navigationOptions);
             mapboxNavigation.requestRoutes(routeOptions, TrackingActivity.this);
@@ -208,7 +176,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     private void removeLocationPoints(){
         for(LocationPoint locationPoint: locationPoints) {
             if (locationPoint.getUserID().equals(currentUser.getUid())) {
-                coordonates.remove(Point.fromLngLat(locationPoint.getLongitude(), locationPoint.getLatitude()));
+                coordinates.remove(Point.fromLngLat(locationPoint.getLongitude(), locationPoint.getLatitude()));
                 daoLocationPoint.remove(locationPoint.getLocationPointID()).
                         addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
                                 "Location points removed",
@@ -237,14 +205,14 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         databaseReferenceLocations.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                coordonates.clear();
+                coordinates.clear();
                 locationPoints.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                         LocationPoint locationPoint = dataSnapshot.getValue(LocationPoint.class);
                         if(Objects.equals(Objects.requireNonNull(locationPoint).getAnnouncementID(),
                                 announcementID)) {
                             locationPoints.add(locationPoint);
-                            coordonates.add(Point.fromLngLat(Objects.requireNonNull(locationPoint).getLongitude(),
+                            coordinates.add(Point.fromLngLat(Objects.requireNonNull(locationPoint).getLongitude(),
                                     locationPoint.getLatitude()));
                         }
 
@@ -263,7 +231,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     //add markers on map after changing map style
     private void addMarkersOnMap() {
 
-        for (Point point : coordonates) {
+        for (Point point : coordinates) {
             symbolManager.create(new SymbolOptions()
                     .withLatLng(new LatLng(point.latitude(), point.longitude()))
                     .withIconImage("myMarker"));
@@ -276,23 +244,17 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
 
-        mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
-            @Override
-            public void onStyleLoaded(@NonNull Style style) {
+        mapboxMap.setStyle(Style.MAPBOX_STREETS, style -> {
 
-                symbolManager = new SymbolManager(mapView, mapboxMap, style);
-                symbolManager.setIconAllowOverlap(true);
-                style.addImage("myMarker", BitmapFactory.decodeResource(getResources(), R.drawable.paw_mark_map));
-//                symbolManager.create(new SymbolOptions()
-//                        .withLatLng(new LatLng(originPosition.latitude(), originPosition.longitude()))
-//                        .withIconImage("myMarker"));
-                addMarkersOnMap();
-                makeRoutes();
-            }
+            symbolManager = new SymbolManager(mapView, mapboxMap, style);
+            symbolManager.setIconAllowOverlap(true);
+            style.addImage("myMarker", BitmapFactory.decodeResource(getResources(), R.drawable.paw_mark_map));
+            addMarkersOnMap();
+            makeRoutes();
         });
 
         map = mapboxMap;
-        if(!coordonates.isEmpty())
+        if(!coordinates.isEmpty())
             setCameraPosition();
         map.addOnMapClickListener(this);
 
@@ -316,8 +278,8 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     }
 
     private void setCameraPosition() {
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(coordonates.get(0).latitude(),
-                coordonates.get(0).longitude()), 12));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(coordinates.get(0).latitude(),
+                coordinates.get(0).longitude()), 12));
     }
 
     @Override
@@ -419,10 +381,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
 
         DirectionsRoute route = list.get(0).getDirectionsRoute();
 
-        if (list == null) {
-            Timber.e("No routes found, check right user and access token");
-            return;
-        } else if (list.size() == 0) {
+        if (list.size() == 0) {
             Timber.e("No routes found");
             return;
         }

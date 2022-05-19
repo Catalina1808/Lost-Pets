@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +28,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class ViewAnnouncementActivity extends AppCompatActivity {
@@ -38,8 +36,6 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     private ImageView genderImageView;
     private ImageView userImageView;
     private ImageButton favoriteImageButton;
-    private Button addLocationButton;
-    private Button commentsButton;
     private TextView nameTextView;
     private TextView animalTextView;
     private TextView breedTextView;
@@ -48,7 +44,6 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     private TextView usernameTextView;
     private TextView phoneTextView;
     private TextView descriptionTextView;
-    private boolean favorite=false;
 
     private User user;
     private AnnouncementItemRV announcementItemRV;
@@ -120,8 +115,8 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         genderImageView= findViewById(R.id.imv_gender);
         userImageView = findViewById(R.id.imv_user);
         favoriteImageButton = findViewById(R.id.imbtn_favorite);
-        addLocationButton = findViewById(R.id.btn_add_location);
-        commentsButton = findViewById(R.id.btn_comments);
+//        Button addLocationButton = findViewById(R.id.btn_add_location);
+//        Button commentsButton = findViewById(R.id.btn_comments);
         nameTextView = findViewById(R.id.tv_name);
         animalTextView = findViewById(R.id.tv_animal);
         breedTextView = findViewById(R.id.tv_breed);
@@ -165,7 +160,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     if(Objects.equals(dataSnapshot.getKey(), announcementItemRV.getUserId())) {
                         user = dataSnapshot.getValue(User.class);
-                        phoneTextView.setText(user.getPhone());
+                        phoneTextView.setText(Objects.requireNonNull(user).getPhone());
                         usernameTextView.setText(user.getUsername());
                         break;
                     }

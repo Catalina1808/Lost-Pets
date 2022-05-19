@@ -6,7 +6,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class DAOFavorite {
-    private DatabaseReference databaseReference;
+    private final DatabaseReference databaseReference;
     private String id;
 
     public DAOFavorite(){
