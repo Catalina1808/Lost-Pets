@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     private ImageView genderImageView;
     private ImageView userImageView;
     private ImageButton favoriteImageButton;
+    private Button addLoccationButton;
     private TextView nameTextView;
     private TextView animalTextView;
     private TextView breedTextView;
@@ -44,6 +46,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     private TextView usernameTextView;
     private TextView phoneTextView;
     private TextView descriptionTextView;
+    private TextView messageTextView;
 
     private User user;
     private AnnouncementItemRV announcementItemRV;
@@ -108,6 +111,10 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         } else {
             breedTextView.setText(String.format("/  %s", announcementItemRV.getBreed()));
         }
+        if(!announcementItemRV.getType().equals(getString(R.string.lost))){
+            messageTextView.setVisibility(View.GONE);
+            addLoccationButton.setText(R.string.see_location);
+        }
     }
 
     public void getUIElements(){
@@ -115,6 +122,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         genderImageView= findViewById(R.id.imv_gender);
         userImageView = findViewById(R.id.imv_user);
         favoriteImageButton = findViewById(R.id.imbtn_favorite);
+        addLoccationButton = findViewById(R.id.btn_add_location);
         nameTextView = findViewById(R.id.tv_name);
         animalTextView = findViewById(R.id.tv_animal);
         breedTextView = findViewById(R.id.tv_breed);
@@ -123,6 +131,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         usernameTextView = findViewById(R.id.tv_username);
         phoneTextView = findViewById(R.id.tv_phone);
         descriptionTextView = findViewById(R.id.tv_description);
+        messageTextView = findViewById(R.id.tv_message);
     }
 
     public void setPetImageView(){

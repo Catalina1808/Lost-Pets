@@ -27,8 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mapbox.android.core.permissions.PermissionsListener;
-import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.api.directions.v5.DirectionsCriteria;
 import com.mapbox.api.directions.v5.models.DirectionsRoute;
 import com.mapbox.api.directions.v5.models.RouteOptions;
@@ -59,11 +57,10 @@ import java.util.Objects;
 
 import timber.log.Timber;
 
-public class TrackingActivity extends AppCompatActivity implements NavigationRouterCallback, OnMapReadyCallback, PermissionsListener, MapboxMap.OnMapClickListener {
+public class TrackingActivity extends AppCompatActivity implements NavigationRouterCallback, OnMapReadyCallback, MapboxMap.OnMapClickListener {
 
     private MapView mapView;
     private MapboxMap map;
-    private PermissionsManager permissionsManager;
     private Point destinationPosition;
     private SymbolManager symbolManager;
     private Button saveLocationButton;
@@ -107,7 +104,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         //get announcementID from the sender activity
         Intent intent = getIntent();
         announcementID = intent.getStringExtra("announcementID");
-        Boolean editable = intent.getBooleanExtra("editable", false);
+        boolean editable = intent.getBooleanExtra("editable", false);
         if(editable){
             deleteAllButton.setVisibility(View.VISIBLE);
             deleteAllButton.setOnClickListener(v -> removeAllLocationPoints());
@@ -297,12 +294,6 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
 //        locationLayerPlugin.setRenderMode(RenderMode.NORMAL);
 //    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
     private void setCameraPosition() {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(coordinates.get(0).latitude(),
                 coordinates.get(0).longitude()), 12));
@@ -327,18 +318,6 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
 
         saveLocationButton.setVisibility(View.VISIBLE);
         return false;
-    }
-
-    //if the permissions are not grated
-    @Override
-    public void onExplanationNeeded(List<String> permissionsToExplain) {
-        Toast.makeText(this, "You should grant this permission to see your current location!",
-                Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onPermissionResult(boolean granted) {
-
     }
 
     @Override

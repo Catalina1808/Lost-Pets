@@ -30,7 +30,6 @@ import com.example.lostmypet.helpers.UtilsValidators;
 import com.example.lostmypet.models.AnnouncementItemRV;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.mapbox.android.core.permissions.PermissionsManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +52,6 @@ public class EditAnnouncementActivity extends AppCompatActivity {
 
     private AnnouncementItemRV announcementItemRV;
 
-    private PermissionsManager permissionsManager;
     private Uri photoUri;
 
     private FirebaseStorage firebaseStorage;
@@ -202,8 +200,6 @@ public class EditAnnouncementActivity extends AppCompatActivity {
                 Toast.makeText(EditAnnouncementActivity.this, "Permission denied!",
                         Toast.LENGTH_SHORT).show();
             }
-        } else {
-            //permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -271,7 +267,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
 
         daoAnnouncement.update(announcementItemRV.getAnnouncementId(), hashMap).
                 addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
-                        "Announcement inserted",
+                        "Announcement updated",
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
                         "Insertion failed",

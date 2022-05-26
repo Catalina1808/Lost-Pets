@@ -87,4 +87,5 @@
     <string name="change_location">Change location</string>
     <string name="update">Update</string>
     <string name="delete_all_locations">Delete all locations</string>
+    <string name="see_location">See location \n on map</string>
 </resources>

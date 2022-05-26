@@ -12,7 +12,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.example.lostmypet.R;
@@ -20,7 +19,6 @@ import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
 import com.mapbox.android.core.location.LocationEngineResult;
-import com.mapbox.android.core.permissions.PermissionsListener;
 import com.mapbox.android.core.permissions.PermissionsManager;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -34,18 +32,11 @@ import com.mapbox.mapboxsdk.plugins.annotation.Symbol;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager;
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
 
-import java.util.List;
 
 public class AddFirstLocationActivity extends AppCompatActivity implements OnMapReadyCallback, MapboxMap.OnMapClickListener {
 
-
-    long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
-    long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
-
     private MapView mapView;
     private MapboxMap map;
-    private PermissionsManager permissionsManager;
-    private LocationEngine locationEngine;
     private Point position;
     private SymbolManager symbolManager;
     private Button saveLocationButton;
@@ -70,45 +61,37 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
         enableLocation();
 
 
-        saveLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(position !=null) {
-                    Intent intent = new Intent(AddFirstLocationActivity.this, AddAnnouncementActivity.class);
-                    intent.putExtra("LATITUDE", position.latitude());
-                    intent.putExtra("LONGITUDE", position.longitude());
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(AddFirstLocationActivity.this, "You should select a place on the map.",
-                            Toast.LENGTH_LONG).show();
-                }
+        saveLocationButton.setOnClickListener(view -> {
+            if(position !=null) {
+                Intent intent = new Intent(AddFirstLocationActivity.this, AddAnnouncementActivity.class);
+                intent.putExtra("LATITUDE", position.latitude());
+                intent.putExtra("LONGITUDE", position.longitude());
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(AddFirstLocationActivity.this, "You should select a place on the map.",
+                        Toast.LENGTH_LONG).show();
             }
         });
 
-        switchMapStyle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switchMapStyle.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
-                //declare a new Style.OnStyleLoaded to add the marker to the style
-                Style.OnStyleLoaded styleLoaded= new Style.OnStyleLoaded() {
-                    @Override
-                    public void onStyleLoaded(@NonNull Style style) {
-                        symbolManager.setIconAllowOverlap(true);
-                        style.addImage("myMarker", BitmapFactory.decodeResource(getResources(), R.drawable.paw_mark_map));
-                    }
-                };
+            //declare a new Style.OnStyleLoaded to add the marker to the style
+            Style.OnStyleLoaded styleLoaded= style -> {
+                symbolManager.setIconAllowOverlap(true);
+                style.addImage("myMarker", BitmapFactory.decodeResource(getResources(), R.drawable.paw_mark_map));
+            };
 
-                if(map!=null) {
-                    if (isChecked) {
-                        map.setStyle(Style.MAPBOX_STREETS, styleLoaded);
-                        switchMapStyle.setText(getResources().getString(R.string.streets_view));
-                        switchMapStyle.setTextColor(Color.BLACK);
-                    }
-                    else {
-                        map.setStyle(Style.SATELLITE_STREETS, styleLoaded);
-                        switchMapStyle.setText(getResources().getString(R.string.satellite_view));
-                        switchMapStyle.setTextColor(Color.WHITE);
-                    }
+            if(map!=null) {
+                if (isChecked) {
+                    map.setStyle(Style.MAPBOX_STREETS, styleLoaded);
+                    switchMapStyle.setText(getResources().getString(R.string.streets_view));
+                    switchMapStyle.setTextColor(Color.BLACK);
+                }
+                else {
+                    map.setStyle(Style.SATELLITE_STREETS, styleLoaded);
+                    switchMapStyle.setText(getResources().getString(R.string.satellite_view));
+                    switchMapStyle.setTextColor(Color.WHITE);
                 }
             }
         });
@@ -119,18 +102,15 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
 
-        mapboxMap.setStyle(Style.MAPBOX_STREETS, new Style.OnStyleLoaded() {
-            @Override
-            public void onStyleLoaded(@NonNull Style style) {
+        mapboxMap.setStyle(Style.MAPBOX_STREETS, style -> {
 
-                symbolManager = new SymbolManager(mapView, mapboxMap, style);
-                symbolManager.setIconAllowOverlap(true);
-                style.addImage("myMarker", BitmapFactory.decodeResource(getResources(), R.drawable.paw_mark_map));
-                if(position!=null) {
-                    symbol = symbolManager.create(new SymbolOptions()
-                            .withLatLng(new LatLng(position.latitude(), position.longitude()))
-                            .withIconImage("myMarker"));
-                }
+            symbolManager = new SymbolManager(mapView, mapboxMap, style);
+            symbolManager.setIconAllowOverlap(true);
+            style.addImage("myMarker", BitmapFactory.decodeResource(getResources(), R.drawable.paw_mark_map));
+            if(position!=null) {
+                symbol = symbolManager.create(new SymbolOptions()
+                        .withLatLng(new LatLng(position.latitude(), position.longitude()))
+                        .withIconImage("myMarker"));
             }
         });
 
@@ -151,7 +131,7 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
 
             //initialize local engine
 
-            locationEngine = LocationEngineProvider.getBestLocationEngine(this);
+            LocationEngine locationEngine = LocationEngineProvider.getBestLocationEngine(this);
             locationEngine.getLastLocation(new LocationEngineCallback<LocationEngineResult>() {
                 @Override
                 public void onSuccess(LocationEngineResult result) {

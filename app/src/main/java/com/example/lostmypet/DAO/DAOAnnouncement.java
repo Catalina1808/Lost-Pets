@@ -1,20 +1,14 @@
 package com.example.lostmypet.DAO;
 
-import androidx.annotation.NonNull;
-
 import com.example.lostmypet.models.Announcement;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DAOAnnouncement {
-    private DatabaseReference databaseReference;
+    private final DatabaseReference databaseReference;
     private String id;
 
     public DAOAnnouncement(){

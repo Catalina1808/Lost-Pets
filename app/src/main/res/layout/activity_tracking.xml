@@ -52,7 +52,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white_alpha"
                 android:textSize="18sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintWidth_percent="0.5"
                 style="?android:attr/buttonBarButtonStyle" />
 
