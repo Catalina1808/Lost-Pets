@@ -18,18 +18,30 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.lostmypet.DAO.DAOAnnouncement;
 import com.example.lostmypet.DAO.DAOFavorite;
+import com.example.lostmypet.DAO.DAOLocationPoint;
 import com.example.lostmypet.R;
 import com.example.lostmypet.activities.EditAnnouncementActivity;
 import com.example.lostmypet.activities.ViewAnnouncementActivity;
+import com.example.lostmypet.models.Announcement;
 import com.example.lostmypet.models.AnnouncementItemRV;
 import com.example.lostmypet.models.Favorite;
+import com.example.lostmypet.models.LocationPoint;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import timber.log.Timber;
 
 public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAdapter.AnnouncementsViewHolder> {
 
@@ -89,8 +101,7 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             String imageURL = uri.toString();
             Glide.with(context).load(imageURL).into(holder.petImage);
-        }).addOnFailureListener(exception -> Toast.makeText(context, "The image could not be loaded.",
-                Toast.LENGTH_SHORT).show());
+        }).addOnFailureListener(exception -> holder.petImage.setImageResource(R.drawable.icon_no_image_pet));
     }
 
     @Override
@@ -98,28 +109,32 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
         return list.size();
     }
 
-    public class AnnouncementsViewHolder extends RecyclerView.ViewHolder{
+    public class AnnouncementsViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, animal, city, type;
         ImageView petImage, genderImage;
         Button moreButton, editButton;
         ImageButton favoriteButton, deleteButton;
         LinearLayout layoutEditable;
+        private final FirebaseDatabase database;
 
         public AnnouncementsViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name=itemView.findViewById(R.id.tv_name);
-            animal=itemView.findViewById(R.id.tv_animal);
-            city=itemView.findViewById(R.id.tv_city);
-            type=itemView.findViewById(R.id.tv_type);
-            petImage=itemView.findViewById(R.id.imv_pet);
-            genderImage=itemView.findViewById(R.id.imv_gender);
-            moreButton=itemView.findViewById(R.id.btn_more);
-            editButton=itemView.findViewById(R.id.btn_edit);
-            deleteButton=itemView.findViewById(R.id.imbtn_delete);
-            favoriteButton=itemView.findViewById(R.id.imbtn_favorite);
-            layoutEditable=itemView.findViewById(R.id.layout_editable);
+            name = itemView.findViewById(R.id.tv_name);
+            animal = itemView.findViewById(R.id.tv_animal);
+            city = itemView.findViewById(R.id.tv_city);
+            type = itemView.findViewById(R.id.tv_type);
+            petImage = itemView.findViewById(R.id.imv_pet);
+            genderImage = itemView.findViewById(R.id.imv_gender);
+            moreButton = itemView.findViewById(R.id.btn_more);
+            editButton = itemView.findViewById(R.id.btn_edit);
+            deleteButton = itemView.findViewById(R.id.imbtn_delete);
+            favoriteButton = itemView.findViewById(R.id.imbtn_favorite);
+            layoutEditable = itemView.findViewById(R.id.layout_editable);
+
+            database = FirebaseDatabase.getInstance(
+                    "https://lostmypet-32687-default-rtdb.europe-west1.firebasedatabase.app/");
 
             moreButton.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ViewAnnouncementActivity.class);
@@ -137,35 +152,39 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
                 context.startActivity(intent);
             });
 
+            deleteButton.setOnClickListener(v -> {
+                deleteAllLocationPoints();
+                deleteFromAllUsersFavorites();
+                deleteAnnouncement();
+                deletePicture();
+            });
+
             //change the heart color when an announcement is added or deleted from the favorites
-            favoriteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(list.get(getAdapterPosition()).getFavoriteID()==null) {
-                        favoriteButton.setColorFilter(ContextCompat.getColor(context, R.color.red),
-                                android.graphics.PorterDuff.Mode.SRC_IN);
-                        addToFavorite();
-                    } else {
-                        favoriteButton.setColorFilter(ContextCompat.getColor(context, R.color.dark_orange_alpha_2),
-                                android.graphics.PorterDuff.Mode.SRC_IN);
-                        deleteFromFavorite();
-                    }
+            favoriteButton.setOnClickListener(v -> {
+                if (list.get(getAdapterPosition()).getFavoriteID() == null) {
+                    favoriteButton.setColorFilter(ContextCompat.getColor(context, R.color.red),
+                            android.graphics.PorterDuff.Mode.SRC_IN);
+                    addToFavorite();
+                } else {
+                    favoriteButton.setColorFilter(ContextCompat.getColor(context, R.color.dark_orange_alpha_2),
+                            android.graphics.PorterDuff.Mode.SRC_IN);
+                    deleteFromCurrentUserFavorites();
                 }
             });
 
         }
 
         //add the announcement to favorites
-        public void addToFavorite(){
+        public void addToFavorite() {
             DAOFavorite daoFavorite = new DAOFavorite();
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             FirebaseUser currentUser = mAuth.getCurrentUser();
 
-            Favorite favorite = new Favorite(currentUser.getUid(),
+            Favorite favorite = new Favorite(Objects.requireNonNull(currentUser).getUid(),
                     list.get(getAdapterPosition()).getAnnouncementId());
 
-            daoFavorite.add(favorite).
-                    addOnSuccessListener(succes -> Toast.makeText(context,
+            daoFavorite.add(favorite)
+                    .addOnSuccessListener(success -> Toast.makeText(context,
                             "Announcement added to favorite",
                             Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(err -> Toast.makeText(context,
@@ -173,20 +192,94 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
                             Toast.LENGTH_SHORT).show());
 
             list.get(getAdapterPosition()).setFavoriteID(daoFavorite.getId());
-            }
+        }
 
-        public void deleteFromFavorite(){
+        public void deleteFromCurrentUserFavorites() {
             DAOFavorite daoFavorite = new DAOFavorite();
-            daoFavorite.remove(list.get(getAdapterPosition()).getFavoriteID()).
-                    addOnSuccessListener(succes -> Toast.makeText(context,
-                            "Announcement removed from favorite",
-                            Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(err -> Toast.makeText(context,
-                            "Removal failed",
-                            Toast.LENGTH_SHORT).show());
+            daoFavorite.remove(list.get(getAdapterPosition()).getFavoriteID())
+                    .addOnSuccessListener(success -> Timber.w("Announcement removed from favorites"))
+                    .addOnFailureListener(err -> Timber.w("Removal from favorites failed"));
 
 
             list.get(getAdapterPosition()).setFavoriteID(null);
         }
+
+        public void deleteFromAllUsersFavorites() {
+            DAOFavorite daoFavorite = new DAOFavorite();
+
+            DatabaseReference databaseReferenceFavorites = database.getReference(Favorite.class.getSimpleName());
+            databaseReferenceFavorites.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        if(Objects.equals(Objects.requireNonNull(dataSnapshot.getValue(Favorite.class))
+                                .getAnnouncementID(), list.get(getAdapterPosition()).getAnnouncementId())) {
+                            Favorite favorite = dataSnapshot.getValue(Favorite.class);
+                            daoFavorite.remove(Objects.requireNonNull(favorite).getFavoriteID())
+                                    .addOnSuccessListener(success -> Timber.w("Favorites removed"))
+                                    .addOnFailureListener(err -> Timber.w("Favorites removal failed"));
+                        }}}
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
         }
+
+        public void deleteAllLocationPoints() {
+            DAOLocationPoint daoLocationPoint = new DAOLocationPoint();
+
+            DatabaseReference databaseReferenceFavorites = database.getReference(LocationPoint.class.getSimpleName());
+            databaseReferenceFavorites.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        if(Objects.equals(Objects.requireNonNull(dataSnapshot.getValue(LocationPoint.class))
+                                .getAnnouncementID(), list.get(getAdapterPosition()).getAnnouncementId())) {
+                            LocationPoint locationPoint = dataSnapshot.getValue(LocationPoint.class);
+                            daoLocationPoint.remove(Objects.requireNonNull(locationPoint).getLocationPointID())
+                                    .addOnSuccessListener(success -> Timber.w("Locations removed"))
+                                    .addOnFailureListener(err -> Timber.w("Locations removal failed"));
+                        }}}
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        }
+
+        public void deleteAnnouncement() {
+            DAOAnnouncement daoAnnouncement = new DAOAnnouncement();
+
+            DatabaseReference databaseReferenceFavorites = database
+                    .getReference(Announcement.class.getSimpleName());
+            databaseReferenceFavorites.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        if(Objects.equals(Objects.requireNonNull(dataSnapshot
+                                        .getValue(Announcement.class)).getAnnouncementID(),
+                                list.get(getAdapterPosition()).getAnnouncementId())) {
+
+                            Announcement announcement = dataSnapshot.getValue(Announcement.class);
+                            daoAnnouncement.remove(Objects.requireNonNull(announcement).getAnnouncementID())
+                                    .addOnSuccessListener(success -> Timber.w("Announcement removed"))
+                                    .addOnFailureListener(err -> Timber.w("Announcement removal failed"));
+                        }}}
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+        }
+
+        private void deletePicture(){
+            FirebaseStorage.getInstance()
+                    .getReference("Announcements/")
+                    .child(list.get(getAdapterPosition()).getAnnouncementId())
+                    .delete()
+                    .addOnSuccessListener(success -> Timber.w("Picture removed"))
+                    .addOnFailureListener(err -> Timber.w("Picture removal failed"));
+        }
+    }
 }

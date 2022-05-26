@@ -192,7 +192,9 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         }
         symbolManager.deleteAll();
         if (navigationMapRoute != null) {
-            navigationMapRoute.removeRoute();
+            //navigationMapRoute.removeRoute();
+
+            navigationMapRoute.updateRouteVisibilityTo(false);
         }
         addMarkersOnMap();
         makeRoutes();
@@ -211,7 +213,9 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         }
         symbolManager.deleteAll();
         if (navigationMapRoute != null) {
-            navigationMapRoute.removeRoute();
+            //navigationMapRoute.removeRoute();
+
+            navigationMapRoute.updateRouteVisibilityTo(false);
         }
         addMarkersOnMap();
         makeRoutes();
@@ -392,7 +396,8 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         }
 
         if (navigationMapRoute != null) {
-            navigationMapRoute.removeRoute();
+           // navigationMapRoute.removeRoute();
+            navigationMapRoute.updateRouteVisibilityTo(false);
         } else {
             navigationMapRoute = new NavigationMapRoute(null, mapView, map);
         }

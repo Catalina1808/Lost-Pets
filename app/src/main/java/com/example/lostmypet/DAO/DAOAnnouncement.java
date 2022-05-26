@@ -33,4 +33,8 @@ public class DAOAnnouncement {
     public String getId() {
         return id;
     }
+
+    public Task<Void> remove(String key){
+        return databaseReference.child(key).removeValue();
+    }
 }
