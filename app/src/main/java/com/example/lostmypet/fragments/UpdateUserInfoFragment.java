@@ -1,5 +1,6 @@
 package com.example.lostmypet.fragments;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.example.lostmypet.DAO.DAOUser;
 import com.example.lostmypet.R;
 import com.example.lostmypet.helpers.UtilsValidators;
+import com.example.lostmypet.interfaces.OnFragmentActivityCommunication;
 import com.example.lostmypet.models.User;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -42,7 +44,8 @@ import timber.log.Timber;
 
 public class UpdateUserInfoFragment extends Fragment {
 
-    public static final String TAG_FRAGMENT_UPDATE_USER_INFO="TAG_FRAGMENT_UPDATE_USER_INFO";
+    public static final String TAG_FRAGMENT_UPDATE_USER_INFO = "TAG_FRAGMENT_UPDATE_USER_INFO";
+    private OnFragmentActivityCommunication activityCommunication;
 
     private ProgressBar progressBar;
     private EditText emailEditText;
@@ -66,22 +69,32 @@ public class UpdateUserInfoFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if (context instanceof OnFragmentActivityCommunication) {
+            activityCommunication = (OnFragmentActivityCommunication) context;
+        }
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.getCurrentUser();
-        firebaseUser=mAuth.getCurrentUser();
+        firebaseUser = mAuth.getCurrentUser();
 
         getUIElements(view);
         getUser();
 
         saveChangesButton.setOnClickListener(v -> {
-            if(validateFields()){
+            if (validateFields()) {
                 showAlertDialog();
             }
         });
 
         emailEditText.setText(firebaseUser.getEmail());
+        view.findViewById(R.id.btn_change_password).setOnClickListener(v -> goToUpdatePassword());
     }
 
     @Override
@@ -95,7 +108,7 @@ public class UpdateUserInfoFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_update_user_info, container, false);
     }
 
-    private  void showAlertDialog(){
+    private void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Password needed!");
         builder.setMessage("You have to enter your password to apply changes!");
@@ -128,12 +141,11 @@ public class UpdateUserInfoFragment extends Fragment {
         builder.show();
     }
 
-    private int dpToPx(int dp)
-    {
+    private int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    private void getUIElements(View view){
+    private void getUIElements(View view) {
         progressBar = view.findViewById(R.id.pb_loading);
         emailEditText = view.findViewById(R.id.edt_email);
         phoneEditText = view.findViewById(R.id.edt_phone);
@@ -142,7 +154,7 @@ public class UpdateUserInfoFragment extends Fragment {
     }
 
 
-    private void getUser(){
+    private void getUser() {
         FirebaseDatabase database = FirebaseDatabase.getInstance(
                 "https://lostmypet-32687-default-rtdb.europe-west1.firebasedatabase.app/");
 
@@ -153,8 +165,8 @@ public class UpdateUserInfoFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    if(Objects.equals(dataSnapshot.getKey(), firebaseUser.getUid())) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (Objects.equals(dataSnapshot.getKey(), firebaseUser.getUid())) {
                         user = dataSnapshot.getValue(User.class);
                         phoneEditText.setText(Objects.requireNonNull(user).getPhone());
                         usernameEditText.setText(user.getUsername());
@@ -170,75 +182,82 @@ public class UpdateUserInfoFragment extends Fragment {
         });
     }
 
-    private boolean validateFields(){
+    private boolean validateFields() {
         boolean isValidated = true;
 
-        if(!UtilsValidators.isValidEmail(emailEditText.getText().toString()))
-        {
+        if (!UtilsValidators.isValidEmail(emailEditText.getText().toString())) {
             emailEditText.setError("Invalid Email");
-            isValidated=false;
+            isValidated = false;
         }
 
-        if(!UtilsValidators.isValidPhone(phoneEditText.getText().toString()))
-        {
+        if (!UtilsValidators.isValidPhone(phoneEditText.getText().toString())) {
             phoneEditText.setError("Invalid Phone");
-            isValidated=false;
+            isValidated = false;
         }
 
-        if(UtilsValidators.isEmptyField(usernameEditText.getText().toString()))
-        {
+        if (UtilsValidators.isEmptyField(usernameEditText.getText().toString())) {
             usernameEditText.setError("No username");
-            isValidated=false;
+            isValidated = false;
         }
 
         return isValidated;
     }
 
-    private void updateFireBaseUser(){
+    private void updateFireBaseUser() {
 
         progressBar.setVisibility(View.VISIBLE);
-        DAOUser daoUser = new DAOUser();
 
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(usernameEditText.getText().toString())
-                .build();
-        firebaseUser.updateProfile(profileUpdates);
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(Objects.requireNonNull(firebaseUser.getEmail()), password);
+        firebaseUser.reauthenticate(credential).addOnSuccessListener(task -> {
 
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("username", usernameEditText.getText().toString());
-        hashMap.put("phone",  phoneEditText.getText().toString());
-        daoUser.update(firebaseUser.getUid(), hashMap).addOnSuccessListener(success ->
-                Toast.makeText(getContext(), "Profile updated!",
+            DAOUser daoUser = new DAOUser();
+
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(usernameEditText.getText().toString())
+                    .build();
+            firebaseUser.updateProfile(profileUpdates);
+
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("username", usernameEditText.getText().toString());
+            hashMap.put("phone", phoneEditText.getText().toString());
+            daoUser.update(firebaseUser.getUid(), hashMap).addOnSuccessListener(success ->
+                    Toast.makeText(getContext(), "Profile updated!",
+                            Toast.LENGTH_SHORT).show());
+
+
+            firebaseUser.updateEmail(emailEditText.getText().toString())
+                    .addOnCompleteListener(success -> {
+                        Timber.w("Email updated!");
+                        firebaseUser.sendEmailVerification()
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+
+                                        AlertDialog.Builder builder = new AlertDialog
+                                                .Builder(requireContext());
+                                        builder.setTitle("Almost done")
+                                                .setMessage("We have sent an email with a confirmation link to your email address. Open it up to update your account.")
+                                                .setIcon(R.drawable.ic_email)
+                                                .setPositiveButton("Ok", (dialog, which) -> {
+                                                });
+                                        builder.create().show();
+                                        Toast.makeText(getContext(), "Email sent!",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }).addOnFailureListener(failure ->
+                            Timber.w("Email could not be updated!"));
+
+        }).addOnFailureListener(failure->
+                Toast.makeText(getContext(), "Wrong password!",
                         Toast.LENGTH_SHORT).show());
-
-        if(!emailEditText.getText().toString().equals(firebaseUser.getEmail())) {
-
-            AuthCredential credential = EmailAuthProvider
-                    .getCredential(Objects.requireNonNull(firebaseUser.getEmail()), password);
-            firebaseUser.reauthenticate(credential).addOnCompleteListener(task ->
-                    firebaseUser.updateEmail(emailEditText.getText().toString())
-                            .addOnCompleteListener(success-> {
-                                Timber.w("Email updated!");
-                                firebaseUser.sendEmailVerification()
-                                        .addOnCompleteListener(task1 -> {
-                                            if (task1.isSuccessful()) {
-
-                                                AlertDialog.Builder builder = new AlertDialog
-                                                        .Builder(requireContext());
-                                                builder.setTitle("Almost done")
-                                                        .setMessage("We have sent an email with a confirmation link to your email address. Open it up to update your account.")
-                                                        .setIcon(R.drawable.ic_email)
-                                                        .setPositiveButton("Ok", (dialog, which) -> {
-                                                        });
-                                                builder.create().show();
-                                                Toast.makeText(getContext(), "Email sent!",
-                                                        Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                            }).addOnFailureListener(failure->
-                                    Timber.w("Email could not be updated!")));
-        }
         progressBar.setVisibility(View.GONE);
+    }
+
+    private void goToUpdatePassword() {
+        if (activityCommunication != null) {
+            activityCommunication.onAddFragment(UpdatePasswordFragment.TAG_FRAGMENT_UPDATE_PASSWORD);
+        }
     }
 
 }

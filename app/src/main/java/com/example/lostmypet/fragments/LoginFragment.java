@@ -132,6 +132,7 @@ public class LoginFragment extends Fragment {
                         }else {
                             Toast.makeText(getContext(), "Email is not verified.",
                                     Toast.LENGTH_SHORT).show();
+                            goToSecondActivity();
                         }
 
                     } else {
