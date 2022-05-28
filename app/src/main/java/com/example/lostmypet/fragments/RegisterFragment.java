@@ -29,6 +29,7 @@ public class RegisterFragment extends Fragment {
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText phoneEditText;
+    private EditText usernameEditText;
 
     public static RegisterFragment newInstance() {
 
@@ -65,6 +66,7 @@ public class RegisterFragment extends Fragment {
         emailEditText = view.findViewById(R.id.edt_email);
         passwordEditText = view.findViewById(R.id.edt_password);
         phoneEditText = view.findViewById(R.id.edt_phone);
+        usernameEditText = view.findViewById(R.id.edt_username);
 
         view.findViewById(R.id.btn_register).setOnClickListener(view1 -> {
             if(validateFields()){
@@ -91,6 +93,11 @@ public class RegisterFragment extends Fragment {
             phoneEditText.setError("Invalid Phone");
             isValidated=false;
         }
+        if(UtilsValidators.isEmptyField(usernameEditText.getText().toString()))
+        {
+            usernameEditText.setError("No username");
+            isValidated=false;
+        }
 
         return isValidated;
     }
@@ -114,7 +121,6 @@ public class RegisterFragment extends Fragment {
                 user.sendEmailVerification()
                         .addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
-                                EditText usernameEditText= requireView().findViewById(R.id.edt_username);
                                 String username=usernameEditText.getText().toString();
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
                                 user.updateProfile(profileUpdates);

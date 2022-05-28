@@ -94,6 +94,7 @@
         android:background="@drawable/selector_simple_button"
         android:drawableStart="@drawable/ic_settings"
         android:fontFamily="@font/sunshiney"
+        android:onClick="onAccountSettingsBtnClick"
         android:text="@string/account_settings"
         android:textAllCaps="false"
         android:textColor="@color/dark_orange"

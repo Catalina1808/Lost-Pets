@@ -88,4 +88,6 @@
     <string name="update">Update</string>
     <string name="delete_all_locations">Delete all locations</string>
     <string name="see_location">See location \n on map</string>
+    <string name="save_changes">&#x20; Save changes &#x20;</string>
+    <string name="change_password">&#x20; Change password &#x20;</string>
 </resources>

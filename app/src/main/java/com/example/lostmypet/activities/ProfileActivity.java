@@ -33,6 +33,15 @@ public class ProfileActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private ImageView userImageView;
     private FirebaseAuth mAuth;
+    private TextView usernameTextView;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //reset username on screen because it might have been changed in "UpdateUserActivity"
+        String userDisplayName = currentUser.getDisplayName();
+        usernameTextView.setText(userDisplayName);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +52,6 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         assert currentUser != null;
-
-        TextView usernameTextView;
 
         //Get the image and username from UI
         usernameTextView = findViewById(R.id.tv_username);
@@ -154,6 +161,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void onMyAnnouncementsBtnClick(View view) {
         Intent intent = new Intent(ProfileActivity.this, MyAnnouncementsActivity.class);
+        startActivity(intent);
+    }
+
+    public void onAccountSettingsBtnClick(View view) {
+        Intent intent = new Intent(ProfileActivity.this, UpdateUserActivity.class);
         startActivity(intent);
     }
 }

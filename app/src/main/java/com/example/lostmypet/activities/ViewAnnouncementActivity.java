@@ -140,9 +140,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             String imageURL = uri.toString();
             Glide.with(this).load(imageURL).into(petImageView);
-        }).addOnFailureListener(exception -> {
-            petImageView.setImageResource(R.drawable.icon_no_image_pet);
-        });
+        }).addOnFailureListener(exception -> petImageView.setImageResource(R.drawable.icon_no_image_pet));
     }
 
     public void setUserImageView(){

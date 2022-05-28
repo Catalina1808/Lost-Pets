@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LostMyPet">
         <activity
+            android:name=".activities.UpdateUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.EditAnnouncementActivity"
             android:exported="false" />
         <activity
