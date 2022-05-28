@@ -1,43 +1,26 @@
 package com.example.lostmypet.fragments;
 
-import android.content.res.Resources;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.lostmypet.DAO.DAOUser;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.lostmypet.R;
 import com.example.lostmypet.helpers.UtilsValidators;
-import com.example.lostmypet.models.User;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.Objects;
-
-import timber.log.Timber;
 
 public class UpdatePasswordFragment extends Fragment {
     public static final String TAG_FRAGMENT_UPDATE_PASSWORD="TAG_FRAGMENT_UPDATE_PASSWORD";
@@ -47,7 +30,6 @@ public class UpdatePasswordFragment extends Fragment {
     private EditText newPasswordEditText;
     private Button saveChangesButton;
     private FirebaseUser firebaseUser;
-    private User user;
 
     public static UpdatePasswordFragment newInstance() {
         UpdatePasswordFragment fragment = new UpdatePasswordFragment();
@@ -72,6 +54,7 @@ public class UpdatePasswordFragment extends Fragment {
 
         saveChangesButton.setOnClickListener(v -> {
             if(validateFields()){
+                updateFireBasePassword();
             }
         });
 
@@ -99,20 +82,30 @@ public class UpdatePasswordFragment extends Fragment {
     private boolean validateFields(){
         boolean isValidated = true;
 
-
-        if(!UtilsValidators.isValidPassword(newPasswordEditText.getText().toString()))
-        {
-            newPasswordEditText.setError("Invalid Password");
+        if(newPasswordEditText.getText().toString().equals(oldPasswordEditText.getText().toString())){
+            newPasswordEditText.setError("The new password should be different!");
             isValidated=false;
+        } else if(!UtilsValidators.isValidPassword(newPasswordEditText.getText().toString())) {
+            newPasswordEditText.setError("Invalid Password");
+            isValidated = false;
         }
         return isValidated;
     }
 
-    private void updateFireBaseUser(){
+    private void updateFireBasePassword(){
 
         progressBar.setVisibility(View.VISIBLE);
 
-        firebaseUser.updatePassword(newPasswordEditText.getText().toString());
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(Objects.requireNonNull(firebaseUser.getEmail()),
+                        oldPasswordEditText.getText().toString());
+        firebaseUser.reauthenticate(credential).addOnSuccessListener(success ->
+                firebaseUser.updatePassword(newPasswordEditText.getText().toString())
+                .addOnSuccessListener(task ->
+                        Toast.makeText(getContext(), "Password updated!",
+                                Toast.LENGTH_SHORT).show())).addOnFailureListener(failure->
+            Toast.makeText(getContext(), "Wrong password!",
+                    Toast.LENGTH_SHORT).show());
 
         progressBar.setVisibility(View.GONE);
     }
