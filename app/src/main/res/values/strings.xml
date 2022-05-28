@@ -93,4 +93,5 @@
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
     <string name="save_password">&#x20; Save password &#x20;</string>
+    <string name="forgot_password">Forgot password?</string>
 </resources>

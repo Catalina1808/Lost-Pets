@@ -1,7 +1,5 @@
 package com.example.lostmypet.activities;
 
-import static com.example.lostmypet.fragments.LoginFragment.TAG_LOGIN_FRAGMENT;
-import static com.example.lostmypet.fragments.RegisterFragment.TAG_REGISTER_FRAGMENT;
 import static com.example.lostmypet.fragments.UpdatePasswordFragment.TAG_FRAGMENT_UPDATE_PASSWORD;
 
 import android.os.Bundle;
@@ -11,8 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.lostmypet.R;
-import com.example.lostmypet.fragments.LoginFragment;
-import com.example.lostmypet.fragments.RegisterFragment;
 import com.example.lostmypet.fragments.UpdatePasswordFragment;
 import com.example.lostmypet.fragments.UpdateUserInfoFragment;
 import com.example.lostmypet.interfaces.OnFragmentActivityCommunication;

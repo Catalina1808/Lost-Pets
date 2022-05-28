@@ -15,7 +15,7 @@
         app:layout_constraintHeight_percent="0.25"
         android:src="@drawable/logo"
         android:contentDescription="@string/Logo"
-        android:layout_marginTop="@dimen/margin25"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="@dimen/margin40"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerVertical="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/selector_simple_button"
         android:drawableStart="@drawable/ic_paw"
         android:drawableEnd="@drawable/ic_paw"
@@ -78,6 +78,22 @@
         app:layout_constraintStart_toStartOf="@id/imv_logo"
         app:layout_constraintTop_toBottomOf="@id/edt_password"
         app:layout_constraintWidth_percent="0.3" />
+
+    <Button
+        android:id="@+id/btn_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="@string/email"
+        android:fontFamily="@font/sunshiney"
+        android:text="@string/forgot_password"
+        android:textColor="@color/dark_orange"
+        android:backgroundTint="@color/orange"
+        android:textSize="@dimen/text_size_20"
+        android:background="@android:color/transparent"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@id/btn_login"
+        app:layout_constraintStart_toStartOf="@id/btn_login"
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
 
     <ProgressBar

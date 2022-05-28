@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.lostmypet.R;
 import com.example.lostmypet.activities.ProfileActivity;
 import com.example.lostmypet.helpers.UtilsValidators;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -56,7 +59,7 @@ public class LoginFragment extends Fragment {
   @Override
     public void onStart() {
         super.onStart();
-      mAuth.getCurrentUser();
+        mAuth.getCurrentUser();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         emailEditText.setText(preferences.getString("EMAIL", ""));
     }
@@ -72,6 +75,7 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         view.findViewById(R.id.btn_login).setOnClickListener(v -> validateEmailAndPassword());
+        view.findViewById(R.id.btn_forgot_password).setOnClickListener(v -> resetPassword());
 
         progressBar = view.findViewById(R.id.pb_loading);
 
@@ -80,6 +84,29 @@ public class LoginFragment extends Fragment {
     }
 
 
+    private void resetPassword(){
+        String email = emailEditText.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(requireContext(), "Enter your registered email!",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mAuth.sendPasswordResetEmail(email)
+                .addOnSuccessListener(success-> {
+                    AlertDialog.Builder builder= new AlertDialog.Builder(requireContext());
+                    builder.setTitle("Almost done")
+                            .setMessage("We have sent an email with instructions to reset your password!")
+                            .setIcon(R.drawable.ic_email)
+                            .setPositiveButton("Ok", (dialog, which) -> {
+                            });
+                    builder.create().show();
+                })
+                .addOnFailureListener(failure ->
+                        Toast.makeText(getContext(),
+                                "Failed to send reset email!",
+                                Toast.LENGTH_SHORT).show());
+    }
 
     private void validateEmailAndPassword() {
         if(getView() == null) {
@@ -132,7 +159,6 @@ public class LoginFragment extends Fragment {
                         }else {
                             Toast.makeText(getContext(), "Email is not verified.",
                                     Toast.LENGTH_SHORT).show();
-                            goToSecondActivity();
                         }
 
                     } else {
