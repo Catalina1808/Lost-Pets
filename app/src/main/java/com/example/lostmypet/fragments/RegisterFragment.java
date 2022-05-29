@@ -85,7 +85,8 @@ public class RegisterFragment extends Fragment {
         }
         if(!UtilsValidators.isValidPassword(passwordEditText.getText().toString()))
         {
-            passwordEditText.setError("Invalid Password");
+            passwordEditText.
+                    setError("Your passwords should have at least 6 characters and a mix of letters and numbers");
             isValidated=false;
         }
         if(!UtilsValidators.isValidPhone(phoneEditText.getText().toString()))

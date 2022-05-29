@@ -65,7 +65,7 @@
         android:backgroundTint="@color/orange"
         android:fontFamily="@font/sunshiney"
         android:hint="@string/password"
-        android:inputType="numberPassword"
+        android:inputType="textPassword"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_20"
         app:layout_constraintBottom_toBottomOf="parent"

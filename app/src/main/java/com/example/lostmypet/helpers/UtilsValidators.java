@@ -10,7 +10,11 @@ public class UtilsValidators {
     }
 
     public static boolean isValidPassword(String password) {
-        return !TextUtils.isEmpty(password) && password.length()>=6;
+        String numRegex   = ".*[0-9].*";
+        String alphaRegex = ".*[a-zA-Z].*";
+
+        return !TextUtils.isEmpty(password) && password.length()>=6
+                && password.matches(numRegex) && password.matches(alphaRegex);
     }
 
     public static boolean isValidPhone(String phone) {

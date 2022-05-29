@@ -84,7 +84,7 @@
         android:autofillHints="@string/password"
         android:fontFamily="@font/sunshiney"
         android:hint="@string/password"
-        android:inputType="numberPassword"
+        android:inputType="textPassword"
         android:textColor="@color/black"
         android:backgroundTint="@color/orange"
         android:textSize="@dimen/text_size_25"

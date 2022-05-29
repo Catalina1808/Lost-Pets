@@ -86,7 +86,8 @@ public class UpdatePasswordFragment extends Fragment {
             newPasswordEditText.setError("The new password should be different!");
             isValidated=false;
         } else if(!UtilsValidators.isValidPassword(newPasswordEditText.getText().toString())) {
-            newPasswordEditText.setError("Invalid Password");
+            newPasswordEditText
+                    .setError("Your passwords should have at least 6 characters and a mix of letters and numbers");
             isValidated = false;
         }
         return isValidated;

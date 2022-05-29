@@ -20,8 +20,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.lostmypet.R;
 import com.example.lostmypet.activities.ProfileActivity;
-import com.example.lostmypet.helpers.UtilsValidators;
-import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -74,13 +72,14 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.btn_login).setOnClickListener(v -> validateEmailAndPassword());
-        view.findViewById(R.id.btn_forgot_password).setOnClickListener(v -> resetPassword());
-
         progressBar = view.findViewById(R.id.pb_loading);
-
         emailEditText = view.findViewById(R.id.edt_email);
         passwordEditText = view.findViewById(R.id.edt_password);
+
+        view.findViewById(R.id.btn_login).setOnClickListener(v ->
+                loginFirebaseUser(emailEditText.getText().toString(),
+                        passwordEditText.getText().toString()));
+        view.findViewById(R.id.btn_forgot_password).setOnClickListener(v -> resetPassword());
     }
 
 
@@ -106,35 +105,6 @@ public class LoginFragment extends Fragment {
                         Toast.makeText(getContext(),
                                 "Failed to send reset email!",
                                 Toast.LENGTH_SHORT).show());
-    }
-
-    private void validateEmailAndPassword() {
-        if(getView() == null) {
-            return;
-        }
-
-        emailEditText = getView().findViewById(R.id.edt_email);
-        passwordEditText = getView().findViewById(R.id.edt_password);
-
-        String email = emailEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-
-        if(!UtilsValidators.isValidEmail(email)) {
-            emailEditText.setError("Invalid Email");
-            return;
-        } else {
-            emailEditText.setError(null);
-        }
-
-        if(!UtilsValidators.isValidPassword(password)) {
-            passwordEditText.setError("Invalid Password");
-            return;
-        } else {
-            passwordEditText.setError(null);
-        }
-
-        loginFirebaseUser(email, password);
-
     }
 
     private void loginFirebaseUser(String email, String password) {

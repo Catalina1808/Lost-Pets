@@ -225,28 +225,29 @@ public class UpdateUserInfoFragment extends Fragment {
                     Toast.makeText(getContext(), "Profile updated!",
                             Toast.LENGTH_SHORT).show());
 
+            if(!emailEditText.getText().toString().equals(firebaseUser.getEmail())) {
+                firebaseUser.updateEmail(emailEditText.getText().toString())
+                        .addOnCompleteListener(success -> {
+                            Timber.w("Email updated!");
+                            firebaseUser.sendEmailVerification()
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
 
-            firebaseUser.updateEmail(emailEditText.getText().toString())
-                    .addOnCompleteListener(success -> {
-                        Timber.w("Email updated!");
-                        firebaseUser.sendEmailVerification()
-                                .addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()) {
-
-                                        AlertDialog.Builder builder = new AlertDialog
-                                                .Builder(requireContext());
-                                        builder.setTitle("Almost done")
-                                                .setMessage("We have sent an email with a confirmation link to your email address. Open it up to update your account.")
-                                                .setIcon(R.drawable.ic_email)
-                                                .setPositiveButton("Ok", (dialog, which) -> {
-                                                });
-                                        builder.create().show();
-                                        Toast.makeText(getContext(), "Email sent!",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    }).addOnFailureListener(failure ->
-                            Timber.w("Email could not be updated!"));
+                                            AlertDialog.Builder builder = new AlertDialog
+                                                    .Builder(requireContext());
+                                            builder.setTitle("Almost done")
+                                                    .setMessage("We have sent an email with a confirmation link to your email address. Open it up to update your account.")
+                                                    .setIcon(R.drawable.ic_email)
+                                                    .setPositiveButton("Ok", (dialog, which) -> {
+                                                    });
+                                            builder.create().show();
+                                            Toast.makeText(getContext(), "Email sent!",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }).addOnFailureListener(failure ->
+                                Timber.w("Email could not be updated!"));
+            }
 
         }).addOnFailureListener(failure->
                 Toast.makeText(getContext(), "Wrong password!",

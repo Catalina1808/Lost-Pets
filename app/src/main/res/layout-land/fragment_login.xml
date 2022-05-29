@@ -48,7 +48,7 @@
         android:textSize="@dimen/text_size_25"
         android:backgroundTint="@color/orange"
         android:fontFamily="@font/sunshiney"
-        android:inputType="numberPassword"
+        android:inputType="textPassword"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
