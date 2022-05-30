@@ -67,6 +67,8 @@
     <string name="satellite_view">Satellite view</string>
     <string name="streets_view">Streets view</string>
     <string name="save_location">Save location</string>
+
+
     <string name="phone">Phone</string>
     <string name="background_image_description">background image</string>
     <string name="btn_change_picture_description">button to change the user image</string>
@@ -94,4 +96,5 @@
     <string name="new_password">New password</string>
     <string name="save_password">&#x20; Save password &#x20;</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="search_by_city">Search by city</string>
 </resources>

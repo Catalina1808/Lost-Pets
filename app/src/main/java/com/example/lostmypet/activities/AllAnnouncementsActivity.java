@@ -2,13 +2,21 @@ package com.example.lostmypet.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.lostmypet.R;
 import com.example.lostmypet.helpers.AnnouncementsAdapter;
@@ -25,23 +33,42 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.text.Collator;
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class AllAnnouncementsActivity extends AppCompatActivity {
 
     private AnnouncementsAdapter announcementsAdapter;
     private ArrayList<AnnouncementItemRV> recyclerViewList;
+    private ArrayList<AnnouncementItemRV> recyclerViewListAnimalFiltered;
+    private ArrayList<AnnouncementItemRV> recyclerViewListCityFiltered;
     private ArrayList<Announcement> announcements;
     private ArrayList<LocationPoint> locationPoints;
     private ArrayList<Favorite> favorites;
     private Geocoder geocoder;
     private FirebaseDatabase database;
     private FirebaseUser currentUser;
+
+    private ImageButton dogImageButton;
+    private ImageButton catImageButton;
+    private ImageButton rabbitImageButton;
+    private ImageButton birdImageButton;
+    private ImageButton otherImageButton;
+    private TextView dogTextView;
+    private TextView catTextView;
+    private TextView rabbitTextView;
+    private TextView birdTextView;
+    private TextView otherTextView;
+    private EditText cityEditText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +93,8 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerViewList = new ArrayList<>();
+        recyclerViewListAnimalFiltered = new ArrayList<>();
+        recyclerViewListCityFiltered = new ArrayList<>();
         announcementsAdapter = new AnnouncementsAdapter(this, recyclerViewList);
         recyclerView.setAdapter(announcementsAdapter);
 
@@ -76,6 +105,8 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         getLocations();
         getAnnouncements();
         getFavorites();
+
+        getUIElements();
 
     }
 
@@ -211,5 +242,255 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
 
         announcementsAdapter.notifyDataSetChanged();
 
+    }
+
+    private void getUIElements(){
+        dogImageButton = findViewById(R.id.imbtn_dog);
+        catImageButton = findViewById(R.id.imbtn_cat);
+        rabbitImageButton = findViewById(R.id.imbtn_rabbit);
+        birdImageButton = findViewById(R.id.imbtn_bird);
+        otherImageButton = findViewById(R.id.imbtn_other);
+        dogTextView = findViewById(R.id.tv_dog);
+        catTextView = findViewById(R.id.tv_cat);
+        rabbitTextView = findViewById(R.id.tv_rabbit);
+        birdTextView = findViewById(R.id.tv_bird);
+        otherTextView = findViewById(R.id.tv_other);
+        cityEditText = findViewById(R.id.edt_city);
+
+        cityEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //get the list with filtered announcements(except for this filter)
+                setAnnouncements();
+
+                if(dogTextView.getCurrentTextColor()==ContextCompat
+                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
+                    filterByAnimal(R.string.dog);
+                } else if(catTextView.getCurrentTextColor()==ContextCompat
+                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
+                    filterByAnimal(R.string.cat);
+                } else if(rabbitTextView.getCurrentTextColor()==ContextCompat
+                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
+                    filterByAnimal(R.string.rabbit);
+                } else if(birdTextView.getCurrentTextColor()==ContextCompat
+                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
+                    filterByAnimal(R.string.bird);
+                } else if(otherTextView.getCurrentTextColor()==ContextCompat
+                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
+                    filterByAnimal(R.string.other);
+                }
+
+                filterByCity(s);
+
+                //update the recyclerview
+                announcementsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void filterByCity(CharSequence s){
+        String noDiacriticsString, noDiacriticsSubstring;
+        //remove the announcements with other cities from recyclerview
+        for (int i = 0; i < recyclerViewList.size(); i++){
+            noDiacriticsString = Normalizer
+                    .normalize(recyclerViewList.get(i).getCity(), Normalizer.Form.NFD)
+                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+            noDiacriticsSubstring = Normalizer
+                    .normalize(s, Normalizer.Form.NFD)
+                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+            if(!Pattern.compile(Pattern.quote(noDiacriticsSubstring), Pattern.CASE_INSENSITIVE)
+                    .matcher(noDiacriticsString).find()){
+                recyclerViewList.remove(i);
+                i--;
+            }
+        }
+    }
+
+    private void filterByAnimal(int stringID){
+        for (int i = 0; i < recyclerViewList.size(); i++) {
+            if (!recyclerViewList.get(i).getAnimal().equals(getString(stringID))) {
+                recyclerViewList.remove(i);
+                i--;
+            }
+        }
+    }
+
+
+    private void setAnimalButtonsColors(ImageButton pressedButton, ImageButton button1,
+                                        ImageButton button2, ImageButton button3,
+                                        ImageButton button4){
+        pressedButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                .getColor(this, R.color.light_orange_1)));
+        button1.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                .getColor(this, R.color.dark_orange)));
+        button2.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                .getColor(this, R.color.dark_orange)));
+        button3.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                .getColor(this, R.color.dark_orange)));
+        button4.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                .getColor(this, R.color.dark_orange)));
+    }
+
+    private void setAnimalTextViewsColors(TextView pressedTextView, TextView textView1,
+                                          TextView textView2,TextView textView3,
+                                          TextView textView4){
+        pressedTextView.setTextColor(ContextCompat.getColor(this, R.color.light_orange_1));
+        textView1.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+        textView2.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+        textView3.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+        textView4.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void onImBtnDogClick(View view) {
+        //get all announcements in the recyclerview
+        setAnnouncements();
+        if(!cityEditText.getText().toString().isEmpty()) {
+            filterByCity(cityEditText.getText().toString());
+        }
+
+        //verify if the button is clicked
+        if(dogTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
+
+            //set colors on the buttons and text views to emphasize the clicked ones
+            setAnimalButtonsColors(dogImageButton, catImageButton, rabbitImageButton,
+                    birdImageButton, otherImageButton);
+            setAnimalTextViewsColors(dogTextView, catTextView, rabbitTextView,
+                    birdTextView, otherTextView);
+
+            //remove the announcements with other animals from recyclerview
+            filterByAnimal(R.string.dog);
+
+            //update the recyclerview
+            announcementsAdapter.notifyDataSetChanged();
+        } else {
+            dogTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+            dogImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                    .getColor(this, R.color.dark_orange)));
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void onImBtnCatClick(View view) {
+        //get all announcements in the recyclerview
+        setAnnouncements();
+        if(!cityEditText.getText().toString().isEmpty()) {
+            filterByCity(cityEditText.getText().toString());
+        }
+
+        //verify if the button is clicked
+        if(catTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
+
+            //set colors on the buttons and text views to emphasize the clicked ones
+            setAnimalButtonsColors(catImageButton, dogImageButton, rabbitImageButton,
+                    birdImageButton, otherImageButton);
+            setAnimalTextViewsColors(catTextView, dogTextView, rabbitTextView,
+                    birdTextView, otherTextView);
+
+            //remove the announcements with other animals from recyclerview
+            filterByAnimal(R.string.cat);
+
+            announcementsAdapter.notifyDataSetChanged();
+        } else {
+            catTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+            catImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                    .getColor(this, R.color.dark_orange)));
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void onImBtnRabbitClick(View view) {
+        //get all announcements in the recyclerview
+        setAnnouncements();
+        if(!cityEditText.getText().toString().isEmpty()) {
+            filterByCity(cityEditText.getText().toString());
+        }
+
+        //verify if the button is clicked
+        if(rabbitTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
+
+            //set colors on the buttons and text views to emphasize the clicked ones
+            setAnimalButtonsColors(rabbitImageButton, catImageButton, dogImageButton,
+                    birdImageButton, otherImageButton);
+            setAnimalTextViewsColors(rabbitTextView, catTextView, dogTextView,
+                    birdTextView, otherTextView);
+
+            //remove the announcements with other animals from recyclerview
+            filterByAnimal(R.string.rabbit);
+
+            announcementsAdapter.notifyDataSetChanged();
+        } else {
+            rabbitTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+            rabbitImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                    .getColor(this, R.color.dark_orange)));
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void onImBtnBirdClick(View view) {
+        //get all announcements in the recyclerview
+        setAnnouncements();
+        if(!cityEditText.getText().toString().isEmpty()) {
+            filterByCity(cityEditText.getText().toString());
+        }
+
+        //verify if the button is clicked
+        if(birdTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
+
+            //set colors on the buttons and text views to emphasize the clicked ones
+            setAnimalButtonsColors(birdImageButton, rabbitImageButton, catImageButton,
+                    dogImageButton, otherImageButton);
+            setAnimalTextViewsColors(birdTextView, rabbitTextView, catTextView,
+                    dogTextView, otherTextView);
+
+            //remove the announcements with other animals from recyclerview
+            filterByAnimal(R.string.bird);
+
+            announcementsAdapter.notifyDataSetChanged();
+        } else {
+            birdTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+            birdImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                    .getColor(this, R.color.dark_orange)));
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void onImBtnOtherClick(View view) {
+        //get all announcements in the recyclerview
+        setAnnouncements();
+        if(!cityEditText.getText().toString().isEmpty()) {
+            filterByCity(cityEditText.getText().toString());
+        }
+
+        //verify if the button is clicked
+        if(otherTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
+
+            //set colors on the buttons and text views to emphasize the clicked ones
+            setAnimalButtonsColors(otherImageButton, rabbitImageButton, catImageButton,
+                    dogImageButton, birdImageButton);
+            setAnimalTextViewsColors(otherTextView, rabbitTextView, catTextView,
+                    dogTextView, birdTextView);
+
+            //remove the announcements with other animals from recyclerview
+            filterByAnimal(R.string.other);
+
+            announcementsAdapter.notifyDataSetChanged();
+        } else {
+            otherTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+            otherImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                    .getColor(this, R.color.dark_orange)));
+        }
     }
 }
