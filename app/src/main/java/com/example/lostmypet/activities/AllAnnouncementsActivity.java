@@ -1,11 +1,5 @@
 package com.example.lostmypet.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.location.Address;
@@ -17,6 +11,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lostmypet.R;
 import com.example.lostmypet.helpers.AnnouncementsAdapter;
@@ -33,10 +33,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.text.Collator;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -48,8 +46,6 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
 
     private AnnouncementsAdapter announcementsAdapter;
     private ArrayList<AnnouncementItemRV> recyclerViewList;
-    private ArrayList<AnnouncementItemRV> recyclerViewListAnimalFiltered;
-    private ArrayList<AnnouncementItemRV> recyclerViewListCityFiltered;
     private ArrayList<Announcement> announcements;
     private ArrayList<LocationPoint> locationPoints;
     private ArrayList<Favorite> favorites;
@@ -73,7 +69,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.announcements_list);
+        setContentView(R.layout.activity_all_announcements);
 
         //get the current user
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -93,8 +89,6 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerViewList = new ArrayList<>();
-        recyclerViewListAnimalFiltered = new ArrayList<>();
-        recyclerViewListCityFiltered = new ArrayList<>();
         announcementsAdapter = new AnnouncementsAdapter(this, recyclerViewList);
         recyclerView.setAdapter(announcementsAdapter);
 
@@ -115,6 +109,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         DatabaseReference databaseReferenceFavorites = database.getReference(Favorite.class.getSimpleName());
 
         databaseReferenceFavorites.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 favorites.clear();
@@ -125,7 +120,18 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                         favorites.add(favorite);
                     }
                 }
-                setAnnouncements();
+                //setAnnouncements();
+
+                for(AnnouncementItemRV announcementItemRV: recyclerViewList) {
+                    for (Favorite favorite : favorites) {
+                        if (favorite.getAnnouncementID().equals(announcementItemRV.getAnnouncementId())) {
+                            announcementItemRV.setFavoriteID(favorite.getFavoriteID());
+                            break;
+                        }
+                    }
+                }
+                announcementsAdapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -207,6 +213,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
             announcementItemRV.setName(announcement.getName());
             announcementItemRV.setBreed(announcement.getBreed());
             announcementItemRV.setDescription(announcement.getDescription());
+            announcementItemRV.setDate(announcement.getDate());
             announcementItemRV.setUserId(announcement.getUserID());
 
             ArrayList<Map<Double, Double>> locationsList = new ArrayList<>();

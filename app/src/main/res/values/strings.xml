@@ -97,4 +97,5 @@
     <string name="save_password">&#x20; Save password &#x20;</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="search_by_city">Search by city</string>
+    <string name="date">Date</string>
 </resources>

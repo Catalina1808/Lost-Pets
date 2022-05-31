@@ -180,6 +180,7 @@ public class FavoritesActivity extends AppCompatActivity {
                 announcementItemRV.setBreed(announcement.getBreed());
                 announcementItemRV.setDescription(announcement.getDescription());
                 announcementItemRV.setUserId(announcement.getUserID());
+                announcementItemRV.setDate(announcement.getDate());
 
                 ArrayList<Map<Double, Double>> locationsList = new ArrayList<>();
                 for (LocationPoint locationPoint : locationPoints) {

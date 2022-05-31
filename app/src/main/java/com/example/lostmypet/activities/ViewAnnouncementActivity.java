@@ -47,6 +47,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     private TextView phoneTextView;
     private TextView descriptionTextView;
     private TextView messageTextView;
+    private TextView dateTextView;
 
     private User user;
     private AnnouncementItemRV announcementItemRV;
@@ -106,6 +107,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         cityTextView.setText(announcementItemRV.getCity());
         typeTextView.setText(announcementItemRV.getType());
         descriptionTextView.setText(announcementItemRV.getDescription());
+        dateTextView.setText(announcementItemRV.getDate());
         if(announcementItemRV.getBreed().isEmpty()){
             breedTextView.setVisibility(View.GONE);
         } else {
@@ -132,6 +134,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         phoneTextView = findViewById(R.id.tv_phone);
         descriptionTextView = findViewById(R.id.tv_description);
         messageTextView = findViewById(R.id.tv_message);
+        dateTextView = findViewById(R.id.tv_date);
     }
 
     public void setPetImageView(){

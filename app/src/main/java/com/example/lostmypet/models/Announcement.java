@@ -10,11 +10,12 @@ public class Announcement {
     private String description;
     private String breed;
     private String animal;
+    private String date;
 
     public Announcement(){};
 
-    public Announcement(String type, String userID, String name,
-                        String gender, String description, String breed, String animal) {
+    public Announcement(String type, String userID, String name, String gender,
+                        String description, String breed, String animal, String date) {
         this.type = type;
         this.userID = userID;
         this.name = name;
@@ -22,6 +23,7 @@ public class Announcement {
         this.description = description;
         this.breed = breed;
         this.animal = animal;
+        this.date = date;
     }
 
     public String getName() {
@@ -86,5 +88,13 @@ public class Announcement {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

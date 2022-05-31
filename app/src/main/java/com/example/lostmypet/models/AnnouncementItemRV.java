@@ -17,10 +17,19 @@ public class AnnouncementItemRV  implements Serializable {
     String breed;
     String description;
     String favoriteID;
+    String date;
     ArrayList<Map<Double, Double>> locations;
 
 
     public AnnouncementItemRV() {
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getFavoriteID() {

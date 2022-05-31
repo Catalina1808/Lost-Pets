@@ -293,6 +293,8 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         DAOLocationPoint daoLocationPoint = new DAOLocationPoint();
 
         String userID = currentUser.getUid();
+        String date = String.valueOf(new java.sql.Date(System.currentTimeMillis()));
+        //String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
         Announcement announcement = new Announcement(typeSpinner.getSelectedItem().toString(),
                 userID,
@@ -300,7 +302,8 @@ public class AddAnnouncementActivity extends AppCompatActivity {
                 genderSpinner.getSelectedItem().toString(),
                 descriptionEditText.getText().toString(),
                 breedEditText.getText().toString(),
-                animalSpinner.getSelectedItem().toString());
+                animalSpinner.getSelectedItem().toString(),
+                date);
 
 
         daoAnnouncement.add(announcement).
