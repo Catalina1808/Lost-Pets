@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -64,6 +65,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
     private TextView birdTextView;
     private TextView otherTextView;
     private EditText cityEditText;
+    private RadioGroup typeRadioGroup;
 
 
     @Override
@@ -81,7 +83,6 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
 
         //get the geocoder for getting the city in which is the location
         geocoder = new Geocoder(this, Locale.getDefault());
-
 
         //set the recyclerview
         RecyclerView recyclerView = findViewById(R.id.rv_announcements);
@@ -120,15 +121,8 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                         favorites.add(favorite);
                     }
                 }
-                //setAnnouncements();
-
                 for(AnnouncementItemRV announcementItemRV: recyclerViewList) {
-                    for (Favorite favorite : favorites) {
-                        if (favorite.getAnnouncementID().equals(announcementItemRV.getAnnouncementId())) {
-                            announcementItemRV.setFavoriteID(favorite.getFavoriteID());
-                            break;
-                        }
-                    }
+                    setFavorite(announcementItemRV);
                 }
                 announcementsAdapter.notifyDataSetChanged();
 
@@ -151,7 +145,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                     Announcement announcement = dataSnapshot.getValue(Announcement.class);
                     announcements.add(announcement);
                 }
-                setAnnouncements();
+                setAllAnnouncements();
             }
 
             @Override
@@ -161,6 +155,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         });
 
         databaseReferenceAnnouncements.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 announcements.clear();
@@ -168,12 +163,14 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                     Announcement announcement = dataSnapshot.getValue(Announcement.class);
                     announcements.add(announcement);
                 }
-                setAnnouncements();
+                for(AnnouncementItemRV announcementItemRV: recyclerViewList){
+                    setAnnouncement(announcementItemRV);
+                }
+                announcementsAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
@@ -182,6 +179,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         DatabaseReference databaseReferenceLocations = database.getReference(LocationPoint.class.getSimpleName());
 
         databaseReferenceLocations.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 locationPoints.clear();
@@ -189,18 +187,72 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                     LocationPoint locationPoint = dataSnapshot.getValue(LocationPoint.class);
                     locationPoints.add(locationPoint);
                 }
-                setAnnouncements();
+                for(AnnouncementItemRV announcementItemRV: recyclerViewList) {
+                    setLocation(announcementItemRV);
+                }
+                announcementsAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
 
+    private void setFavorite(AnnouncementItemRV announcementItemRV){
+        for (Favorite favorite : favorites) {
+            if (favorite.getAnnouncementID().equals(announcementItemRV.getAnnouncementId())) {
+                announcementItemRV.setFavoriteID(favorite.getFavoriteID());
+                return;
+            }
+        }
+        announcementItemRV.setFavoriteID(null);
+    }
+
+    private void setLocation(AnnouncementItemRV announcementItemRV){
+            ArrayList<Map<Double, Double>> locationsList = new ArrayList<>();
+            for (LocationPoint locationPoint : locationPoints) {
+                if (locationPoint.getAnnouncementID().equals(announcementItemRV.getAnnouncementId())) {
+                    List<Address> addresses = null;
+                    try {
+                        addresses = geocoder.getFromLocation(locationPoint.getLatitude(),
+                                locationPoint.getLongitude(), 1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String cityName = addresses != null ? addresses.get(0).getLocality() : null;
+                    announcementItemRV.setCity(cityName);
+
+                    Map<Double, Double> location = new HashMap<>();
+                    location.put(locationPoint.getLatitude(), locationPoint.getLongitude());
+                    locationsList.add(location);
+                }
+                announcementItemRV.setLocations(locationsList);
+            }
+    }
+
+    private void setAnnouncement(AnnouncementItemRV announcementItemRV){
+             for(Announcement announcement: announcements) {
+                if (announcement.getAnnouncementID().equals(announcementItemRV.getAnnouncementId())) {
+                    announcementItemRV.setType(announcement.getType());
+                    announcementItemRV.setAnnouncementId(announcement.getAnnouncementID());
+                    announcementItemRV.setAnimal(announcement.getAnimal());
+                    announcementItemRV.setGender(announcement.getGender());
+                    announcementItemRV.setName(announcement.getName());
+                    announcementItemRV.setBreed(announcement.getBreed());
+                    announcementItemRV.setDescription(announcement.getDescription());
+                    announcementItemRV.setDate(announcement.getDate());
+                    announcementItemRV.setUserId(announcement.getUserID());
+                    setLocation(announcementItemRV);
+                    setFavorite(announcementItemRV);
+                    return;
+                }
+            }
+             recyclerViewList.remove(announcementItemRV);
+    }
+
     @SuppressLint("NotifyDataSetChanged")
-    public void setAnnouncements(){
+    public void setAllAnnouncements(){
         recyclerViewList.clear();
 
         for(Announcement announcement: announcements) {
@@ -216,39 +268,12 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
             announcementItemRV.setDate(announcement.getDate());
             announcementItemRV.setUserId(announcement.getUserID());
 
-            ArrayList<Map<Double, Double>> locationsList = new ArrayList<>();
-            for(LocationPoint locationPoint: locationPoints){
-                if(locationPoint.getAnnouncementID().equals(announcement.getAnnouncementID())){
-                    List<Address> addresses = null;
-                    try {
-                    addresses = geocoder.getFromLocation(locationPoint.getLatitude(),
-                            locationPoint.getLongitude(), 1);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            setLocation(announcementItemRV);
+            setFavorite(announcementItemRV);
 
-                    String cityName = addresses != null ? addresses.get(0).getLocality() : null;
-                    announcementItemRV.setCity(cityName);
-
-                    Map<Double, Double> location = new HashMap<>();
-                    location.put(locationPoint.getLatitude(), locationPoint.getLongitude());
-                    locationsList.add(location);
-                    }
-            }
-
-            for(Favorite favorite: favorites){
-                if(favorite.getAnnouncementID().equals(announcement.getAnnouncementID())){
-                    announcementItemRV.setFavoriteID(favorite.getFavoriteID());
-                    break;
-                }
-            }
-
-            announcementItemRV.setLocations(locationsList);
             recyclerViewList.add(announcementItemRV);
         }
-
         announcementsAdapter.notifyDataSetChanged();
-
     }
 
     private void getUIElements(){
@@ -263,6 +288,16 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         birdTextView = findViewById(R.id.tv_bird);
         otherTextView = findViewById(R.id.tv_other);
         cityEditText = findViewById(R.id.edt_city);
+        typeRadioGroup = findViewById(R.id.rg_type);
+
+        typeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            setAllAnnouncements();
+            if(!cityEditText.getText().toString().isEmpty()) {
+                removeAnnouncementsWithOtherCity(cityEditText.getText().toString());
+            }
+            filterByAnimal();
+            filterByType(checkedId);
+        });
 
         cityEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -273,40 +308,20 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //get the list with filtered announcements(except for this filter)
-                setAnnouncements();
-
-                if(dogTextView.getCurrentTextColor()==ContextCompat
-                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
-                    filterByAnimal(R.string.dog);
-                } else if(catTextView.getCurrentTextColor()==ContextCompat
-                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
-                    filterByAnimal(R.string.cat);
-                } else if(rabbitTextView.getCurrentTextColor()==ContextCompat
-                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
-                    filterByAnimal(R.string.rabbit);
-                } else if(birdTextView.getCurrentTextColor()==ContextCompat
-                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
-                    filterByAnimal(R.string.bird);
-                } else if(otherTextView.getCurrentTextColor()==ContextCompat
-                        .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1)){
-                    filterByAnimal(R.string.other);
-                }
-
-                filterByCity(s);
-
-                //update the recyclerview
+                setAllAnnouncements();
+                filterByType(typeRadioGroup.getCheckedRadioButtonId());
+                filterByAnimal();
+                removeAnnouncementsWithOtherCity(s);
                 announcementsAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void filterByCity(CharSequence s){
+    private void removeAnnouncementsWithOtherCity(CharSequence s){
         String noDiacriticsString, noDiacriticsSubstring;
         //remove the announcements with other cities from recyclerview
         for (int i = 0; i < recyclerViewList.size(); i++){
@@ -324,7 +339,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         }
     }
 
-    private void filterByAnimal(int stringID){
+    private void removeAnnouncementsWithOtherAnimals(int stringID){
         for (int i = 0; i < recyclerViewList.size(); i++) {
             if (!recyclerViewList.get(i).getAnimal().equals(getString(stringID))) {
                 recyclerViewList.remove(i);
@@ -333,6 +348,114 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         }
     }
 
+    private void removeAnnouncementsWithOtherType(int stringID){
+        for (int i = 0; i < recyclerViewList.size(); i++) {
+            if (!recyclerViewList.get(i).getType().equals(getString(stringID))) {
+                recyclerViewList.remove(i);
+                i--;
+            }
+        }
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    private void filterByType(int radioButtonResId){
+        switch(radioButtonResId) {
+            case R.id.rb_found:
+                removeAnnouncementsWithOtherType(R.string.found);
+                break;
+            case R.id.rb_lost:
+                removeAnnouncementsWithOtherType(R.string.lost);
+                break;
+            case R.id.rb_give_away:
+                removeAnnouncementsWithOtherType(R.string.give_away);
+                break;
+        }
+    }
+
+    private void filterByAnimal(){
+        int color = ContextCompat
+                .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1);
+        if(dogTextView.getCurrentTextColor() == color){
+            removeAnnouncementsWithOtherAnimals(R.string.dog);
+            return;}
+        if(catTextView.getCurrentTextColor() == color){
+            removeAnnouncementsWithOtherAnimals(R.string.cat);
+            return;}
+        if(rabbitTextView.getCurrentTextColor() == color){
+            removeAnnouncementsWithOtherAnimals(R.string.rabbit);
+            return;}
+        if(birdTextView.getCurrentTextColor() == color){
+            removeAnnouncementsWithOtherAnimals(R.string.bird);
+            return;}
+        if(otherTextView.getCurrentTextColor() == color){
+            removeAnnouncementsWithOtherAnimals(R.string.other);
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void onAnimalClick(TextView animalTextView, ImageButton animalImageButton,
+                               int animalStringResource){
+        //get all announcements in the recyclerview
+        setAllAnnouncements();
+        if(!cityEditText.getText().toString().isEmpty()) {
+            removeAnnouncementsWithOtherCity(cityEditText.getText().toString());
+        }
+        filterByType(typeRadioGroup.getCheckedRadioButtonId());
+
+        //verify if the button is clicked
+        if(animalTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
+            //set colors on the buttons and text views to emphasize the clicked ones
+            setAnimalLayoutColors(animalStringResource);
+
+            //remove the announcements with other animals from recyclerview
+            removeAnnouncementsWithOtherAnimals(animalStringResource);
+
+            //update the recyclerview
+            announcementsAdapter.notifyDataSetChanged();
+        } else {
+            animalTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
+            animalImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
+                    .getColor(this, R.color.dark_orange)));
+        }
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    private void setAnimalLayoutColors(int animalID){
+        switch (animalID){
+            case R.string.dog:
+                setAnimalButtonsColors(dogImageButton, catImageButton, rabbitImageButton,
+                        birdImageButton, otherImageButton);
+                setAnimalTextViewsColors(dogTextView, catTextView, rabbitTextView,
+                        birdTextView, otherTextView);
+                break;
+            case R.string.cat:
+                setAnimalButtonsColors(catImageButton, dogImageButton, rabbitImageButton,
+                        birdImageButton, otherImageButton);
+                setAnimalTextViewsColors(catTextView, dogTextView, rabbitTextView,
+                        birdTextView, otherTextView);
+                break;
+            case R.string.rabbit:
+                setAnimalButtonsColors(rabbitImageButton, dogImageButton, catImageButton,
+                        birdImageButton, otherImageButton);
+                setAnimalTextViewsColors(rabbitTextView, dogTextView, catTextView,
+                        birdTextView, otherTextView);
+                break;
+            case R.string.bird:
+                setAnimalButtonsColors(birdImageButton, dogImageButton, catImageButton,
+                        rabbitImageButton, otherImageButton);
+                setAnimalTextViewsColors(birdTextView, dogTextView, catTextView,
+                        rabbitTextView, otherTextView);
+                break;
+            case R.string.other:
+                setAnimalButtonsColors(otherImageButton, dogImageButton, catImageButton,
+                        rabbitImageButton, birdImageButton);
+                setAnimalTextViewsColors(otherTextView, dogTextView, catTextView,
+                        rabbitTextView, birdTextView);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + animalID);
+        }
+    }
 
     private void setAnimalButtonsColors(ImageButton pressedButton, ImageButton button1,
                                         ImageButton button2, ImageButton button3,
@@ -359,145 +482,23 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         textView4.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
     }
 
-
-    @SuppressLint("NotifyDataSetChanged")
-    public void onImBtnDogClick(View view) {
-        //get all announcements in the recyclerview
-        setAnnouncements();
-        if(!cityEditText.getText().toString().isEmpty()) {
-            filterByCity(cityEditText.getText().toString());
-        }
-
-        //verify if the button is clicked
-        if(dogTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
-
-            //set colors on the buttons and text views to emphasize the clicked ones
-            setAnimalButtonsColors(dogImageButton, catImageButton, rabbitImageButton,
-                    birdImageButton, otherImageButton);
-            setAnimalTextViewsColors(dogTextView, catTextView, rabbitTextView,
-                    birdTextView, otherTextView);
-
-            //remove the announcements with other animals from recyclerview
-            filterByAnimal(R.string.dog);
-
-            //update the recyclerview
-            announcementsAdapter.notifyDataSetChanged();
-        } else {
-            dogTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
-            dogImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
-                    .getColor(this, R.color.dark_orange)));
-        }
+    public void onDogImBtnClick(View view) {
+        onAnimalClick(dogTextView, dogImageButton, R.string.dog);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void onImBtnCatClick(View view) {
-        //get all announcements in the recyclerview
-        setAnnouncements();
-        if(!cityEditText.getText().toString().isEmpty()) {
-            filterByCity(cityEditText.getText().toString());
-        }
-
-        //verify if the button is clicked
-        if(catTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
-
-            //set colors on the buttons and text views to emphasize the clicked ones
-            setAnimalButtonsColors(catImageButton, dogImageButton, rabbitImageButton,
-                    birdImageButton, otherImageButton);
-            setAnimalTextViewsColors(catTextView, dogTextView, rabbitTextView,
-                    birdTextView, otherTextView);
-
-            //remove the announcements with other animals from recyclerview
-            filterByAnimal(R.string.cat);
-
-            announcementsAdapter.notifyDataSetChanged();
-        } else {
-            catTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
-            catImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
-                    .getColor(this, R.color.dark_orange)));
-        }
+    public void onCatImBtnClick(View view) {
+        onAnimalClick(catTextView, catImageButton, R.string.cat);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void onImBtnRabbitClick(View view) {
-        //get all announcements in the recyclerview
-        setAnnouncements();
-        if(!cityEditText.getText().toString().isEmpty()) {
-            filterByCity(cityEditText.getText().toString());
-        }
-
-        //verify if the button is clicked
-        if(rabbitTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
-
-            //set colors on the buttons and text views to emphasize the clicked ones
-            setAnimalButtonsColors(rabbitImageButton, catImageButton, dogImageButton,
-                    birdImageButton, otherImageButton);
-            setAnimalTextViewsColors(rabbitTextView, catTextView, dogTextView,
-                    birdTextView, otherTextView);
-
-            //remove the announcements with other animals from recyclerview
-            filterByAnimal(R.string.rabbit);
-
-            announcementsAdapter.notifyDataSetChanged();
-        } else {
-            rabbitTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
-            rabbitImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
-                    .getColor(this, R.color.dark_orange)));
-        }
+    public void onRabbitImBtnClick(View view) {
+        onAnimalClick(rabbitTextView, rabbitImageButton, R.string.rabbit);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void onImBtnBirdClick(View view) {
-        //get all announcements in the recyclerview
-        setAnnouncements();
-        if(!cityEditText.getText().toString().isEmpty()) {
-            filterByCity(cityEditText.getText().toString());
-        }
-
-        //verify if the button is clicked
-        if(birdTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
-
-            //set colors on the buttons and text views to emphasize the clicked ones
-            setAnimalButtonsColors(birdImageButton, rabbitImageButton, catImageButton,
-                    dogImageButton, otherImageButton);
-            setAnimalTextViewsColors(birdTextView, rabbitTextView, catTextView,
-                    dogTextView, otherTextView);
-
-            //remove the announcements with other animals from recyclerview
-            filterByAnimal(R.string.bird);
-
-            announcementsAdapter.notifyDataSetChanged();
-        } else {
-            birdTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
-            birdImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
-                    .getColor(this, R.color.dark_orange)));
-        }
+    public void onBirdImBtnClick(View view) {
+        onAnimalClick(birdTextView, birdImageButton, R.string.bird);
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void onImBtnOtherClick(View view) {
-        //get all announcements in the recyclerview
-        setAnnouncements();
-        if(!cityEditText.getText().toString().isEmpty()) {
-            filterByCity(cityEditText.getText().toString());
-        }
-
-        //verify if the button is clicked
-        if(otherTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
-
-            //set colors on the buttons and text views to emphasize the clicked ones
-            setAnimalButtonsColors(otherImageButton, rabbitImageButton, catImageButton,
-                    dogImageButton, birdImageButton);
-            setAnimalTextViewsColors(otherTextView, rabbitTextView, catTextView,
-                    dogTextView, birdTextView);
-
-            //remove the announcements with other animals from recyclerview
-            filterByAnimal(R.string.other);
-
-            announcementsAdapter.notifyDataSetChanged();
-        } else {
-            otherTextView.setTextColor(ContextCompat.getColor(this, R.color.dark_orange));
-            otherImageButton.setBackgroundTintList(ColorStateList.valueOf(ContextCompat
-                    .getColor(this, R.color.dark_orange)));
-        }
+    public void onOtherImBtnClick(View view) {
+        onAnimalClick(otherTextView, otherImageButton, R.string.other);
     }
 }

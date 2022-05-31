@@ -199,6 +199,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:forceHasOverlappingRendering="true"
                     android:layout_marginEnd="10dp">
 
                     <TextView
@@ -218,10 +219,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="@font/sunshiney"
+                        android:fontFamily="@font/cedarville_cursive"
                         android:hint="@string/date"
                         android:textColor="@color/dark_orange"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                 </RelativeLayout>
             </LinearLayout>
