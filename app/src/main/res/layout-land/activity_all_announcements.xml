@@ -14,7 +14,7 @@
 
     <RadioGroup
         android:id="@+id/rg_type"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,24 +25,24 @@
             android:id="@+id/rb_lost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
             android:buttonTint="@color/light_orange_1"
             android:fontFamily="@font/sunshiney"
             android:text="@string/lost"
             android:textColor="@color/dark_orange"
-            android:textSize="@dimen/text_size_20"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/rb_found"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="5dp"
             android:buttonTint="@color/light_orange_1"
             android:fontFamily="@font/sunshiney"
             android:text="@string/found"
             android:textColor="@color/dark_orange"
-            android:textSize="@dimen/text_size_20"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <RadioButton
@@ -53,36 +53,37 @@
             android:fontFamily="@font/sunshiney"
             android:text="@string/give_away"
             android:textColor="@color/dark_orange"
-            android:textSize="@dimen/text_size_20"
+            android:textSize="14sp"
             android:textStyle="bold" />
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/edt_city"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="@dimen/margin30"
-        android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/ic_location"
-        android:drawableTint="@color/orange"
-        android:drawablePadding="10dp"
-        android:fontFamily="@font/sunshiney"
-        android:hint="@string/search_by_city"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        android:padding="10dp"
-        android:textColor="@color/dark_orange"
-        android:textSize="20sp" />
-
-</LinearLayout>
+        <EditText
+            android:id="@+id/edt_city"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/ic_location"
+            android:drawablePadding="10dp"
+            android:drawableTint="@color/orange"
+            android:fontFamily="@font/sunshiney"
+            android:hint="@string/search_by_city"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:padding="10dp"
+            android:textColor="@color/dark_orange"
+            android:textSize="15sp" />
 
     <HorizontalScrollView
         android:id="@+id/sv_animal"
-        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -90,6 +91,8 @@
             android:layout_gravity="center">
 
             <LinearLayout
+                android:paddingStart="10dp"
+                android:paddingEnd="0dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -231,6 +234,9 @@
 
         </LinearLayout>
     </HorizontalScrollView>
+
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_announcements"
