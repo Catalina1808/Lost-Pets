@@ -27,8 +27,13 @@
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/font/cedarville_cursive.xml" value="0.22710004221190375" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/font/sacramento.xml" value="0.22710004221190375" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/font/sunshiney.xml" value="0.22710004221190375" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/activity_all_announcements.xml" value="0.26846846846846845" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/activity_main_page.xml" value="0.26846846846846845" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/activity_update_user.xml" value="0.26846846846846845" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/activity_view_announcement.xml" value="0.26846846846846845" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_login.xml" value="0.16" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_register.xml" value="0.2" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_update_user_info.xml" value="0.26846846846846845" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_welcome.xml" value="0.4328223624887286" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_add_announcement.xml" value="0.16" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_add_first_location.xml" value="0.2" />
@@ -36,9 +41,9 @@
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_comments.xml" value="0.264" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_edit_announcement.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_favorites.xml" value="0.20521590423257802" />
-        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_main_page.xml" value="0.12740487387772553" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_main_page.xml" value="0.264" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_my_announcements.xml" value="0.1" />
-        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_profile.xml" value="0.20521590423257802" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_profile.xml" value="0.2" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_tracking.xml" value="0.2" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_update_user.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_view_announcement.xml" value="0.264" />

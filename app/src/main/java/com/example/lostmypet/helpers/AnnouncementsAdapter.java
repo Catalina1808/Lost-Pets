@@ -1,5 +1,6 @@
 package com.example.lostmypet.helpers;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -153,10 +154,19 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
             });
 
             deleteButton.setOnClickListener(v -> {
-                deleteAllLocationPoints();
-                deleteFromAllUsersFavorites();
-                deleteAnnouncement();
-                deletePicture();
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("Delete");
+                alert.setIcon(R.drawable.ic_delete);
+                alert.setMessage("Are you sure you want to delete this announcement?");
+                alert.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    //if user is sure then delete
+                    deleteAllLocationPoints();
+                    deleteFromAllUsersFavorites();
+                    deleteAnnouncement();
+                    deletePicture();
+                });
+                alert.setNegativeButton(android.R.string.no, (dialog, which) -> dialog.cancel());
+                alert.show();
             });
 
             //change the heart color when an announcement is added or deleted from the favorites

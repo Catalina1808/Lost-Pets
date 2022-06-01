@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/orange"
+    android:orientation="vertical"
+    tools:context=".activities.ProfileActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_user_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="-150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="60dp">
+
+        <ImageView
+            android:id="@+id/imv_wallpaper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wallpaper_profile"
+            android:contentDescription="@string/background_image_description" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="150dp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_profile_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="-10dp"
+                android:layout_marginStart="40dp"
+                android:layout_gravity="center|start"
+                android:src="@drawable/default_profile_pic"
+                app:civ_border_color="@color/dark_orange"
+                app:civ_border_width="6dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/text_size_20"
+                android:layout_marginTop="-10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp">
+
+
+                <TextView
+                    android:id="@+id/tv_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sacramento"
+                    android:hint="@string/username"
+                    android:textColor="@color/dark_orange"
+                    android:textSize="35sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-2dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="casual"
+                    android:hint="@string/phone"
+                    android:textColor="@color/dark_orange"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/announcements"
+        android:fontFamily="@font/sacramento"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="-30dp"
+        android:drawablePadding="10dp"
+        android:textSize="@dimen/text_size_25"
+        android:drawableStart="@drawable/ic_paw"
+        android:drawableEnd="@drawable/ic_paw"
+        android:drawableTint="@color/dark_orange_alpha"
+        android:textStyle="bold"
+        android:textColor="@color/dark_orange"
+        android:textAllCaps="false"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_simple_button"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_announcements"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp" />
+
+
+</LinearLayout>

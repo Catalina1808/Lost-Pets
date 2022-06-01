@@ -154,6 +154,14 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
             Glide.with(this).load(imageURL).into(userImageView);
         }).addOnFailureListener(exception -> Toast.makeText(this, "The user image could not be loaded.",
                 Toast.LENGTH_SHORT).show());
+
+        userImageView.setOnClickListener(v -> openProfileActivity());
+    }
+
+    public void openProfileActivity(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("userID", announcementItemRV.getUserId());
+        this.startActivity(intent);
     }
 
     public void getUser(){
@@ -171,6 +179,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
                         user = dataSnapshot.getValue(User.class);
                         phoneTextView.setText(Objects.requireNonNull(user).getPhone());
                         usernameTextView.setText(user.getUsername());
+                        usernameTextView.setOnClickListener(v -> openProfileActivity());
                         break;
                     }
                 }

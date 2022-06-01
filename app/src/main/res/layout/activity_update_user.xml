@@ -77,7 +77,6 @@
         android:drawableEnd="@drawable/ic_paw"
         android:drawableTint="@color/dark_orange_alpha"
         android:fontFamily="@font/sunshiney"
-        android:onClick="onSaveChangesBtnClick"
         android:text="@string/save_changes"
         android:textAllCaps="false"
         android:textColor="@color/white_alpha"

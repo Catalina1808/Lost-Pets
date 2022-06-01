@@ -103,4 +103,5 @@
     <string name="imbtn_delete_description">A recycle bin button to delete the post.</string>
     <string name="write_your_comment">Write your comment..</string>
     <string name="send">Send</string>
+    <string name="announcements">Announcements</string>
 </resources>

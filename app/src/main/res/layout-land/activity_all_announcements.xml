@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/orange"
+    android:orientation="vertical"
+    tools:context=".activities.AllAnnouncementsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <RadioGroup
+        android:id="@+id/rg_type"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <RadioButton
+            android:id="@+id/rb_lost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:buttonTint="@color/light_orange_1"
+            android:fontFamily="@font/sunshiney"
+            android:text="@string/lost"
+            android:textColor="@color/dark_orange"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rb_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:buttonTint="@color/light_orange_1"
+            android:fontFamily="@font/sunshiney"
+            android:text="@string/found"
+            android:textColor="@color/dark_orange"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/rb_give_away"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/light_orange_1"
+            android:fontFamily="@font/sunshiney"
+            android:text="@string/give_away"
+            android:textColor="@color/dark_orange"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/edt_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="@dimen/margin30"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/ic_location"
+        android:drawableTint="@color/orange"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/sunshiney"
+        android:hint="@string/search_by_city"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:padding="10dp"
+        android:textColor="@color/dark_orange"
+        android:textSize="20sp" />
+
+</LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/sv_animal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imbtn_dog"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_dog"
+                    android:backgroundTint="@color/dark_orange"
+                    android:contentDescription="@string/icon_dog"
+                    android:onClick="onDogImBtnClick" />
+
+                <TextView
+                    android:id="@+id/tv_dog"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/sunshiney"
+                    android:gravity="center"
+                    android:text="@string/dog"
+                    android:textColor="@color/dark_orange" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imbtn_cat"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_cat"
+                    android:backgroundTint="@color/dark_orange"
+                    android:contentDescription="@string/cat"
+                    android:onClick="onCatImBtnClick" />
+
+                <TextView
+                    android:id="@+id/tv_cat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/sunshiney"
+                    android:gravity="center"
+                    android:text="@string/cat"
+                    android:textColor="@color/dark_orange" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imbtn_rabbit"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_rabbit"
+                    android:backgroundTint="@color/dark_orange"
+                    android:contentDescription="@string/rabbit"
+                    android:onClick="onRabbitImBtnClick" />
+
+                <TextView
+                    android:id="@+id/tv_rabbit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/sunshiney"
+                    android:gravity="center"
+                    android:text="@string/rabbit"
+                    android:textColor="@color/dark_orange" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imbtn_bird"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_bird"
+                    android:backgroundTint="@color/dark_orange"
+                    android:contentDescription="@string/bird"
+                    android:onClick="onBirdImBtnClick" />
+
+                <TextView
+                    android:id="@+id/tv_bird"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/sunshiney"
+                    android:gravity="center"
+                    android:text="@string/bird"
+                    android:textColor="@color/dark_orange" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/imbtn_other"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/icon_paw_other"
+                    android:backgroundTint="@color/dark_orange"
+                    android:contentDescription="@string/other"
+                    android:onClick="onOtherImBtnClick" />
+
+                <TextView
+                    android:id="@+id/tv_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/sunshiney"
+                    android:gravity="center"
+                    android:text="@string/other"
+                    android:textColor="@color/dark_orange" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_announcements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sv_animal"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp" />
+</LinearLayout>

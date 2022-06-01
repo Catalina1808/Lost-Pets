@@ -1,6 +1,8 @@
 package com.example.lostmypet.helpers;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.lostmypet.DAO.DAOComment;
 import com.example.lostmypet.R;
+import com.example.lostmypet.activities.ProfileActivity;
 import com.example.lostmypet.models.Comment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -84,14 +87,30 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
             userImage = itemView.findViewById(R.id.imv_user);
 
             deleteTextView.setOnClickListener(v -> deleteComment());
+            userImage.setOnClickListener(v -> openProfileActivity());
+            usernameTextView.setOnClickListener(v -> openProfileActivity());
         }
 
         public void deleteComment() {
-            DAOComment daoComment = new DAOComment();
-            daoComment.remove(list.get(getAdapterPosition()).getCommentID())
-                    .addOnSuccessListener(success -> Timber.w("Comment deleted!"))
-                    .addOnFailureListener(err -> Timber.w("Removal failed"));
+            AlertDialog.Builder alert = new AlertDialog.Builder(context);
 
+            alert.setTitle("Delete");
+            alert.setIcon(R.drawable.ic_delete);
+            alert.setMessage("Are you sure you want to delete this comment?");
+            alert.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                DAOComment daoComment = new DAOComment();
+                daoComment.remove(list.get(getAdapterPosition()).getCommentID())
+                        .addOnSuccessListener(success -> Timber.w("Comment deleted!"))
+                        .addOnFailureListener(err -> Timber.w("Removal failed"));
+            });
+            alert.setNegativeButton(android.R.string.no, (dialog, which) -> dialog.cancel());
+            alert.show();
+        }
+
+        public void openProfileActivity(){
+            Intent intent = new Intent(context, ProfileActivity.class);
+            intent.putExtra("userID", list.get((getAdapterPosition())).getUserID());
+            context.startActivity(intent);
         }
 
     }
