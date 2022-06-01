@@ -98,4 +98,9 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="search_by_city">Search by city</string>
     <string name="date">Date</string>
+    <string name="message">Message</string>
+    <string name="user_image_description">The user image.</string>
+    <string name="imbtn_delete_description">A recycle bin button to delete the post.</string>
+    <string name="write_your_comment">Write your comment..</string>
+    <string name="send">Send</string>
 </resources>

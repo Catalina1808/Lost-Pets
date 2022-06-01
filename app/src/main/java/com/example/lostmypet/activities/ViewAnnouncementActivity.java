@@ -37,7 +37,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     private ImageView genderImageView;
     private ImageView userImageView;
     private ImageButton favoriteImageButton;
-    private Button addLoccationButton;
+    private Button addLocationButton;
     private TextView nameTextView;
     private TextView animalTextView;
     private TextView breedTextView;
@@ -115,7 +115,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         }
         if(!announcementItemRV.getType().equals(getString(R.string.lost))){
             messageTextView.setVisibility(View.GONE);
-            addLoccationButton.setText(R.string.see_location);
+            addLocationButton.setText(R.string.see_location);
         }
     }
 
@@ -124,7 +124,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         genderImageView= findViewById(R.id.imv_gender);
         userImageView = findViewById(R.id.imv_user);
         favoriteImageButton = findViewById(R.id.imbtn_favorite);
-        addLoccationButton = findViewById(R.id.btn_add_location);
+        addLocationButton = findViewById(R.id.btn_add_location);
         nameTextView = findViewById(R.id.tv_name);
         animalTextView = findViewById(R.id.tv_animal);
         breedTextView = findViewById(R.id.tv_breed);
@@ -203,7 +203,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
                 announcementItemRV.getAnnouncementId());
 
         daoFavorite.add(favorite).
-                addOnSuccessListener(succes -> Toast.makeText(this,
+                addOnSuccessListener(success -> Toast.makeText(this,
                         "Announcement added to favorite",
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(this,
@@ -215,7 +215,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     public void deleteFromFavorite(){
         daoFavorite = new DAOFavorite();
         daoFavorite.remove(announcementItemRV.getFavoriteID()).
-                addOnSuccessListener(succes -> Toast.makeText(this,
+                addOnSuccessListener(success -> Toast.makeText(this,
                         "Announcement removed from favorite",
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(this,
@@ -227,6 +227,12 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
 
     public void onAddLocationClick(View view) {
         Intent intent = new Intent(this, TrackingActivity.class);
+        intent.putExtra("announcementID", announcementItemRV.getAnnouncementId());
+        this.startActivity(intent);
+    }
+
+    public void onCommentsClick(View view) {
+        Intent intent = new Intent(this, CommentsActivity.class);
         intent.putExtra("announcementID", announcementItemRV.getAnnouncementId());
         this.startActivity(intent);
     }

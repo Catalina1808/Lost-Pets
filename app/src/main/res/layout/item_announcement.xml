@@ -31,9 +31,9 @@
                     android:id="@+id/imv_pet"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/pet_image_description"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/ic_launcher_background"
-                    android:contentDescription="@string/pet_image_description" />
+                    tools:srcCompat="@tools:sample/avatars[2]" />
             </androidx.cardview.widget.CardView>
 
 
@@ -156,7 +156,7 @@
                     android:background="@drawable/selector_simple_button"
                     android:src="@drawable/ic_delete"
                     app:tint="@color/dark_orange"
-                    android:contentDescription="@string/imtbn_favorite_description" />
+                    android:contentDescription="@string/imbtn_delete_description" />
             </LinearLayout>
 
             <LinearLayout

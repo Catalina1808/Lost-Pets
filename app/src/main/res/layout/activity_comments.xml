@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/orange"
+    android:orientation="vertical"
+    tools:context=".activities.CommentsActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:clipToPadding="false"
+        android:padding="5dp"
+        android:layout_marginBottom="15dp">
+
+    <EditText
+        android:id="@+id/edt_message"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/custom_input"
+        android:drawableStart="@drawable/custom_paw_icon"
+        android:drawablePadding="10dp"
+        android:fontFamily="@font/sunshiney"
+        android:hint="@string/write_your_comment"
+        android:importantForAutofill="no"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:textColor="@color/dark_orange"
+        android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/selector_profile_big_button"
+            android:drawableEnd="@drawable/ic_send"
+            android:drawableTint="@color/light_orange_1"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/sunshiney"
+            android:onClick="onSendClick"
+            android:text="@string/send"
+            android:textAllCaps="false"
+            android:textColor="@color/light_orange_1"
+            android:textSize="@dimen/text_size_20" />
+    </LinearLayout>
+</LinearLayout>

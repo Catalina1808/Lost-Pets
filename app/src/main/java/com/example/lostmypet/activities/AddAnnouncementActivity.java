@@ -294,7 +294,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
         String userID = currentUser.getUid();
         String date = String.valueOf(new java.sql.Date(System.currentTimeMillis()));
-        //String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
         Announcement announcement = new Announcement(typeSpinner.getSelectedItem().toString(),
                 userID,

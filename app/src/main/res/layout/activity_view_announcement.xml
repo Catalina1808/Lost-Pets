@@ -223,7 +223,8 @@
                         android:hint="@string/date"
                         android:textColor="@color/dark_orange"
                         android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -299,6 +300,7 @@
                 android:background="@drawable/selector_profile_big_button"
                 android:drawableEnd="@drawable/ic_comment"
                 android:drawableTint="@color/dark_orange"
+                android:onClick="onCommentsClick"
                 android:fontFamily="@font/sunshiney"
                 android:text="@string/go_to_comments"
                 android:textAllCaps="false"
