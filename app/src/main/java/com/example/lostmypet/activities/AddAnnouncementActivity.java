@@ -124,7 +124,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 //        outState.putString("IMAGE", String.valueOf(photoUri));
 //    }
 
-    private void saveIntemsToSharedPreferences() {
+    private void saveItemsToSharedPreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("NAME", nameEditText.getText().toString());
@@ -306,7 +306,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
 
         daoAnnouncement.add(announcement).
-                addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
+                addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
                         "Announcement inserted",
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
@@ -317,7 +317,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         String announcementId = daoAnnouncement.getId();
         LocationPoint locationPoint = new LocationPoint(latitude, longitude, announcementId, userID);
         daoLocationPoint.add(locationPoint).
-                addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
+                addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
                         "Announcement inserted",
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
@@ -342,7 +342,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
 
     public void onAddLocationButtonClick(View view) {
-        saveIntemsToSharedPreferences();
+        saveItemsToSharedPreferences();
         Intent intent = new Intent(AddAnnouncementActivity.this,
                 AddFirstLocationActivity.class);
 
@@ -370,7 +370,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(AddAnnouncementActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(AddAnnouncementActivity.this, MainPageActivity.class);
         startActivity(intent);
         finishAffinity();
     }

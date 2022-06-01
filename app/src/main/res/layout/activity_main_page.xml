@@ -111,7 +111,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerVertical="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/selector_profile_big_button"
         android:drawableEnd="@drawable/ic_playlist_add"
         android:fontFamily="@font/sunshiney"
@@ -176,7 +176,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/margin30"
         android:layout_marginTop="25dp"
         android:background="@drawable/selector_profile_big_button"
         android:drawableEnd="@drawable/ic_favorite"
@@ -189,28 +188,9 @@
         android:textStyle="bold"
         app:layout_constraintHeight_percent="0.082"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_all_announcements"
-        app:layout_constraintWidth_percent="0.4" />
-
-    <Button
-        android:id="@+id/btn_messages"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="@dimen/margin30"
-        android:background="@drawable/selector_profile_big_button"
-        android:drawableEnd="@drawable/ic_chat"
-        android:fontFamily="@font/sunshiney"
-        android:text="@string/messages"
-        android:textAllCaps="false"
-        android:textColor="@color/white_alpha"
-        android:textSize="20sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.082"
         app:layout_constraintTop_toBottomOf="@id/btn_all_announcements"
-        app:layout_constraintWidth_percent="0.4" />
+        app:layout_constraintWidth_percent="0.7" />
 
     <Button
         android:id="@+id/btn_logout"

@@ -52,6 +52,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         holder.messageTextView.setText(comment.getMessage());
         if(Objects.requireNonNull(currentUser).getUid().equals(comment.getUserID())){
             holder.deleteTextView.setVisibility(View.VISIBLE);
+        } else {
+            holder.deleteTextView.setVisibility(View.GONE);
         }
 
         StorageReference storageReference = FirebaseStorage.getInstance()

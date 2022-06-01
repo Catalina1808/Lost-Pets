@@ -19,7 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.lostmypet.R;
-import com.example.lostmypet.activities.ProfileActivity;
+import com.example.lostmypet.activities.MainPageActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -141,7 +141,7 @@ public class LoginFragment extends Fragment {
     }
 
     private void goToSecondActivity() {
-        startActivity(new Intent(getActivity(), ProfileActivity.class));
+        startActivity(new Intent(getActivity(), MainPageActivity.class));
         requireActivity().finish();
     }
 

@@ -45,7 +45,7 @@
             android:name=".activities.AddAnnouncementActivity"
             android:label="@string/title_add_announcement_activity" />
         <activity
-            android:name=".activities.ProfileActivity"
+            android:name=".activities.MainPageActivity"
             android:label="@string/title_activity_profile" />
         <activity
             android:name=".activities.WelcomeActivity"

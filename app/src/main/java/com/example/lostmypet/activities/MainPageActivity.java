@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-public class ProfileActivity extends AppCompatActivity {
+public class MainPageActivity extends AppCompatActivity {
 
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
     private FirebaseUser currentUser;
@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_main_page);
 
         //Get the firebase user
         mAuth = FirebaseAuth.getInstance();
@@ -74,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void onClickLogOut(View view){
         mAuth.signOut();
-        Intent intent = new Intent(ProfileActivity.this, WelcomeActivity.class);
+        Intent intent = new Intent(MainPageActivity.this, WelcomeActivity.class);
         startActivity(intent);
         finishAffinity();
     }
@@ -99,10 +99,10 @@ public class ProfileActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 onPickPhoto();
-                Toast.makeText(ProfileActivity.this, "Permission granted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainPageActivity.this, "Permission granted!", Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(ProfileActivity.this, "Permission denied!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainPageActivity.this, "Permission denied!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -145,27 +145,27 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     public void onAddAnnouncementBtnClick(View view) {
-        Intent intent = new Intent(ProfileActivity.this, AddAnnouncementActivity.class);
+        Intent intent = new Intent(MainPageActivity.this, AddAnnouncementActivity.class);
         startActivity(intent);
     }
 
     public void onAllAnnouncementsBtnClick(View view) {
-        Intent intent = new Intent(ProfileActivity.this, AllAnnouncementsActivity.class);
+        Intent intent = new Intent(MainPageActivity.this, AllAnnouncementsActivity.class);
         startActivity(intent);
     }
 
     public void onFavoritesBtnClick(View view) {
-        Intent intent = new Intent(ProfileActivity.this, FavoritesActivity.class);
+        Intent intent = new Intent(MainPageActivity.this, FavoritesActivity.class);
         startActivity(intent);
     }
 
     public void onMyAnnouncementsBtnClick(View view) {
-        Intent intent = new Intent(ProfileActivity.this, MyAnnouncementsActivity.class);
+        Intent intent = new Intent(MainPageActivity.this, MyAnnouncementsActivity.class);
         startActivity(intent);
     }
 
     public void onAccountSettingsBtnClick(View view) {
-        Intent intent = new Intent(ProfileActivity.this, UpdateUserActivity.class);
+        Intent intent = new Intent(MainPageActivity.this, UpdateUserActivity.class);
         startActivity(intent);
     }
 }
