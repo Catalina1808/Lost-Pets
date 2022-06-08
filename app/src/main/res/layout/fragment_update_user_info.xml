@@ -69,17 +69,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/selector_simple_button"
         android:drawableStart="@drawable/ic_paw"
         android:drawableEnd="@drawable/ic_paw"
+        android:drawablePadding="5dp"
         android:drawableTint="@color/dark_orange_alpha"
         android:fontFamily="@font/sunshiney"
         android:text="@string/save_changes"
         android:textAllCaps="false"
         android:textColor="@color/white_alpha"
-        android:textSize="18sp"
+        android:textSize="19sp"
         android:textStyle="bold" />
 
     <Button
@@ -88,17 +89,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/selector_simple_button"
         android:drawableStart="@drawable/ic_paw"
         android:drawableEnd="@drawable/ic_paw"
+        android:drawablePadding="5dp"
         android:drawableTint="@color/dark_orange_alpha"
         android:fontFamily="@font/sunshiney"
         android:text="@string/change_password"
         android:textAllCaps="false"
         android:textColor="@color/white_alpha"
-        android:textSize="18sp"
+        android:textSize="19sp"
         android:textStyle="bold" />
 
     <ProgressBar
@@ -106,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:visibility="invisible" />
 
 

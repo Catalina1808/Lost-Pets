@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:background="@color/light_orange_1"
     android:orientation="vertical"
     tools:context=".activities.ViewAnnouncementActivity">
@@ -19,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             app:cardCornerRadius="100dp"
@@ -47,7 +49,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:orientation="vertical">
 
@@ -238,7 +240,7 @@
             android:layout_marginStart="@dimen/margin30"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="@dimen/margin30"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="30dp"
             android:fontFamily="@font/sunshiney"
             android:hint="@string/description"
             android:textColor="@color/dark_orange"
@@ -259,14 +261,14 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:clipToPadding="false"
-            android:padding="5dp"
-            android:layout_marginBottom="20dp"
-            android:layout_gravity="bottom|center"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <Button
                 android:id="@+id/btn_add_location"
@@ -300,14 +302,12 @@
                 android:background="@drawable/selector_profile_big_button"
                 android:drawableEnd="@drawable/ic_comment"
                 android:drawableTint="@color/dark_orange"
-                android:onClick="onCommentsClick"
                 android:fontFamily="@font/sunshiney"
+                android:onClick="onCommentsClick"
                 android:text="@string/go_to_comments"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
-
-
 
 
         </LinearLayout>

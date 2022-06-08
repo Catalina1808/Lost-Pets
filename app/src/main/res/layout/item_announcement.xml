@@ -90,7 +90,6 @@
                     android:layout_height="22dp"
                     android:layout_gravity="start"
                     android:layout_marginTop="10dp"
-                    tools:srcCompat="@tools:sample/avatars"
                     android:contentDescription="@string/gender_symbol_description" />
             </LinearLayout>
 

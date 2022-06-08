@@ -86,9 +86,11 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
             holder.favoriteButton.setColorFilter(ContextCompat.getColor(context,
                     R.color.dark_orange_alpha_2), android.graphics.PorterDuff.Mode.SRC_IN);
         }
-            if(announcement.getGender().equals(context.getResources().getString(R.string.female))){
+        if(announcement.getGender().equals(context.getResources().getString(R.string.female))){
+            holder.genderImage.setVisibility(View.VISIBLE);
             holder.genderImage.setImageResource(R.drawable.female_icon);
         } else if(announcement.getGender().equals(context.getResources().getString(R.string.male))){
+            holder.genderImage.setVisibility(View.VISIBLE);
             holder.genderImage.setImageResource(R.drawable.male_icon);
         } else {
             holder.genderImage.setVisibility(View.GONE);

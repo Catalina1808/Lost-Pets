@@ -1,6 +1,7 @@
 package com.example.lostmypet.fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,7 +95,7 @@ public class RegisterFragment extends Fragment {
             phoneEditText.setError("Invalid Phone");
             isValidated=false;
         }
-        if(UtilsValidators.isEmptyField(usernameEditText.getText().toString()))
+        if(TextUtils.isEmpty(usernameEditText.getText().toString()))
         {
             usernameEditText.setError("No username");
             isValidated=false;

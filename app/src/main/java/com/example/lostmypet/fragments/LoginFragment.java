@@ -85,59 +85,75 @@ public class LoginFragment extends Fragment {
 
     private void resetPassword(){
         String email = emailEditText.getText().toString();
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(requireContext(), "Enter your registered email!",
-                    Toast.LENGTH_SHORT).show();
-            return;
+        if(TextUtils.isEmpty(email))
+        {
+            emailEditText.setError("You should enter your registered email!");
+        } else {
+            mAuth.sendPasswordResetEmail(emailEditText.getText().toString())
+                    .addOnSuccessListener(success -> {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+                        builder.setTitle("Almost done")
+                                .setMessage("We have sent an email with instructions to reset your password!")
+                                .setIcon(R.drawable.ic_email)
+                                .setPositiveButton("Ok", (dialog, which) -> {
+                                });
+                        builder.create().show();
+                    })
+                    .addOnFailureListener(failure ->
+                            Toast.makeText(getContext(),
+                                    "Failed to send reset email! Verify your registered email!",
+                                    Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private boolean validateFields(){
+        boolean isValidated = getView() != null;
+
+        if(TextUtils.isEmpty(emailEditText.getText().toString()))
+        {
+            emailEditText.setError("You should enter an email!");
+            isValidated=false;
+        }
+        if(TextUtils.isEmpty(passwordEditText.getText().toString()))
+        {
+            passwordEditText.setError("You should enter a password!");
+            isValidated=false;
         }
 
-        mAuth.sendPasswordResetEmail(email)
-                .addOnSuccessListener(success-> {
-                    AlertDialog.Builder builder= new AlertDialog.Builder(requireContext());
-                    builder.setTitle("Almost done")
-                            .setMessage("We have sent an email with instructions to reset your password!")
-                            .setIcon(R.drawable.ic_email)
-                            .setPositiveButton("Ok", (dialog, which) -> {
-                            });
-                    builder.create().show();
-                })
-                .addOnFailureListener(failure ->
-                        Toast.makeText(getContext(),
-                                "Failed to send reset email!",
-                                Toast.LENGTH_SHORT).show());
+        return isValidated;
     }
 
     private void loginFirebaseUser(String email, String password) {
         if (getActivity() == null) {
             return;
         }
-
         progressBar.setVisibility(View.VISIBLE);
 
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(getActivity(), task -> {
-                    if (task.isSuccessful()) {
+        if(validateFields()) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(getActivity(), task -> {
                         progressBar.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
 
-                        FirebaseUser user = mAuth.getCurrentUser();
+                            assert user != null;
+                            if (user.isEmailVerified()) {
+                                Toast.makeText(getContext(), "Authentication success.",
+                                        Toast.LENGTH_SHORT).show();
+                                goToSecondActivity();
+                            } else {
+                                Toast.makeText(getContext(), "Email is not verified.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
 
-                        assert user != null;
-                        if(user.isEmailVerified()) {
-                            Toast.makeText(getContext(), "Authentication success.",
-                                    Toast.LENGTH_SHORT).show();
-                            goToSecondActivity();
-                        }else {
-                            Toast.makeText(getContext(), "Email is not verified.",
+                        } else {
+                            Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                    } else {
-                        Toast.makeText(getContext(), "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-
-                        progressBar.setVisibility(View.GONE);
-                    }
-                });
+                    });
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     private void goToSecondActivity() {

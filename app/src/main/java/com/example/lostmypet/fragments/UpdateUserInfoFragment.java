@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,7 @@ public class UpdateUserInfoFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        getUser();
     }
 
     @Override
@@ -195,7 +197,7 @@ public class UpdateUserInfoFragment extends Fragment {
             isValidated = false;
         }
 
-        if (UtilsValidators.isEmptyField(usernameEditText.getText().toString())) {
+        if (TextUtils.isEmpty(usernameEditText.getText().toString())) {
             usernameEditText.setError("No username");
             isValidated = false;
         }

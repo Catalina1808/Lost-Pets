@@ -28,8 +28,4 @@ public class UtilsValidators {
         return count == 10 && !TextUtils.isEmpty(phone) && Patterns.PHONE.matcher(phone).matches();
     }
 
-    public static boolean isEmptyField(String field) {
-        return TextUtils.isEmpty(field);
-    }
-
 }

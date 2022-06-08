@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,7 +27,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.lostmypet.DAO.DAOAnnouncement;
 import com.example.lostmypet.R;
-import com.example.lostmypet.helpers.UtilsValidators;
 import com.example.lostmypet.models.AnnouncementItemRV;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -238,13 +238,13 @@ public class EditAnnouncementActivity extends AppCompatActivity {
     private boolean validatedFields(){
 
         boolean validated = true;
-        if(UtilsValidators.isEmptyField(nameEditText.getText().toString()))
+        if(TextUtils.isEmpty(nameEditText.getText().toString()))
         {
             nameEditText.setError("You should enter a name");
             validated = false;
         }
 
-        if(UtilsValidators.isEmptyField(descriptionEditText.getText().toString()))
+        if(TextUtils.isEmpty(descriptionEditText.getText().toString()))
         {
             descriptionEditText.setError("You should enter a description");
             validated = false;

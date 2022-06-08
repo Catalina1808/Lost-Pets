@@ -30,7 +30,7 @@
             android:fontFamily="@font/sunshiney"
             android:text="@string/lost"
             android:textColor="@color/dark_orange"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <RadioButton
@@ -42,7 +42,7 @@
             android:fontFamily="@font/sunshiney"
             android:text="@string/found"
             android:textColor="@color/dark_orange"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <RadioButton
@@ -53,15 +53,15 @@
             android:fontFamily="@font/sunshiney"
             android:text="@string/give_away"
             android:textColor="@color/dark_orange"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </RadioGroup>
 
         <EditText
             android:id="@+id/edt_city"
-            android:layout_width="130dp"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:background="@drawable/custom_input"
