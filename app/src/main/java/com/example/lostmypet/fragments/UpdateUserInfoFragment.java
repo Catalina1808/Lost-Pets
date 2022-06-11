@@ -132,7 +132,12 @@ public class UpdateUserInfoFragment extends Fragment {
         // Set up the buttons
         builder.setPositiveButton("OK", (dialog, which) -> {
             password = input.getText().toString();
-            updateFireBaseUser();
+            if(password.isEmpty()){
+                Toast.makeText(getContext(), "No password entered!",
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                updateFireBaseUser();
+            }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> {
             dialog.cancel();

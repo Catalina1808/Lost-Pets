@@ -209,8 +209,12 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
         public void deleteFromCurrentUserFavorites() {
             DAOFavorite daoFavorite = new DAOFavorite();
             daoFavorite.remove(list.get(getAdapterPosition()).getFavoriteID())
-                    .addOnSuccessListener(success -> Timber.w("Announcement removed from favorites"))
-                    .addOnFailureListener(err -> Timber.w("Removal from favorites failed"));
+                    .addOnSuccessListener(success -> Toast.makeText(context,
+                            "Announcement removed from favorite",
+                            Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(err -> Toast.makeText(context,
+                            "Removal failed",
+                            Toast.LENGTH_SHORT).show());
 
 
             list.get(getAdapterPosition()).setFavoriteID(null);

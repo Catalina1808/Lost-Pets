@@ -63,13 +63,13 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     private MapboxMap map;
     private Point destinationPosition;
     private SymbolManager symbolManager;
-    private Button saveLocationButton;
     private SwitchCompat switchMapStyle;
     private MapboxNavigation mapboxNavigation;
     private NavigationMapRoute navigationMapRoute;
     private List<Point> coordinates;
     private Symbol symbol;
-    private boolean pressedButton;
+    private boolean isTheLastPointSaved;
+    private boolean isLost;
 
     private ArrayList<LocationPoint> locationPoints;
     private String announcementID;
@@ -96,7 +96,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         daoLocationPoint = new DAOLocationPoint();
 
         //get UI elements
-        saveLocationButton = findViewById(R.id.btn_add_location);
+        Button saveLocationButton = findViewById(R.id.btn_add_location);
         Button deleteLocationButton = findViewById(R.id.btn_delete_locations);
         Button deleteAllButton = findViewById(R.id.btn_delete_all);
         switchMapStyle = findViewById(R.id.switchMapStyle);
@@ -105,7 +105,14 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         Intent intent = getIntent();
         announcementID = intent.getStringExtra("announcementID");
         boolean editable = intent.getBooleanExtra("editable", false);
+        isLost = intent.getBooleanExtra("isLost", false);
+        //if the announcement is not for lost pets then you should not be able to add locations on map
+        if(!isLost){
+            saveLocationButton.setVisibility(View.GONE);
+            deleteLocationButton.setVisibility(View.GONE);
+        }
         if(editable){
+            saveLocationButton.setVisibility(View.VISIBLE);
             deleteAllButton.setVisibility(View.VISIBLE);
             deleteAllButton.setOnClickListener(v -> removeAllLocationPoints());
         }
@@ -116,14 +123,14 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         getLocations();
         //enableLocation();
 
-        pressedButton = false;
+        //to know if the last point added on map was saved
+        isTheLastPointSaved = false;
 
         saveLocationButton.setOnClickListener(view -> {
-            pressedButton = true;
+            isTheLastPointSaved = true;
             coordinates.add(destinationPosition);
             makeRoutes();
             addLocationPoint(destinationPosition.latitude(), destinationPosition.longitude());
-
         });
 
         deleteLocationButton.setOnClickListener(v -> removeLocationPoints());
@@ -305,22 +312,20 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
 
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
+        if(isLost) {
+            //delete the last marker if it was not set
+            if (symbol != null && !isTheLastPointSaved) {
+                symbolManager.delete(symbol);
+            }
 
-        //delete the last marker if it was not set
-        if (symbol != null && !pressedButton) {
-            symbolManager.delete(symbol);
+            isTheLastPointSaved = false;
+            symbol = symbolManager.create(new SymbolOptions()
+                    .withLatLng(point)
+                    .withIconImage("myMarker"));
+
+            destinationPosition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
         }
 
-        pressedButton = false;
-        symbol = symbolManager.create(new SymbolOptions()
-                .withLatLng(point)
-                .withIconImage("myMarker"));
-//        if(destinationPosition!=null)
-//            originPosition= destinationPosition;
-
-        destinationPosition = Point.fromLngLat(point.getLongitude(), point.getLatitude());
-
-        saveLocationButton.setVisibility(View.VISIBLE);
         return false;
     }
 

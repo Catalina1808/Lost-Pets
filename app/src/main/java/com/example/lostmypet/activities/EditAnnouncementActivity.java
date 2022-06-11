@@ -179,6 +179,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TrackingActivity.class);
         intent.putExtra("announcementID", announcementItemRV.getAnnouncementId());
         intent.putExtra("editable", true);
+        intent.putExtra("isLost", announcementItemRV.getType().equals(getString(R.string.lost)));
         this.startActivity(intent);
 
     }
@@ -260,6 +261,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
         hashMap.put("type", typeSpinner.getSelectedItem().toString());
         hashMap.put("userID", announcementItemRV.getUserId());
         hashMap.put("announcementID", announcementItemRV.getAnnouncementId());
+        hashMap.put("breed", breedEditText.getText().toString());
         hashMap.put("name", nameEditText.getText().toString());
         hashMap.put("gender", genderSpinner.getSelectedItem().toString());
         hashMap.put("description", descriptionEditText.getText().toString());

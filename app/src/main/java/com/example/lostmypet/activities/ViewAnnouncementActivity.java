@@ -111,7 +111,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         if(announcementItemRV.getBreed().isEmpty()){
             breedTextView.setVisibility(View.GONE);
         } else {
-            breedTextView.setText(String.format("/  %s", announcementItemRV.getBreed()));
+            breedTextView.setText(String.format("/ %s", announcementItemRV.getBreed()));
         }
         if(!announcementItemRV.getType().equals(getString(R.string.lost))){
             messageTextView.setVisibility(View.GONE);
@@ -237,6 +237,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     public void onAddLocationClick(View view) {
         Intent intent = new Intent(this, TrackingActivity.class);
         intent.putExtra("announcementID", announcementItemRV.getAnnouncementId());
+        intent.putExtra("isLost", announcementItemRV.getType().equals(getString(R.string.lost)));
         this.startActivity(intent);
     }
 

@@ -18,23 +18,20 @@ public class DAOAnnouncement {
     }
 
     public Task<Void> add(Announcement announcement){
-        //if(pet == null) throw exc
-
         id = databaseReference.push().getKey();
         announcement.setAnnouncementID(id);
         return databaseReference.child(id).setValue(announcement);
     }
 
-
     public Task<Void> update (String key, HashMap<String, Object> hashMap){
         return databaseReference.child(key).updateChildren(hashMap);
     }
 
-    public String getId() {
-        return id;
-    }
-
     public Task<Void> remove(String key){
         return databaseReference.child(key).removeValue();
+    }
+
+    public String getId() {
+        return id;
     }
 }
