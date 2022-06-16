@@ -66,8 +66,10 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
                 Intent intent = new Intent(AddFirstLocationActivity.this, AddAnnouncementActivity.class);
                 intent.putExtra("LATITUDE", position.latitude());
                 intent.putExtra("LONGITUDE", position.longitude());
-                startActivity(intent);
+                //to delete activity from stack
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
+                startActivity(intent);
             } else {
                 Toast.makeText(AddFirstLocationActivity.this, "You should select a place on the map.",
                         Toast.LENGTH_LONG).show();

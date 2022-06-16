@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.AddAnnouncementActivity"
-    android:background="@color/light_orange_1">
+    android:background="@color/light_orange_1"
+    android:id="@+id/layout_add_announcement">
 
     <ImageView
         android:id="@+id/imv_dog_icon"

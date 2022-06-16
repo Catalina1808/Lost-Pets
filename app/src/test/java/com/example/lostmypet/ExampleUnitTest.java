@@ -1,6 +1,5 @@
 package com.example.lostmypet;
 
-import org.junit.Test;
 import org.testng.annotations.AfterTest;
 
 import static org.junit.Assert.*;

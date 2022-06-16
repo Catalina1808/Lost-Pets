@@ -358,20 +358,16 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
                 @Override
                 public void onPermissionResult(boolean granted) {
+                   // finish();
                     startActivity(intent);
                 }
             });
             permissionsManager.requestLocationPermissions(AddAnnouncementActivity.this);
         }
         else {
+            //finish();
             startActivity(intent);
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(AddAnnouncementActivity.this, MainPageActivity.class);
-        startActivity(intent);
-        finishAffinity();
-    }
 }
