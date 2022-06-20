@@ -44,25 +44,12 @@ public class AllAnnouncementsActivityTest {
     }
 
     @Test
-    public void isDogTextViewCorrectDisplayed() {
+    public void areAnimalTextViewsCorrectDisplayed() {
         onView(withId(R.id.tv_dog)).check(matches(withText(R.string.dog)));
-    }
-    @Test
-    public void isCatTextViewCorrectDisplayed() {
         onView(withId(R.id.tv_cat)).check(matches(withText(R.string.cat)));
-    }
-    @Test
-    public void isBirdTextViewCorrectDisplayed() {
         onView(withId(R.id.tv_bird)).check(matches(withText(R.string.bird)));
-    }
-    @Test
-    public void isRabbitTextViewCorrectDisplayed() {
         onView(withId(R.id.tv_rabbit)).check(matches(withText(R.string.rabbit)));
-    }
-    @Test
-    public void isOtherAnimalTextViewCorrectDisplayed() {
         onView(withId(R.id.tv_other)).check(matches(withText(R.string.other)));
     }
-
 
 }

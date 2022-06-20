@@ -105,4 +105,6 @@
     <string name="send">Send</string>
     <string name="announcements">Announcements</string>
     <string name="delete_location">Delete location</string>
+    <string name="update_information">Update information</string>
+    <string name="update_password">Update password</string>
 </resources>

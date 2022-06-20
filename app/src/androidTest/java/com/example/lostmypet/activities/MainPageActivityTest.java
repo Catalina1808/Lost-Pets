@@ -29,6 +29,19 @@ public class MainPageActivityTest {
     public ActivityScenarioRule<MainPageActivity> mainPageActivity =
             new ActivityScenarioRule<>(MainPageActivity.class);
 
+    public void navToActivity(int buttonId, int layoutId) {
+        onView(withId(buttonId)).perform(click());
+        onView(withId(layoutId)).check(matches(isDisplayed()));
+    }
+
+    public void backPressFromActivity(int buttonId, int layoutId) {
+        onView(withId(buttonId)).perform(click());
+        onView(withId(layoutId)).check(matches(isDisplayed()));
+        closeSoftKeyboard();
+        pressBack();
+        onView(withId(R.id.layout_main_page)).check(matches(isDisplayed()));
+    }
+
     @Test
     public void isLayoutDisplayed() {
         onView(withId(R.id.layout_main_page)).check(matches(isDisplayed()));
@@ -53,17 +66,36 @@ public class MainPageActivityTest {
 
     @Test
     public void navToAddAnnouncementActivity() {
-        onView(withId(R.id.btn_add_announcement)).perform(click());
-        onView(withId(R.id.layout_add_announcement)).check(matches(isDisplayed()));
+       navToActivity(R.id.btn_add_announcement, R.id.layout_add_announcement);
+    }
+    @Test
+    public void navToAllAnnouncementsActivity() {
+        navToActivity(R.id.btn_all_announcements, R.id.layout_all_announcements);
+    }
+    @Test
+    public void navToMyAnnouncementsActivity() {
+        navToActivity(R.id.btn_my_announcements, R.id.layout_announcements_list);
+    }
+    @Test
+    public void navToFavoritesActivity() {
+        navToActivity(R.id.btn_favorites, R.id.layout_announcements_list);
     }
 
     @Test
     public void backPressFromAddAnnouncementActivity() {
-        onView(withId(R.id.btn_add_announcement)).perform(click());
-        onView(withId(R.id.layout_add_announcement)).check(matches(isDisplayed()));
-        closeSoftKeyboard();
-        pressBack();
-        onView(withId(R.id.layout_main_page)).check(matches(isDisplayed()));
+        backPressFromActivity(R.id.btn_add_announcement, R.id.layout_add_announcement);
+    }
+    @Test
+    public void backPressFromAllAnnouncementsActivity() {
+        backPressFromActivity(R.id.btn_all_announcements, R.id.layout_all_announcements);
+    }
+    @Test
+    public void backPressFromMyAnnouncementsActivity() {
+        backPressFromActivity(R.id.btn_my_announcements, R.id.layout_announcements_list);
+    }
+    @Test
+    public void backPressFromFavoritesActivity() {
+        backPressFromActivity(R.id.btn_favorites, R.id.layout_announcements_list);
     }
 
     @Test

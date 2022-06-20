@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/orange"
     android:orientation="vertical"
-    tools:context=".activities.MyAnnouncementsActivity">
+    tools:context=".activities.MyAnnouncementsActivity"
+    android:id="@+id/layout_announcements_list">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_announcements"
