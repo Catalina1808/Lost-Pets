@@ -71,7 +71,7 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
                 finish();
                 startActivity(intent);
             } else {
-                Toast.makeText(AddFirstLocationActivity.this, "You should select a place on the map.",
+                Toast.makeText(AddFirstLocationActivity.this, R.string.warning_select_place,
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -142,7 +142,7 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
                         originLocation = lastLocation;
                         position = Point.fromLngLat(originLocation.getLongitude(), originLocation.getLatitude());
                     } else {
-                        Toast.makeText(AddFirstLocationActivity.this, "The current location could not be found.",
+                        Toast.makeText(AddFirstLocationActivity.this, R.string.current_location_not_found,
                                 Toast.LENGTH_LONG).show();
                         //position = Point.fromLngLat(26.021101, 44.940918);
                     }
@@ -150,7 +150,7 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
 
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(AddFirstLocationActivity.this, "The current location could not be found.",
+                    Toast.makeText(AddFirstLocationActivity.this, R.string.current_location_not_found,
                             Toast.LENGTH_LONG).show();
                 }
             });
@@ -158,7 +158,7 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
         }else {
             //Get a custom location if the user do not grant permissions for location
             Toast.makeText(AddFirstLocationActivity.this,
-                    "The current location could not be found because the permission is not granted.",
+                    R.string.current_location_not_found_permission,
                     Toast.LENGTH_LONG).show();
         }
     }

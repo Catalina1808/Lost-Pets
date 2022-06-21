@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             String imageURL = uri.toString();
             Glide.with(getApplicationContext()).load(imageURL).into(userImageView);
         }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(),
-                "The user does not have a profile image or it could not be loaded.",
+                R.string.missing_profile_image,
                 Toast.LENGTH_SHORT).show());
     }
 

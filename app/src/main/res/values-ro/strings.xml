@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">LostMyPet</string>
+<string name="title_activity_welcome">WelcomeActivity</string>
+
+<string name="Logo">logo</string>
+<string name="romanian">Română</string>
+<string name="english">Engleză</string>
+
+<!-- Strings related to login -->
+<string name="login">Autentificare</string>
+<string name="prompt_email">E-mail</string>
+<string name="prompt_password">Parolă</string>
+<string name="action_sign_in">Conectează-te sau înregistrează-te</string>
+<string name="action_sign_in_short">Autentificare</string>
+<string name="welcome">"Bine ai venit!"</string>
+<string name="invalid_username">Nume de utilizator invalid!</string>
+<string name="invalid_password">Parola trebuie să aibă mai mult de 5 caractere!</string>
+<string name="login_failed">"Înregistrarea a eșuat!"</string>
+<string name="email">E-mail</string>
+<string name="password">Parolă</string>
+<string name="register">Înregistrare</string>
+
+<!-- Strings related to profile -->
+<string name="title_activity_profile">ProfileActivity</string>
+<string name="username">Nume de utilizator</string>
+<string name="hello">Bună ziua!</string>
+<string name="account_settings">Setările contului</string>
+<string name="edit_profile">Editează Profilul</string>
+<string name="add_announcement">Adaugă anunț</string>
+<string name="my_announcements">Anunțurile mele</string>
+<string name="all_announcements">Toate anunțurile</string>
+<string name="favorites">Favorite</string>
+<string name="log_out">Delogare</string>
+<string name="messages">Mesaje</string>
+<string name="title_add_announcement_activity">AddAnnouncementActivity</string>
+<string name="icon_dog">Pictogramă câine</string>
+<string name="scrollview">ScrollView</string>
+
+<!-- announcements -->
+<string name="female">Femelă</string>
+<string name="male">Mascul</string>
+<string name="unknown">Nu știu</string>
+<string name="lost">Pierdut</string>
+<string name="found">Găsit</string>
+<string name="give_away">Dat spre adopție</string>
+<string name="dog">Câine</string>
+<string name="cat">Pisică</string>
+<string name="rabbit">Iepure</string>
+<string name="bird">Pasăre</string>
+<string name="other">Altul</string>
+<string name="name">Nume</string>
+<string name="breed">Rasă</string>
+<string name="description">Descriere</string>
+<string name="example_breed">Exemplu: labrador</string>
+<string name="pet_image_description">Imaginea animalului</string>
+<string name="add_image">Adaugă imagine</string>
+<string name="add_location">Adaugă imagine</string>
+<string name="coordinates">Coordonate</string>
+<string name="done">Terminat</string>
+
+<!-- mapbox -->
+<string name="mapbox_access_token">sk.eyJ1IjoiY2F0YWxpbmFhYTE4IiwiYSI6ImNsMmdmYXZpazAzZXEzZHFobzlybDQwZm4ifQ.P1yzS_0pg-IyjHBzNwbqGA</string>
+<string name="see_route">Vezi rută</string>
+<string name="satellite_view">Vedere satelit</string>
+<string name="streets_view">Vedere străzi</string>
+<string name="save_location">Salvează locație</string>
+
+
+<string name="phone">Telefon</string>
+<string name="background_image_description">imagine de fundal</string>
+<string name="btn_change_picture_description">buton pentru schimbarea imaginii</string>
+<string name="animal">Animal</string>
+<string name="type">Tip</string>
+<string name="more">Mai mult</string>
+<string name="city">Oraș</string>
+<string name="gender_symbol_description">Simbol pentru gen</string>
+<string name="imtbn_favorite_description">Un buton în formă de inimă pentru adăugarea anunțului
+    la favorite</string>
+<string name="have_you_seen_it">L-ai văzut?</string>
+<string name="add_location_on_map">Adaugă locație \n pe hartă</string>
+<string name="or">or</string>
+<string name="go_to_comments">Mergi la \n comentarii</string>
+<string name="delete_my_locations">Sterge locațiile mele</string>
+<string name="edit">Editează</string>
+<string name="delete">Șterge</string>
+<string name="change_image">Schimbă imaginea</string>
+<string name="change_location">Schimbă locația</string>
+<string name="update">Actualizează</string>
+<string name="delete_all_locations">Șterge toate locațiile</string>
+<string name="see_location">Vezi locația \n oe hartă</string>
+<string name="save_changes">Salvează schimbări</string>
+<string name="old_password">Parolă veche</string>
+<string name="new_password">Parolă nouă</string>
+<string name="forgot_password">Ai uitat parola?</string>
+<string name="search_by_city">Caută după oraș</string>
+<string name="date">Dată</string>
+<string name="message">Mesaj</string>
+<string name="user_image_description">imaginea utilizatorului</string>
+<string name="imbtn_delete_description">un buton pentru stergere</string>
+<string name="write_your_comment">Scrie comentariu..</string>
+<string name="send">Trimite</string>
+<string name="announcements">Anunțuri</string>
+<string name="delete_location">Șterge locație</string>
+<string name="update_information">Actualizează informații</string>
+<string name="update_password">Actualizează parolă</string>
+<string name="select_language">Alege limbă</string>
+
+//warnings
+    <string name="auth_success">Autentificarea a avut succes.</string>
+    <string name="email_not_verified">E-mailul nu este verificat.</string>
+    <string name="auth_failed">Autentificare eșuată.</string>
+    <string name="warning_enter_email">Trebuie să introduceți e-mailul!</string>
+    <string name="warning_enter_password">Trebuie să introduceți parola!</string>
+    <string name="failed_resent_verify_registered_email">Email-ul nu s-a putut reseta! Verificați e-mailul dvs. înregistrat!</string>
+    <string name="we_sent_reset_password_email">Un mail cu instrucțiunile necesare pentru a vă reseta parola a fost trimis către adresa dvs. de e-mail!</string>
+    <string name="almost_done">Aproape gata</string>
+    <string name="warning_enter_registered_email">Trebuie să introduceți e-mailul înregistrat</string>
+    <string name="invalid_email">E-mail invalid</string>
+    <string name="password_conditions">Parola trebuie să aibă cel puțin 6 caractere și să conțină un mix de litere și cifre.</string>
+    <string name="invalid_phone">Număr de telefon invalid</string>
+    <string name="warning_enter_username">Trebuie să introduceți un nume de utilizator</string>
+    <string name="we_sent_confirmation_email">Un link de confirmare a fost trimis către adresa dvs. de e-mail. Deschideți-l pentru a vă activa contul.</string>
+    <string name="email_sent">E-mail trimis!</string>
+    <string name="permission_granted">Permisiune acordată!</string>
+    <string name="permission_denied">Permisiune respinsă!</string>
+    <string name="warning_enter_name">Trebuie să introduceți un nume!</string>
+    <string name="warning_enter_description">YTrebuie să introduceți o descriere!</string>
+    <string name="warning_enter_location">Trebuie să introduceți o locație</string>
+    <string name="announcement_inserted">Anunț inserat</string>
+    <string name="insertion_failed">Inserare eșuată</string>
+    <string name="explanation_location_permission">Trebuie să acordați această permisiune pentru a vedea locația curentă!</string>
+    <string name="warning_select_place">Trebuie să alegeți un loc pe hartă!</string>
+    <string name="current_location_not_found">Locația curentă nu poate fi găsită.</string>
+    <string name="current_location_not_found_permission">Locația curentă nu poate fi găsită deoarece permisiunea nu a fost acordată.</string>
+    <string name="warning_enter_text">Trebuie să introduceți un text!</string>
+    <string name="comment_inserted">Comentariu inserat!</string>
+    <string name="pet_image_missing">Imaginea animalului nu există sau nu a putut fi incărcată!</string>
+    <string name="announcement_updated">Anunț actualizat!</string>
+    <string name="missing_profile_image">Utilizatorul nu are o imagine de profil sau nu a putut fi incărcată!</string>
+    <string name="location_point_inserted">Locație inserată!</string>
+    <string name="location_points_removed">Locație ștearsă!</string>
+    <string name="removal_failed">Ștergere eșuată</string>
+    <string name="be_careful">Atenție!</string>
+    <string name="warning_at_least_one_point_on_map">Trebuie să aveți cel puțin o locație pe hartă
+        astfel încât  ceilalți utilizatori să știe unde poate fi animalul dvs. de companie.</string>
+    <string name="cancel">Anulare</string>
+    <string name="changes_not_saved">Schimbările nu sunt salvate!</string>
+    <string name="warning_enter_old_password">Trebuie să introduceți vechea dvs. parolă!</string>
+    <string name="warning_same_passwords">Noua parolă trebuie să fie diferită!</string>
+    <string name="profile_updated">Profil actualizat!</string>
+    <string name="email_updated">E-mail actualizat!</string>
+    <string name="we_send_update_email">Un link de confirmare a fost trimis către adresa dvs.
+        de e-mail. Deschideți-l pentru a vă actualiza contul.</string>
+    <string name="email_could_not_update">E-mailul nu a putut fi actualizat!</string>
+    <string name="wrong_password">Parolă greșită!</string>
+    <string name="password_updated">Parolă actualizată!</string>
+    <string name="missing_user_image">Imaginea utilizatorului nu a putut fi încărcată.</string>
+    <string name="announcement_added_to_fav">Anunț adăugat la favorite!</string>
+    <string name="announcement_removed_from_fav">Anunț eliminat de la favorite!</string>
+</resources>

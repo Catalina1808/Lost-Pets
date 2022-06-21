@@ -152,7 +152,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             String imageURL = uri.toString();
             Glide.with(this).load(imageURL).into(userImageView);
-        }).addOnFailureListener(exception -> Toast.makeText(this, "The user image could not be loaded.",
+        }).addOnFailureListener(exception -> Toast.makeText(this, R.string.missing_user_image,
                 Toast.LENGTH_SHORT).show());
 
         userImageView.setOnClickListener(v -> openProfileActivity());
@@ -213,10 +213,10 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
 
         daoFavorite.add(favorite).
                 addOnSuccessListener(success -> Toast.makeText(this,
-                        "Announcement added to favorite",
+                        R.string.announcement_added_to_fav,
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(this,
-                        "Insertion failed",
+                        R.string.insertion_failed,
                         Toast.LENGTH_SHORT).show());
         announcementItemRV.setFavoriteID(daoFavorite.getId());
     }
@@ -225,10 +225,10 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         daoFavorite = new DAOFavorite();
         daoFavorite.remove(announcementItemRV.getFavoriteID()).
                 addOnSuccessListener(success -> Toast.makeText(this,
-                        "Announcement removed from favorite",
+                        R.string.announcement_removed_from_fav,
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(this,
-                        "Removal failed",
+                        R.string.removal_failed,
                         Toast.LENGTH_SHORT).show());
 
         announcementItemRV.setFavoriteID(null);

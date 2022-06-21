@@ -13,9 +13,9 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.35"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.18"
-        android:layout_marginTop="@dimen/margin90"
-        android:layout_marginBottom="@dimen/margin40"
+        app:layout_constraintHeight_percent="0.15"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
         android:id="@+id/btn_register"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/margin25"
+        android:layout_marginBottom="@dimen/margin40"
         android:background="@drawable/selector_simple_button"
         android:drawableStart="@drawable/ic_paw"
         android:drawableEnd="@drawable/ic_paw"
@@ -67,6 +67,62 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5" />
+
+    <TextView
+        android:id="@+id/tv_change_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin40"
+        android:fontFamily="@font/sunshiney"
+        android:text="@string/select_language"
+        android:textAllCaps="false"
+        android:textColor="@color/dark_orange"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_register" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_change_language"
+        android:layout_marginTop="15dp">
+
+        <Button
+            android:id="@+id/btn_romanian"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/selector_profile_big_button"
+            android:drawableStart="@drawable/ic_paw"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/dark_orange_alpha"
+            android:fontFamily="@font/sunshiney"
+            android:text="@string/romanian"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_orange"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_english"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_profile_big_button"
+            android:drawableEnd="@drawable/ic_paw"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/dark_orange_alpha"
+            android:fontFamily="@font/sunshiney"
+            android:text="@string/english"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_orange"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

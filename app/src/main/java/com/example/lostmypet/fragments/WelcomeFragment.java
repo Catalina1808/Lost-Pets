@@ -1,18 +1,24 @@
 package com.example.lostmypet.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.lostmypet.R;
+import com.example.lostmypet.activities.WelcomeActivity;
 import com.example.lostmypet.interfaces.OnFragmentActivityCommunication;
+
+import java.util.Locale;
 
 
 public class WelcomeFragment extends Fragment {
@@ -48,9 +54,21 @@ public class WelcomeFragment extends Fragment {
 
 
         view.findViewById(R.id.btn_register).setOnClickListener(v -> goToRegister());
-
         view.findViewById(R.id.btn_login).setOnClickListener(v -> goToLogin());
 
+        // change the language with the help of LocaleHelper class
+        view.findViewById(R.id.btn_romanian).setOnClickListener(view1 -> setLocale("ro"));
+        view.findViewById(R.id.btn_english).setOnClickListener(view12 -> setLocale("en"));
+    }
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(myLocale);
+        res.updateConfiguration(conf, dm);
+        startActivity(new Intent(getActivity(), WelcomeActivity.class));
+        requireActivity().finish();
     }
 
     private  void goToRegister(){

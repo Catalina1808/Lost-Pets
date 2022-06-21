@@ -5,8 +5,6 @@
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Logo">logo</string>
 
     <!-- Strings related to login -->
@@ -90,11 +88,9 @@
     <string name="update">Update</string>
     <string name="delete_all_locations">Delete all locations</string>
     <string name="see_location">See location \n on map</string>
-    <string name="save_changes">&#x20; Save changes &#x20;</string>
-    <string name="change_password">&#x20; Change password &#x20;</string>
+    <string name="save_changes">Save changes</string>
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
-    <string name="save_password">&#x20; Save password &#x20;</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="search_by_city">Search by city</string>
     <string name="date">Date</string>
@@ -107,4 +103,59 @@
     <string name="delete_location">Delete location</string>
     <string name="update_information">Update information</string>
     <string name="update_password">Update password</string>
+    <string name="romanian">Romanian</string>
+    <string name="english">English</string>
+    <string name="select_language">Select language</string>
+
+    //toasts
+
+    <string name="auth_success">Authentication success.</string>
+    <string name="email_not_verified">Email is not verified.</string>
+    <string name="auth_failed">Authentication failed.</string>
+    <string name="warning_enter_email">You should enter an email!</string>
+    <string name="warning_enter_password">You should enter a password!</string>
+    <string name="failed_resent_verify_registered_email">Failed to send reset email! Verify your registered email!</string>
+    <string name="we_sent_reset_password_email">We have sent an email with instructions to reset your password!</string>
+    <string name="almost_done">Almost done</string>
+    <string name="warning_enter_registered_email">You should enter your registered email!</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="password_conditions">Your passwords should have at least 6 characters and a mix of letters and numbers</string>
+    <string name="invalid_phone">Invalid Phone</string>
+    <string name="warning_enter_username">You should enter an username!</string>
+    <string name="we_sent_confirmation_email">We have sent an email with a confirmation link to your email address. Open it up to activate your account.</string>
+    <string name="email_sent">Email sent!</string>
+    <string name="permission_granted">Permission granted!</string>
+    <string name="permission_denied">Permission denied!</string>
+    <string name="warning_enter_name">You should enter a name</string>
+    <string name="warning_enter_description">You should enter a description</string>
+    <string name="warning_enter_location">You should enter a location</string>
+    <string name="announcement_inserted">Announcement inserted</string>
+    <string name="insertion_failed">Insertion failed</string>
+    <string name="explanation_location_permission">You should grant this permission to see your current location!</string>
+    <string name="warning_select_place">You should select a place on the map.</string>
+    <string name="current_location_not_found">The current location could not be found.</string>
+    <string name="current_location_not_found_permission">The current location could not be found because the permission is not granted.</string>
+    <string name="warning_enter_text">You should enter some text!</string>
+    <string name="comment_inserted">Comment inserted</string>
+    <string name="pet_image_missing">The pet image does not exist or could not be loaded.</string>
+    <string name="announcement_updated">Announcement updated</string>
+    <string name="missing_profile_image">The user does not have a profile image or it could not be loaded.</string>
+    <string name="location_point_inserted">Location point inserted</string>
+    <string name="location_points_removed">Location points removed</string>
+    <string name="removal_failed">Removal failed</string>
+    <string name="be_careful">Be careful!</string>
+    <string name="warning_at_least_one_point_on_map">You should have at least one point on the map so the other users know where your pet can be.</string>
+    <string name="cancel">Cancel</string>
+    <string name="changes_not_saved">Your changes are not saved!</string>
+    <string name="warning_enter_old_password">You should enter the old password!</string>
+    <string name="warning_same_passwords">The new password should be different!</string>
+    <string name="profile_updated">Profile updated!</string>
+    <string name="email_updated">Email updated!</string>
+    <string name="we_send_update_email">We have sent an email with a confirmation link to your email address. Open it up to update your account.</string>
+    <string name="email_could_not_update">Email could not be updated!</string>
+    <string name="wrong_password">Wrong password!</string>
+    <string name="password_updated">Password updated!</string>
+    <string name="missing_user_image">The user image could not be loaded.</string>
+    <string name="announcement_added_to_fav">Announcement added to favorite</string>
+    <string name="announcement_removed_from_fav">Announcement removed from favorite</string>
 </resources>

@@ -177,10 +177,10 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
                 currentUser.getUid());
         daoLocationPoint.add(locationPoint).
                 addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
-                        "Location point inserted",
+                        R.string.location_point_inserted,
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
-                        "Insertion failed",
+                        R.string.insertion_failed,
                         Toast.LENGTH_SHORT).show());
     }
 
@@ -190,10 +190,10 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
                 coordinates.remove(Point.fromLngLat(locationPoint.getLongitude(), locationPoint.getLatitude()));
                 daoLocationPoint.remove(locationPoint.getLocationPointID()).
                         addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
-                                "Location points removed",
+                                R.string.location_points_removed,
                                 Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
-                                "Removal failed",
+                                R.string.removal_failed,
                                 Toast.LENGTH_SHORT).show());
             }
         }
@@ -211,10 +211,10 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
                 coordinates.remove(Point.fromLngLat(locationPoint.getLongitude(), locationPoint.getLatitude()));
                 daoLocationPoint.remove(locationPoint.getLocationPointID()).
                         addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
-                                "Location points removed",
+                                R.string.location_points_removed,
                                 Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
-                                "Removal failed",
+                                R.string.removal_failed,
                                 Toast.LENGTH_SHORT).show());
         }
         symbolManager.deleteAll();
@@ -397,9 +397,8 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     public void onBackPressed() {
         if(locationPoints.isEmpty()){
             AlertDialog.Builder builder= new AlertDialog.Builder(this);
-            builder.setTitle("Be careful!")
-                    .setMessage("You should have at least one point on the map so the " +
-                            "other users know where your pet can be.")
+            builder.setTitle(R.string.be_careful)
+                    .setMessage(getString(R.string.warning_at_least_one_point_on_map))
                     .setIcon(R.drawable.ic_location)
                     .setPositiveButton("Ok", (dialog, which) -> {
                     });

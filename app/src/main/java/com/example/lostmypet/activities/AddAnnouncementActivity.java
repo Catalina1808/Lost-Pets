@@ -193,11 +193,11 @@ public class AddAnnouncementActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 onPickPhoto();
-                Toast.makeText(AddAnnouncementActivity.this, "Permission granted!",
+                Toast.makeText(AddAnnouncementActivity.this, R.string.permission_granted,
                         Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(AddAnnouncementActivity.this, "Permission denied!",
+                Toast.makeText(AddAnnouncementActivity.this, R.string.permission_denied,
                         Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -241,19 +241,19 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         boolean validated = true;
         if(TextUtils.isEmpty(nameEditText.getText().toString()))
         {
-            nameEditText.setError("You should enter a name");
+            nameEditText.setError(getString(R.string.warning_enter_name));
             validated = false;
         }
 
         if(TextUtils.isEmpty(descriptionEditText.getText().toString()))
         {
-            descriptionEditText.setError("You should enter a description");
+            descriptionEditText.setError(getString(R.string.warning_enter_description));
             validated = false;
         }
 
         if(TextUtils.isEmpty(coordinatesTextView.getText().toString()))
         {
-            coordinatesTextView.setError("You should enter a location");
+            coordinatesTextView.setError(getString(R.string.warning_enter_location));
             validated = false;
         }
 
@@ -279,10 +279,10 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
         daoAnnouncement.add(announcement).
                 addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
-                        "Announcement inserted",
+                        R.string.announcement_inserted,
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
-                        "Insertion failed",
+                        R.string.insertion_failed,
                         Toast.LENGTH_SHORT).show());
 
         //add location point
@@ -290,10 +290,10 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         LocationPoint locationPoint = new LocationPoint(latitude, longitude, announcementId, userID);
         daoLocationPoint.add(locationPoint).
                 addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
-                        "Announcement inserted",
+                        R.string.announcement_inserted,
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
-                        "Insertion failed",
+                        R.string.insertion_failed,
                         Toast.LENGTH_SHORT).show());
 
 
@@ -324,20 +324,18 @@ public class AddAnnouncementActivity extends AppCompatActivity {
                 @Override
                 public void onExplanationNeeded(List<String> permissionsToExplain) {
                     Toast.makeText(AddAnnouncementActivity.this,
-                            "You should grant this permission to see your current location!",
+                            R.string.explanation_location_permission,
                             Toast.LENGTH_LONG).show();
                 }
 
                 @Override
                 public void onPermissionResult(boolean granted) {
-                   // finish();
                     startActivity(intent);
                 }
             });
             permissionsManager.requestLocationPermissions(AddAnnouncementActivity.this);
         }
         else {
-            //finish();
             startActivity(intent);
         }
     }

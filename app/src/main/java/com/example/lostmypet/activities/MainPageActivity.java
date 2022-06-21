@@ -67,7 +67,7 @@ public class MainPageActivity extends AppCompatActivity {
         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             String imageURL = uri.toString();
             Glide.with(getApplicationContext()).load(imageURL).into(userImageView);
-        }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), "The user does not have a profile image or it could not be loaded.",
+        }).addOnFailureListener(exception -> Toast.makeText(getApplicationContext(), R.string.missing_profile_image,
                  Toast.LENGTH_SHORT).show());
 
     }
@@ -99,10 +99,10 @@ public class MainPageActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 onPickPhoto();
-                Toast.makeText(MainPageActivity.this, "Permission granted!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainPageActivity.this, R.string.permission_granted, Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(MainPageActivity.this, "Permission denied!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainPageActivity.this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
             }
         }
     }

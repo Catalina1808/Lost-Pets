@@ -36,8 +36,8 @@
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_register.xml" value="0.2" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_update_password.xml" value="0.28541666666666665" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_update_user_info.xml" value="0.26846846846846845" />
-        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_welcome.xml" value="0.4328223624887286" />
-        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_add_announcement.xml" value="0.16" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout-land/fragment_welcome.xml" value="0.176" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_add_announcement.xml" value="0.264" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_add_first_location.xml" value="0.2" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_all_announcements.xml" value="0.264" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/activity_comments.xml" value="0.264" />
@@ -56,7 +56,7 @@
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/fragment_register.xml" value="0.2" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/fragment_update_password.xml" value="0.12740487387772553" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/fragment_update_user_info.xml" value="0.264" />
-        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/fragment_welcome.xml" value="0.20521590423257802" />
+        <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/fragment_welcome.xml" value="0.2" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/item_all_announcements.xml" value="0.264" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/item_announcement.xml" value="0.264" />
         <entry key="..\:/Users/Catalina/univ/GitHub/licenta/app/src/main/res/layout/item_comment.xml" value="0.4" />

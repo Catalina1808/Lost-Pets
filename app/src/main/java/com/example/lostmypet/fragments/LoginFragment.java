@@ -87,13 +87,13 @@ public class LoginFragment extends Fragment {
         String email = emailEditText.getText().toString();
         if(TextUtils.isEmpty(email))
         {
-            emailEditText.setError("You should enter your registered email!");
+            emailEditText.setError(getString(R.string.warning_enter_registered_email));
         } else {
             mAuth.sendPasswordResetEmail(emailEditText.getText().toString())
                     .addOnSuccessListener(success -> {
                         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                        builder.setTitle("Almost done")
-                                .setMessage("We have sent an email with instructions to reset your password!")
+                        builder.setTitle(R.string.almost_done)
+                                .setMessage(R.string.we_sent_reset_password_email)
                                 .setIcon(R.drawable.ic_email)
                                 .setPositiveButton("Ok", (dialog, which) -> {
                                 });
@@ -101,7 +101,7 @@ public class LoginFragment extends Fragment {
                     })
                     .addOnFailureListener(failure ->
                             Toast.makeText(getContext(),
-                                    "Failed to send reset email! Verify your registered email!",
+                                    R.string.failed_resent_verify_registered_email,
                                     Toast.LENGTH_SHORT).show());
         }
     }
@@ -111,12 +111,12 @@ public class LoginFragment extends Fragment {
 
         if(TextUtils.isEmpty(emailEditText.getText().toString()))
         {
-            emailEditText.setError("You should enter an email!");
+            emailEditText.setError(getString(R.string.warning_enter_email));
             isValidated=false;
         }
         if(TextUtils.isEmpty(passwordEditText.getText().toString()))
         {
-            passwordEditText.setError("You should enter a password!");
+            passwordEditText.setError(getString(R.string.warning_enter_password));
             isValidated=false;
         }
 
@@ -138,16 +138,16 @@ public class LoginFragment extends Fragment {
 
                             assert user != null;
                             if (user.isEmailVerified()) {
-                                Toast.makeText(getContext(), "Authentication success.",
+                                Toast.makeText(getContext(), R.string.auth_success,
                                         Toast.LENGTH_SHORT).show();
                                 goToSecondActivity();
                             } else {
-                                Toast.makeText(getContext(), "Email is not verified.",
+                                Toast.makeText(getContext(), R.string.email_not_verified,
                                         Toast.LENGTH_SHORT).show();
                             }
 
                         } else {
-                            Toast.makeText(getContext(), "Authentication failed.",
+                            Toast.makeText(getContext(), R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
                     });

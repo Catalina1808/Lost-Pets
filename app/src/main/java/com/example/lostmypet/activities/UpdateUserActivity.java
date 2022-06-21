@@ -115,15 +115,15 @@ public class UpdateUserActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", (dialog, which) -> {
             password = input.getText().toString();
             if(password.isEmpty()){
-                Toast.makeText(this, "No password entered!",
+                Toast.makeText(this, R.string.warning_enter_password,
                         Toast.LENGTH_SHORT).show();
             } else {
                 updateFireBaseUser();
             }
         });
-        builder.setNegativeButton("Cancel", (dialog, which) -> {
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> {
             dialog.cancel();
-            Toast.makeText(this, "Your changes are not saved!",
+            Toast.makeText(this, R.string.changes_not_saved,
                     Toast.LENGTH_SHORT).show();
         });
 
@@ -160,17 +160,17 @@ public class UpdateUserActivity extends AppCompatActivity {
         boolean isValidated = true;
 
         if (!UtilsValidators.isValidEmail(emailEditText.getText().toString())) {
-            emailEditText.setError("Invalid Email");
+            emailEditText.setError(getString(R.string.invalid_email));
             isValidated = false;
         }
 
         if (!UtilsValidators.isValidPhone(phoneEditText.getText().toString())) {
-            phoneEditText.setError("Invalid Phone");
+            phoneEditText.setError(getString(R.string.invalid_phone));
             isValidated = false;
         }
 
         if (TextUtils.isEmpty(usernameEditText.getText().toString())) {
-            usernameEditText.setError("No username");
+            usernameEditText.setError(getString(R.string.warning_enter_username));
             isValidated = false;
         }
 
@@ -179,16 +179,16 @@ public class UpdateUserActivity extends AppCompatActivity {
 
     private boolean validatePasswordFields(){
         if(oldPasswordEditText.getText().toString().isEmpty()){
-            oldPasswordEditText.setError("You should enter the old password!");
+            oldPasswordEditText.setError(getString(R.string.warning_enter_old_password));
             return false;
         }
         if(newPasswordEditText.getText().toString().equals(oldPasswordEditText.getText().toString())){
-            newPasswordEditText.setError("The new password should be different!");
+            newPasswordEditText.setError(getString(R.string.warning_same_passwords));
             return false;
         }
         if(!UtilsValidators.isValidPassword(newPasswordEditText.getText().toString())) {
             newPasswordEditText
-                    .setError("Your passwords should have at least 6 characters and a mix of letters and numbers");
+                    .setError(getString(R.string.password_conditions));
             return false;
         }
         return true;
@@ -213,35 +213,35 @@ public class UpdateUserActivity extends AppCompatActivity {
             hashMap.put("username", usernameEditText.getText().toString());
             hashMap.put("phone", phoneEditText.getText().toString());
             daoUser.update(firebaseUser.getUid(), hashMap).addOnSuccessListener(success ->
-                    Toast.makeText(this, "Profile updated!",
+                    Toast.makeText(this, R.string.profile_updated,
                             Toast.LENGTH_SHORT).show());
 
             if(!emailEditText.getText().toString().equals(firebaseUser.getEmail())) {
                 firebaseUser.updateEmail(emailEditText.getText().toString())
                         .addOnCompleteListener(success -> {
-                            Timber.w("Email updated!");
+                            Timber.w(getString(R.string.email_updated));
                             firebaseUser.sendEmailVerification()
                                     .addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
 
                                             AlertDialog.Builder builder = new AlertDialog
                                                     .Builder(this);
-                                            builder.setTitle("Almost done")
-                                                    .setMessage("We have sent an email with a confirmation link to your email address. Open it up to update your account.")
+                                            builder.setTitle(R.string.almost_done)
+                                                    .setMessage(R.string.we_send_update_email)
                                                     .setIcon(R.drawable.ic_email)
                                                     .setPositiveButton("Ok", (dialog, which) -> {
                                                     });
                                             builder.create().show();
-                                            Toast.makeText(this, "Email sent!",
+                                            Toast.makeText(this, R.string.email_sent,
                                                     Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }).addOnFailureListener(failure ->
-                                Timber.w("Email could not be updated!"));
+                                Timber.w(getString(R.string.email_could_not_update)));
             }
 
         }).addOnFailureListener(failure->
-                Toast.makeText(this, "Wrong password!",
+                Toast.makeText(this, R.string.wrong_password,
                         Toast.LENGTH_SHORT).show());
         progressBar.setVisibility(View.GONE);
     }
@@ -255,9 +255,9 @@ public class UpdateUserActivity extends AppCompatActivity {
         firebaseUser.reauthenticate(credential).addOnSuccessListener(success ->
                 firebaseUser.updatePassword(newPasswordEditText.getText().toString())
                         .addOnSuccessListener(task ->
-                                Toast.makeText(this, "Password updated!",
+                                Toast.makeText(this, R.string.password_updated,
                                         Toast.LENGTH_SHORT).show())).addOnFailureListener(failure->
-                Toast.makeText(this, "Wrong password!",
+                Toast.makeText(this, R.string.wrong_password,
                         Toast.LENGTH_SHORT).show());
 
         progressBar.setVisibility(View.GONE);

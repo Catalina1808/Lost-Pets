@@ -81,23 +81,23 @@ public class RegisterFragment extends Fragment {
 
         if(!UtilsValidators.isValidEmail(emailEditText.getText().toString()))
         {
-            emailEditText.setError("Invalid Email");
+            emailEditText.setError(getString(R.string.invalid_email));
             isValidated=false;
         }
         if(!UtilsValidators.isValidPassword(passwordEditText.getText().toString()))
         {
             passwordEditText.
-                    setError("Your passwords should have at least 6 characters and a mix of letters and numbers");
+                    setError(getString(R.string.password_conditions));
             isValidated=false;
         }
         if(!UtilsValidators.isValidPhone(phoneEditText.getText().toString()))
         {
-            phoneEditText.setError("Invalid Phone");
+            phoneEditText.setError(getString(R.string.invalid_phone));
             isValidated=false;
         }
         if(TextUtils.isEmpty(usernameEditText.getText().toString()))
         {
-            usernameEditText.setError("No username");
+            usernameEditText.setError(getString(R.string.warning_enter_username));
             isValidated=false;
         }
 
@@ -118,7 +118,7 @@ public class RegisterFragment extends Fragment {
             {
                 FirebaseUser user=mAuth.getCurrentUser();
 
-                Toast.makeText(getContext(), "Authentification success.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.auth_success, Toast.LENGTH_SHORT).show();
                 assert user != null;
                 user.sendEmailVerification()
                         .addOnCompleteListener(task1 -> {
@@ -132,20 +132,20 @@ public class RegisterFragment extends Fragment {
                                 daoUser.add(userModel, user.getUid());
 
                                 AlertDialog.Builder builder= new AlertDialog.Builder(requireContext());
-                                builder.setTitle("Almost done")
-                                        .setMessage("We have sent an email with a confirmation link to your email address. Open it up to activate your account.")
+                                builder.setTitle(R.string.almost_done)
+                                        .setMessage(R.string.we_sent_confirmation_email)
                                         .setIcon(R.drawable.ic_email)
                                         .setPositiveButton("Ok", (dialog, which) -> {
                                         });
                                 builder.create().show();
-                                Toast.makeText(getContext(), "Email sent!",
+                                Toast.makeText(getContext(), R.string.email_sent,
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
             }
             else
             {
-                Toast.makeText(getContext(), "Authentification failed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.auth_failed, Toast.LENGTH_SHORT).show();
             }
         });
 

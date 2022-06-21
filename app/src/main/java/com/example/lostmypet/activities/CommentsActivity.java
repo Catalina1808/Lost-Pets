@@ -94,17 +94,17 @@ public class CommentsActivity extends AppCompatActivity {
         DAOComment daoComment = new DAOComment();
         EditText messageEditText = findViewById(R.id.edt_message);
         if(messageEditText.getText().toString().isEmpty()){
-            messageEditText.setError("You should enter some text!");
+            messageEditText.setError(getString(R.string.warning_enter_text));
         } else {
             String date = String.valueOf(new java.sql.Date(System.currentTimeMillis()));
             Comment comment = new Comment(currentUser.getUid(), currentUser.getDisplayName(),
                     announcementID, messageEditText.getText().toString(), date);
             daoComment.add(comment)
                     .addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
-                            "Comment inserted",
+                            R.string.comment_inserted,
                             Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
-                            "Insertion failed",
+                            R.string.insertion_failed,
                             Toast.LENGTH_SHORT).show());
             messageEditText.getText().clear();
         }

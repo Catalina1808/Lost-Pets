@@ -154,7 +154,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
             String imageURL = uri.toString();
             Glide.with(this).load(imageURL).into(petImageView);
         }).addOnFailureListener(exception -> {
-            Toast.makeText(this, "The pet image does not exist or could not be loaded.",
+            Toast.makeText(this, R.string.pet_image_missing,
                     Toast.LENGTH_SHORT).show();
             petImageView.setImageResource(R.drawable.icon_image);});
     }
@@ -194,11 +194,11 @@ public class EditAnnouncementActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 onPickPhoto();
-                Toast.makeText(EditAnnouncementActivity.this, "Permission granted!",
+                Toast.makeText(EditAnnouncementActivity.this, R.string.permission_granted,
                         Toast.LENGTH_SHORT).show();
 
             } else {
-                Toast.makeText(EditAnnouncementActivity.this, "Permission denied!",
+                Toast.makeText(EditAnnouncementActivity.this, R.string.permission_denied,
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -241,13 +241,13 @@ public class EditAnnouncementActivity extends AppCompatActivity {
         boolean validated = true;
         if(TextUtils.isEmpty(nameEditText.getText().toString()))
         {
-            nameEditText.setError("You should enter a name");
+            nameEditText.setError(getString(R.string.warning_enter_name));
             validated = false;
         }
 
         if(TextUtils.isEmpty(descriptionEditText.getText().toString()))
         {
-            descriptionEditText.setError("You should enter a description");
+            descriptionEditText.setError(getString(R.string.warning_enter_description));
             validated = false;
         }
 
@@ -269,10 +269,10 @@ public class EditAnnouncementActivity extends AppCompatActivity {
 
         daoAnnouncement.update(announcementItemRV.getAnnouncementId(), hashMap).
                 addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
-                        "Announcement updated",
+                        R.string.announcement_updated,
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
-                        "Insertion failed",
+                        R.string.insertion_failed,
                         Toast.LENGTH_SHORT).show());
 
         if(photoUri!=null) {

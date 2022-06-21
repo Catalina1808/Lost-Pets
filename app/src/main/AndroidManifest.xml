@@ -9,6 +9,7 @@
         tools:ignore="ScopedStorage" />
 
     <application
+        android:configChanges="locale|orientation"
         android:icon="@drawable/icon_pet"
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_pet"
