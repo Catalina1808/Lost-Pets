@@ -42,7 +42,6 @@ import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private StorageReference storageReference;
     private AnnouncementsAdapter announcementsAdapter;
     private ArrayList<AnnouncementItemRV> recyclerViewList;
     private ArrayList<Announcement> announcements;
@@ -53,8 +52,6 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
 
     private ImageView userImageView;
-    private TextView usernameTextView;
-    private TextView phoneTextView;
     private String userID;
     private User user;
 
@@ -97,15 +94,15 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setUIElements() {
-        usernameTextView = findViewById(R.id.tv_username);
+        TextView usernameTextView = findViewById(R.id.tv_username);
         userImageView = findViewById(R.id.civ_profile_image);
-        phoneTextView = findViewById(R.id.tv_phone);
+        TextView phoneTextView = findViewById(R.id.tv_phone);
 
         usernameTextView.setText(user.getUsername());
         phoneTextView.setText(user.getPhone());
 
         //Get the firebase storage reference and verify if the user has a profile pic to get
-        storageReference = FirebaseStorage.getInstance().getReference("Users/" + userID);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("Users/" + userID);
 
         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             String imageURL = uri.toString();

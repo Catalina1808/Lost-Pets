@@ -268,7 +268,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
         hashMap.put("animal", animalSpinner.getSelectedItem().toString());
 
         daoAnnouncement.update(announcementItemRV.getAnnouncementId(), hashMap).
-                addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
+                addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
                         "Announcement updated",
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),

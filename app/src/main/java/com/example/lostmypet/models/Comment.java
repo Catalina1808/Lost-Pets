@@ -38,10 +38,6 @@ public class Comment {
         return announcementID;
     }
 
-    public void setAnnouncementID(String announcementID) {
-        this.announcementID = announcementID;
-    }
-
     public String getCommentID() {
         return commentID;
     }
@@ -52,10 +48,6 @@ public class Comment {
 
     public String getMessage() {
         return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public String getDate() {

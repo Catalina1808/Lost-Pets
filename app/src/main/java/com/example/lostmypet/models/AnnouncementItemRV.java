@@ -48,10 +48,6 @@ public class AnnouncementItemRV  implements Serializable {
         this.userId = userId;
     }
 
-    public ArrayList<Map<Double, Double>> getLocations() {
-        return locations;
-    }
-
     public void setLocations(ArrayList<Map<Double, Double>> locations) {
         this.locations = locations;
     }

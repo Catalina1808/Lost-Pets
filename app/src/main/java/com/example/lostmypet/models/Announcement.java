@@ -12,7 +12,7 @@ public class Announcement {
     private String animal;
     private String date;
 
-    public Announcement(){};
+    public Announcement(){}
 
     public Announcement(String type, String userID, String name, String gender,
                         String description, String breed, String animal, String date) {
@@ -38,32 +38,16 @@ public class Announcement {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getBreed() {
         return breed;
     }
 
-    public void setBreed(String breed) {
-        this.breed = breed;
-    }
-
     public String getAnimal() {
         return animal;
-    }
-
-    public void setAnimal(String animal) {
-        this.animal = animal;
     }
 
     public String getAnnouncementID() {

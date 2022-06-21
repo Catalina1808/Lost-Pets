@@ -32,7 +32,4 @@ public class Favorite {
         return announcementID;
     }
 
-    public void setAnnouncementID(String announcementID) {
-        this.announcementID = announcementID;
-    }
 }

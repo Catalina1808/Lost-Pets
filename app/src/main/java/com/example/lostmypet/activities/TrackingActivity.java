@@ -92,7 +92,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        //get the data acces object for locationPoint
+        //get the data access object for locationPoint
         daoLocationPoint = new DAOLocationPoint();
 
         //get UI elements
@@ -176,7 +176,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         LocationPoint locationPoint = new LocationPoint(latitude, longitude, announcementID,
                 currentUser.getUid());
         daoLocationPoint.add(locationPoint).
-                addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
+                addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
                         "Location point inserted",
                         Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
@@ -189,7 +189,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
             if (locationPoint.getUserID().equals(currentUser.getUid())) {
                 coordinates.remove(Point.fromLngLat(locationPoint.getLongitude(), locationPoint.getLatitude()));
                 daoLocationPoint.remove(locationPoint.getLocationPointID()).
-                        addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
+                        addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
                                 "Location points removed",
                                 Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
@@ -199,8 +199,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         }
         symbolManager.deleteAll();
         if (navigationMapRoute != null) {
-            //navigationMapRoute.removeRoute();
-
+            //remove route
             navigationMapRoute.updateRouteVisibilityTo(false);
         }
         addMarkersOnMap();
@@ -211,7 +210,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         for(LocationPoint locationPoint: locationPoints) {
                 coordinates.remove(Point.fromLngLat(locationPoint.getLongitude(), locationPoint.getLatitude()));
                 daoLocationPoint.remove(locationPoint.getLocationPointID()).
-                        addOnSuccessListener(succes -> Toast.makeText(getApplicationContext(),
+                        addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),
                                 "Location points removed",
                                 Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(err -> Toast.makeText(getApplicationContext(),
@@ -220,8 +219,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         }
         symbolManager.deleteAll();
         if (navigationMapRoute != null) {
-            //navigationMapRoute.removeRoute();
-
+            //remove route
             navigationMapRoute.updateRouteVisibilityTo(false);
         }
         addMarkersOnMap();
@@ -293,17 +291,6 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         map.addOnMapClickListener(this);
 
     }
-
-
-
-
-//    @SuppressLint({"MissingPermission", "WrongConstant"})
-//    private void initializeLocationLayer(){
-//        locationLayerPlugin= new LocationLayerPlugin(mapView, map, locationEngine);
-//        locationLayerPlugin.setLocationLayerEnabled(true);
-//        locationLayerPlugin.setCameraMode(CameraMode.TRACKING);
-//        locationLayerPlugin.setRenderMode(RenderMode.NORMAL);
-//    }
 
     private void setCameraPosition() {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(coordinates.get(0).latitude(),
@@ -389,10 +376,6 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     @SuppressLint("MissingPermission")
     @Override
     public void onRoutesReady(@NotNull List<NavigationRoute> list, @NotNull RouterOrigin routerOrigin) {
-
-//        mapboxNavigation.setNavigationRoutes(list);
-//        mapboxNavigation.startTripSession();
-
         DirectionsRoute route = list.get(0).getDirectionsRoute();
 
         if (list.size() == 0) {
@@ -408,14 +391,6 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         }
 
         navigationMapRoute.addRoute(route);
-
-//        NavigationLauncherOptions options= NavigationLauncherOptions.builder()
-//                .directionsRoute(route)
-//                .shouldSimulateRoute(false)
-//                .build();
-//        NavigationLauncher.startNavigation(MainActivity.this, options);
-
-
     }
 
     @Override

@@ -85,20 +85,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         breedEditText = findViewById(R.id.edt_breed);
         descriptionEditText = findViewById(R.id.edt_description);
 
-
-
-//        if (savedInstanceState != null)
-//        {
-//            nameEditText.setText ( savedInstanceState.getString ("NAME")) ;
-//            breedEditText.setText ( savedInstanceState.getString ("BREED"));
-//            descriptionEditText.setText ( savedInstanceState.getString ("DESCRIPTION"));
-//            genderSpinner.setSelection(savedInstanceState.getInt ("GENDER"));
-//            animalSpinner.setSelection(savedInstanceState.getInt ("ANIMAL"));
-//            typeSpinner.setSelection(savedInstanceState.getInt ("TYPE"));
-//            petImageView.setImageURI(Uri.parse(savedInstanceState.getString("IMAGE")));
-//        }
-
-
         //get coordinates from AddFirstLocationActivity
         Intent intent = getIntent();
         if(intent.getExtras()!=null){
@@ -109,20 +95,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
             coordinatesTextView.setText(coordinates);
         }
     }
-
-
-//    @Override
-//    public void onSaveInstanceState( Bundle outState )
-//    {
-//        super.onSaveInstanceState( outState );
-//        outState.putString("NAME", nameEditText.getText().toString());
-//        outState.putString("BREED", breedEditText.getText().toString());
-//        outState.putString("DESCRIPTION", descriptionEditText.getText().toString());
-//        outState.putInt("GENDER", genderSpinner.getSelectedItemPosition());
-//        outState.putInt("ANIMAL", animalSpinner.getSelectedItemPosition());
-//        outState.putInt("TYPE", typeSpinner.getSelectedItemPosition());
-//        outState.putString("IMAGE", String.valueOf(photoUri));
-//    }
 
     private void saveItemsToSharedPreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

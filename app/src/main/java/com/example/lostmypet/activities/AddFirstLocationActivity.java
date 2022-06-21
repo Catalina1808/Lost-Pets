@@ -163,13 +163,6 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
         }
     }
 
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//    }
-
     private void setCameraPosition(){
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(position.latitude(),
                 position.longitude()), 12));
@@ -192,25 +185,6 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
         saveLocationButton.setVisibility(View.VISIBLE);
         return false;
     }
-
-    //if the permissions are not grated
-
-
-//    @Override
-//    public void onExplanationNeeded(List<String> permissionsToExplain) {
-//        Toast.makeText(this, "You should grant this permission to see your current location!",
-//                Toast.LENGTH_LONG).show();
-//    }
-//
-//    @Override
-//    public void onPermissionResult(boolean granted) {
-//        if(granted){
-//            enableLocation();
-//        } else {
-//            Toast.makeText(this, "You should grant this permission to see your current location!",
-//                    Toast.LENGTH_LONG).show();
-//        }
-//    }
 
     @Override
     protected void onStart() {
