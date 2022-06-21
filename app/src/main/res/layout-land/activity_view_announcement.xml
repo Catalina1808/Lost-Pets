@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/light_orange_1"
     android:orientation="vertical"
-    tools:context=".activities.ViewAnnouncementActivity">
+    tools:context=".activities.ViewAnnouncementActivity"
+    android:id="@+id/layout_view_announcement">
 
 
     <LinearLayout

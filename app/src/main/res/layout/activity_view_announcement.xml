@@ -7,7 +7,8 @@
     android:fillViewport="true"
     android:background="@color/light_orange_1"
     android:orientation="vertical"
-    tools:context=".activities.ViewAnnouncementActivity">
+    tools:context=".activities.ViewAnnouncementActivity"
+    android:id="@+id/layout_view_announcement">
 
 
     <LinearLayout
@@ -208,9 +209,9 @@
                         android:id="@+id/tv_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/sunshiney"
-                        android:layout_alignParentStart="true"
                         android:hint="@string/phone"
                         android:textColor="@color/dark_orange_alpha"
                         android:textSize="16sp" />
