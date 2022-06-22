@@ -89,36 +89,39 @@
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/tv_change_language"
         android:layout_marginTop="15dp">
+
         <Button
             android:id="@+id/btn_romanian"
-            android:drawableStart="@drawable/ic_paw"
-            android:drawableTint="@color/dark_orange_alpha"
-            android:drawablePadding="5dp"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
             android:background="@drawable/selector_profile_big_button"
+            android:drawableStart="@drawable/ic_paw"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/dark_orange_alpha"
+            android:fontFamily="@font/sunshiney"
             android:text="@string/romanian"
             android:textAllCaps="false"
-            android:textSize="20sp"
             android:textColor="@color/dark_orange"
-            android:layout_marginEnd="30dp"
-            android:fontFamily="@font/sunshiney"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_english"
-            android:drawableEnd="@drawable/ic_paw"
-            android:drawableTint="@color/dark_orange_alpha"
-            android:drawablePadding="5dp"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_profile_big_button"
+            android:drawableEnd="@drawable/ic_paw"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/dark_orange_alpha"
+            android:fontFamily="@font/sunshiney"
             android:text="@string/english"
             android:textAllCaps="false"
-            android:textSize="20sp"
             android:textColor="@color/dark_orange"
-            android:fontFamily="@font/sunshiney"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

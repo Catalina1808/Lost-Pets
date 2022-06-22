@@ -104,7 +104,8 @@
             android:text="@string/romanian"
             android:textAllCaps="false"
             android:textColor="@color/dark_orange"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_english"
@@ -119,7 +120,8 @@
             android:text="@string/english"
             android:textAllCaps="false"
             android:textColor="@color/dark_orange"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
