@@ -20,7 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lostmypet.R;
+import com.example.lostmypet.helpers.Animal;
 import com.example.lostmypet.helpers.AnnouncementsAdapter;
+import com.example.lostmypet.helpers.Type;
 import com.example.lostmypet.models.Announcement;
 import com.example.lostmypet.models.AnnouncementItemRV;
 import com.example.lostmypet.models.Favorite;
@@ -339,18 +341,19 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         }
     }
 
-    private void removeAnnouncementsWithOtherAnimals(int stringID){
+    private void removeAnnouncementsWithOtherAnimals(int animalIndex){
         for (int i = 0; i < recyclerViewList.size(); i++) {
-            if (!recyclerViewList.get(i).getAnimal().equals(getString(stringID))) {
+            if (!recyclerViewList.get(i).getAnimal()
+                    .equals(Animal.values()[animalIndex].toString())) {
                 recyclerViewList.remove(i);
                 i--;
             }
         }
     }
 
-    private void removeAnnouncementsWithOtherType(int stringID){
+    private void removeAnnouncementsWithOtherType(String type){
         for (int i = 0; i < recyclerViewList.size(); i++) {
-            if (!recyclerViewList.get(i).getType().equals(getString(stringID))) {
+            if (!recyclerViewList.get(i).getType().equals(type)) {
                 recyclerViewList.remove(i);
                 i--;
             }
@@ -361,13 +364,13 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
     private void filterByType(int radioButtonResId){
         switch(radioButtonResId) {
             case R.id.rb_found:
-                removeAnnouncementsWithOtherType(R.string.found);
+                removeAnnouncementsWithOtherType(Type.Found.toString());
                 break;
             case R.id.rb_lost:
-                removeAnnouncementsWithOtherType(R.string.lost);
+                removeAnnouncementsWithOtherType(Type.Lost.toString());
                 break;
             case R.id.rb_give_away:
-                removeAnnouncementsWithOtherType(R.string.give_away);
+                removeAnnouncementsWithOtherType(Type.GiveAway.toString());
                 break;
         }
     }
@@ -376,25 +379,25 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         int color = ContextCompat
                 .getColor(AllAnnouncementsActivity.this, R.color.light_orange_1);
         if(dogTextView.getCurrentTextColor() == color){
-            removeAnnouncementsWithOtherAnimals(R.string.dog);
+            removeAnnouncementsWithOtherAnimals(Animal.Dog.ordinal());
             return;}
         if(catTextView.getCurrentTextColor() == color){
-            removeAnnouncementsWithOtherAnimals(R.string.cat);
+            removeAnnouncementsWithOtherAnimals(Animal.Cat.ordinal());
             return;}
         if(rabbitTextView.getCurrentTextColor() == color){
-            removeAnnouncementsWithOtherAnimals(R.string.rabbit);
+            removeAnnouncementsWithOtherAnimals(Animal.Rabbit.ordinal());
             return;}
         if(birdTextView.getCurrentTextColor() == color){
-            removeAnnouncementsWithOtherAnimals(R.string.bird);
+            removeAnnouncementsWithOtherAnimals(Animal.Bird.ordinal());
             return;}
         if(otherTextView.getCurrentTextColor() == color){
-            removeAnnouncementsWithOtherAnimals(R.string.other);
+            removeAnnouncementsWithOtherAnimals(Animal.Other.ordinal());
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void onAnimalClick(TextView animalTextView, ImageButton animalImageButton,
-                               int animalStringResource){
+                               int animalIndex){
         //get all announcements in the recyclerview
         setAllAnnouncements();
         if(!cityEditText.getText().toString().isEmpty()) {
@@ -405,10 +408,10 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
         //verify if the button is clicked
         if(animalTextView.getCurrentTextColor()==ContextCompat.getColor(this, R.color.dark_orange)) {
             //set colors on the buttons and text views to emphasize the clicked ones
-            setAnimalLayoutColors(animalStringResource);
+            setAnimalLayoutColors(animalIndex);
 
             //remove the announcements with other animals from recyclerview
-            removeAnnouncementsWithOtherAnimals(animalStringResource);
+            removeAnnouncementsWithOtherAnimals(animalIndex);
 
             //update the recyclerview
             announcementsAdapter.notifyDataSetChanged();
@@ -420,40 +423,40 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
     }
 
     @SuppressLint("NonConstantResourceId")
-    private void setAnimalLayoutColors(int animalID){
-        switch (animalID){
-            case R.string.dog:
+    private void setAnimalLayoutColors(int animalIndex){
+        switch (animalIndex){
+            case 0:
                 setAnimalButtonsColors(dogImageButton, catImageButton, rabbitImageButton,
                         birdImageButton, otherImageButton);
                 setAnimalTextViewsColors(dogTextView, catTextView, rabbitTextView,
                         birdTextView, otherTextView);
                 break;
-            case R.string.cat:
+            case 1:
                 setAnimalButtonsColors(catImageButton, dogImageButton, rabbitImageButton,
                         birdImageButton, otherImageButton);
                 setAnimalTextViewsColors(catTextView, dogTextView, rabbitTextView,
                         birdTextView, otherTextView);
                 break;
-            case R.string.rabbit:
+            case 2:
                 setAnimalButtonsColors(rabbitImageButton, dogImageButton, catImageButton,
                         birdImageButton, otherImageButton);
                 setAnimalTextViewsColors(rabbitTextView, dogTextView, catTextView,
                         birdTextView, otherTextView);
                 break;
-            case R.string.bird:
+            case 3:
                 setAnimalButtonsColors(birdImageButton, dogImageButton, catImageButton,
                         rabbitImageButton, otherImageButton);
                 setAnimalTextViewsColors(birdTextView, dogTextView, catTextView,
                         rabbitTextView, otherTextView);
                 break;
-            case R.string.other:
+            case 4:
                 setAnimalButtonsColors(otherImageButton, dogImageButton, catImageButton,
                         rabbitImageButton, birdImageButton);
                 setAnimalTextViewsColors(otherTextView, dogTextView, catTextView,
                         rabbitTextView, birdTextView);
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + animalID);
+                throw new IllegalStateException("Unexpected value: " + animalIndex);
         }
     }
 
@@ -483,22 +486,22 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
     }
 
     public void onDogImBtnClick(View view) {
-        onAnimalClick(dogTextView, dogImageButton, R.string.dog);
+        onAnimalClick(dogTextView, dogImageButton, Animal.Dog.ordinal());
     }
 
     public void onCatImBtnClick(View view) {
-        onAnimalClick(catTextView, catImageButton, R.string.cat);
+        onAnimalClick(catTextView, catImageButton,Animal.Cat.ordinal());
     }
 
     public void onRabbitImBtnClick(View view) {
-        onAnimalClick(rabbitTextView, rabbitImageButton, R.string.rabbit);
+        onAnimalClick(rabbitTextView, rabbitImageButton, Animal.Rabbit.ordinal());
     }
 
     public void onBirdImBtnClick(View view) {
-        onAnimalClick(birdTextView, birdImageButton, R.string.bird);
+        onAnimalClick(birdTextView, birdImageButton, Animal.Bird.ordinal());
     }
 
     public void onOtherImBtnClick(View view) {
-        onAnimalClick(otherTextView, otherImageButton, R.string.other);
+        onAnimalClick(otherTextView, otherImageButton, Animal.Other.ordinal());
     }
 }

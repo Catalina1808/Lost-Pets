@@ -94,14 +94,14 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         public void deleteComment() {
             AlertDialog.Builder alert = new AlertDialog.Builder(context);
 
-            alert.setTitle("Delete");
+            alert.setTitle(R.string.delete);
             alert.setIcon(R.drawable.ic_delete);
-            alert.setMessage("Are you sure you want to delete this comment?");
+            alert.setMessage(R.string.warning_delete_comment);
             alert.setPositiveButton(android.R.string.yes, (dialog, which) -> {
                 DAOComment daoComment = new DAOComment();
                 daoComment.remove(list.get(getAdapterPosition()).getCommentID())
-                        .addOnSuccessListener(success -> Timber.w("Comment deleted!"))
-                        .addOnFailureListener(err -> Timber.w("Removal failed"));
+                        .addOnSuccessListener(success -> Timber.w(context.getString(R.string.comment_deleted)))
+                        .addOnFailureListener(err -> Timber.w(context.getString(R.string.removal_failed)));
             });
             alert.setNegativeButton(android.R.string.no, (dialog, which) -> dialog.cancel());
             alert.show();

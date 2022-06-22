@@ -3,7 +3,10 @@ package com.example.lostmypet.helpers;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import timber.log.Timber;
@@ -68,17 +72,50 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
         return  new AnnouncementsViewHolder(view);
     }
 
+    //get the type of announcements in the correct language
+    public String getAnimal(String animal){
+        switch (Animal.valueOf(animal).ordinal()){
+            case 0:
+                return context.getString(R.string.dog);
+            case 1:
+                return context.getString(R.string.cat);
+            case 2:
+                return context.getString(R.string.rabbit);
+            case 3:
+                return context.getString(R.string.bird);
+            case 4:
+                return context.getString(R.string.other);
+            default:
+                return "Unknown animal";
+        }
+    }
+
+    public String getType(String type){
+        switch (Type.valueOf(type).ordinal()){
+            case 0:
+                return context.getString(R.string.lost);
+            case 1:
+                return context.getString(R.string.found);
+            case 2:
+                return context.getString(R.string.give_away);
+            default:
+                return "Unknown type";
+        }
+    }
+
     @Override
     public void onBindViewHolder(@NonNull AnnouncementsViewHolder holder, int position) {
         AnnouncementItemRV announcement = list.get(position);
         holder.name.setText(announcement.getName());
-        holder.animal.setText(announcement.getAnimal());
+        //holder.animal.setText(announcement.getAnimal());
+        holder.animal.setText(getAnimal(announcement.getAnimal()));
         if(announcement.getCity()==null){
             holder.city.setVisibility(View.GONE);
         } else {
             holder.city.setText(announcement.getCity());
         }
-        holder.type.setText(announcement.getType());
+       // holder.type.setText(announcement.getType());
+        holder.type.setText(getType(announcement.getType()));
         if(announcement.getFavoriteID()!=null) {
             holder.favoriteButton.setColorFilter(ContextCompat.getColor(context, R.color.red),
                     android.graphics.PorterDuff.Mode.SRC_IN);
@@ -86,10 +123,10 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
             holder.favoriteButton.setColorFilter(ContextCompat.getColor(context,
                     R.color.dark_orange_alpha_2), android.graphics.PorterDuff.Mode.SRC_IN);
         }
-        if(announcement.getGender().equals(context.getResources().getString(R.string.female))){
+        if(announcement.getGender().equals(Gender.Female.toString())){
             holder.genderImage.setVisibility(View.VISIBLE);
             holder.genderImage.setImageResource(R.drawable.female_icon);
-        } else if(announcement.getGender().equals(context.getResources().getString(R.string.male))){
+        } else if(announcement.getGender().equals(Gender.Male.toString())){
             holder.genderImage.setVisibility(View.VISIBLE);
             holder.genderImage.setImageResource(R.drawable.male_icon);
         } else {
@@ -157,9 +194,9 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
 
             deleteButton.setOnClickListener(v -> {
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setTitle("Delete");
+                alert.setTitle(R.string.delete);
                 alert.setIcon(R.drawable.ic_delete);
-                alert.setMessage("Are you sure you want to delete this announcement?");
+                alert.setMessage(R.string.warning_delete_announcement);
                 alert.setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     //if user is sure then delete
                     deleteAllLocationPoints();
@@ -197,10 +234,10 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
 
             daoFavorite.add(favorite)
                     .addOnSuccessListener(success -> Toast.makeText(context,
-                            "Announcement added to favorite",
+                            R.string.announcement_added_to_fav,
                             Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(err -> Toast.makeText(context,
-                            "Insertion failed",
+                            R.string.insertion_failed,
                             Toast.LENGTH_SHORT).show());
 
             list.get(getAdapterPosition()).setFavoriteID(daoFavorite.getId());
@@ -210,10 +247,10 @@ public class AnnouncementsAdapter  extends RecyclerView.Adapter<AnnouncementsAda
             DAOFavorite daoFavorite = new DAOFavorite();
             daoFavorite.remove(list.get(getAdapterPosition()).getFavoriteID())
                     .addOnSuccessListener(success -> Toast.makeText(context,
-                            "Announcement removed from favorite",
+                            R.string.announcement_removed_from_fav,
                             Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(err -> Toast.makeText(context,
-                            "Removal failed",
+                            R.string.removal_failed,
                             Toast.LENGTH_SHORT).show());
 
 

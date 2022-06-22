@@ -28,6 +28,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.lostmypet.DAO.DAOAnnouncement;
 import com.example.lostmypet.DAO.DAOLocationPoint;
 import com.example.lostmypet.R;
+import com.example.lostmypet.helpers.Animal;
+import com.example.lostmypet.helpers.Gender;
+import com.example.lostmypet.helpers.Type;
 import com.example.lostmypet.models.Announcement;
 import com.example.lostmypet.models.LocationPoint;
 import com.google.firebase.auth.FirebaseAuth;
@@ -267,13 +270,14 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         String userID = currentUser.getUid();
         String date = String.valueOf(new java.sql.Date(System.currentTimeMillis()));
 
-        Announcement announcement = new Announcement(typeSpinner.getSelectedItem().toString(),
+        Announcement announcement = new Announcement(
+                Type.values()[typeSpinner.getSelectedItemPosition()].toString(),
                 userID,
                 nameEditText.getText().toString(),
-                genderSpinner.getSelectedItem().toString(),
+                Gender.values()[genderSpinner.getSelectedItemPosition()].toString(),
                 descriptionEditText.getText().toString(),
                 breedEditText.getText().toString(),
-                animalSpinner.getSelectedItem().toString(),
+                Animal.values()[animalSpinner.getSelectedItemPosition()].toString(),
                 date);
 
 

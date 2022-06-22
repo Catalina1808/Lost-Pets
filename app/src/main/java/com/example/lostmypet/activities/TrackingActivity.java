@@ -70,6 +70,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     private Symbol symbol;
     private boolean isTheLastPointSaved;
     private boolean isLost;
+    private boolean isEditable;
 
     private ArrayList<LocationPoint> locationPoints;
     private String announcementID;
@@ -104,14 +105,14 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         //get announcementID from the sender activity
         Intent intent = getIntent();
         announcementID = intent.getStringExtra("announcementID");
-        boolean editable = intent.getBooleanExtra("editable", false);
+        isEditable = intent.getBooleanExtra("editable", false);
         isLost = intent.getBooleanExtra("isLost", false);
         //if the announcement is not for lost pets then you should not be able to add locations on map
         if(!isLost){
             saveLocationButton.setVisibility(View.GONE);
             deleteLocationButton.setVisibility(View.GONE);
         }
-        if(editable){
+        if(isEditable){
             saveLocationButton.setVisibility(View.VISIBLE);
             deleteAllButton.setVisibility(View.VISIBLE);
             deleteAllButton.setOnClickListener(v -> removeAllLocationPoints());
@@ -299,7 +300,7 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
 
     @Override
     public boolean onMapClick(@NonNull LatLng point) {
-        if(isLost) {
+        if(isLost || isEditable) {
             //delete the last marker if it was not set
             if (symbol != null && !isTheLastPointSaved) {
                 symbolManager.delete(symbol);

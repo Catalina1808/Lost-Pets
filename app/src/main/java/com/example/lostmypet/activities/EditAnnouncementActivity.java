@@ -27,6 +27,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.lostmypet.DAO.DAOAnnouncement;
 import com.example.lostmypet.R;
+import com.example.lostmypet.helpers.Animal;
+import com.example.lostmypet.helpers.Gender;
+import com.example.lostmypet.helpers.Type;
 import com.example.lostmypet.models.AnnouncementItemRV;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -113,7 +116,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
                 R.layout.spinner_layout, enumGender);
         adapter.setDropDownViewResource(R.layout.spinner_layout);
         genderSpinner.setAdapter(adapter);
-        genderSpinner.setSelection(adapter.getPosition(announcementItemRV.getGender()));
+        genderSpinner.setSelection(Gender.valueOf(announcementItemRV.getGender()).ordinal());
     }
 
     private void setTypeSpinner(){
@@ -127,7 +130,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
                 R.layout.spinner_layout, enumType);
         adapterType.setDropDownViewResource(R.layout.spinner_layout);
         typeSpinner.setAdapter(adapterType);
-        typeSpinner.setSelection(adapterType.getPosition(announcementItemRV.getType()));
+        typeSpinner.setSelection(Type.valueOf(announcementItemRV.getType()).ordinal());
 
     }
 
@@ -144,7 +147,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
                 R.layout.spinner_layout, enumAnimal);
         adapterAnimal.setDropDownViewResource(R.layout.spinner_layout);
         animalSpinner.setAdapter(adapterAnimal);
-        animalSpinner.setSelection(adapterAnimal.getPosition(announcementItemRV.getAnimal()));
+        animalSpinner.setSelection(Animal.valueOf(announcementItemRV.getAnimal()).ordinal());
     }
 
     public void setPetImageView(){
@@ -179,7 +182,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TrackingActivity.class);
         intent.putExtra("announcementID", announcementItemRV.getAnnouncementId());
         intent.putExtra("editable", true);
-        intent.putExtra("isLost", announcementItemRV.getType().equals(getString(R.string.lost)));
+        intent.putExtra("isLost", announcementItemRV.getType().equals(Type.Lost.toString()));
         this.startActivity(intent);
 
     }
@@ -258,14 +261,14 @@ public class EditAnnouncementActivity extends AppCompatActivity {
         DAOAnnouncement daoAnnouncement = new DAOAnnouncement();
 
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("type", typeSpinner.getSelectedItem().toString());
+        hashMap.put("type", Type.values()[typeSpinner.getSelectedItemPosition()].toString());
         hashMap.put("userID", announcementItemRV.getUserId());
         hashMap.put("announcementID", announcementItemRV.getAnnouncementId());
         hashMap.put("breed", breedEditText.getText().toString());
         hashMap.put("name", nameEditText.getText().toString());
-        hashMap.put("gender", genderSpinner.getSelectedItem().toString());
+        hashMap.put("gender", Gender.values()[genderSpinner.getSelectedItemPosition()].toString());
         hashMap.put("description", descriptionEditText.getText().toString());
-        hashMap.put("animal", animalSpinner.getSelectedItem().toString());
+        hashMap.put("animal", Animal.values()[animalSpinner.getSelectedItemPosition()].toString());
 
         daoAnnouncement.update(announcementItemRV.getAnnouncementId(), hashMap).
                 addOnSuccessListener(success -> Toast.makeText(getApplicationContext(),

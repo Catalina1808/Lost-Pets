@@ -79,7 +79,7 @@
     la favorite</string>
 <string name="have_you_seen_it">L-ai văzut?</string>
 <string name="add_location_on_map">Adaugă locație \n pe hartă</string>
-<string name="or">or</string>
+<string name="or">sau</string>
 <string name="go_to_comments">Mergi la \n comentarii</string>
 <string name="delete_my_locations">Sterge locațiile mele</string>
 <string name="edit">Editează</string>
@@ -88,7 +88,7 @@
 <string name="change_location">Schimbă locația</string>
 <string name="update">Actualizează</string>
 <string name="delete_all_locations">Șterge toate locațiile</string>
-<string name="see_location">Vezi locația \n oe hartă</string>
+<string name="see_location">Vezi locația \n pe hartă</string>
 <string name="save_changes">Salvează schimbări</string>
 <string name="old_password">Parolă veche</string>
 <string name="new_password">Parolă nouă</string>
@@ -125,7 +125,7 @@
     <string name="permission_granted">Permisiune acordată!</string>
     <string name="permission_denied">Permisiune respinsă!</string>
     <string name="warning_enter_name">Trebuie să introduceți un nume!</string>
-    <string name="warning_enter_description">YTrebuie să introduceți o descriere!</string>
+    <string name="warning_enter_description">Trebuie să introduceți o descriere!</string>
     <string name="warning_enter_location">Trebuie să introduceți o locație</string>
     <string name="announcement_inserted">Anunț inserat</string>
     <string name="insertion_failed">Inserare eșuată</string>
@@ -158,4 +158,10 @@
     <string name="missing_user_image">Imaginea utilizatorului nu a putut fi încărcată.</string>
     <string name="announcement_added_to_fav">Anunț adăugat la favorite!</string>
     <string name="announcement_removed_from_fav">Anunț eliminat de la favorite!</string>
+
+    <string name="password_needed">Este nevoie de parolă!</string>
+    <string name="warning_password_update">Trebuie să introduceți parola pentru a aplica schimbările!</string>
+    <string name="warning_delete_announcement">Sunteți sigur ca doriți să ștergeți anunțul?</string>
+    <string name="warning_delete_comment">Sunteți sigur că doriți să ștergeți comentariul?</string>
+    <string name="comment_deleted">Comentariu șters!</string>
 </resources>

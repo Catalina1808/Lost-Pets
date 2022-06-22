@@ -93,8 +93,8 @@ public class UpdateUserActivity extends AppCompatActivity {
 
     private void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Password needed!");
-        builder.setMessage("You have to enter your password to apply changes!");
+        builder.setTitle(R.string.password_needed);
+        builder.setMessage(R.string.warning_password_update);
 
         // Set up the input
         EditText input = new EditText(this);

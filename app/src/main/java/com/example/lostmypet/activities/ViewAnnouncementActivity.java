@@ -16,6 +16,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.lostmypet.DAO.DAOFavorite;
 import com.example.lostmypet.R;
+import com.example.lostmypet.helpers.Animal;
+import com.example.lostmypet.helpers.Gender;
+import com.example.lostmypet.helpers.Type;
 import com.example.lostmypet.models.AnnouncementItemRV;
 import com.example.lostmypet.models.Favorite;
 import com.example.lostmypet.models.User;
@@ -92,9 +95,9 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     }
 
     public void setGenderImageView(){
-        if(announcementItemRV.getGender().equals(this.getResources().getString(R.string.female))){
+        if(announcementItemRV.getGender().equals(Gender.Female.toString())){
             genderImageView.setImageResource(R.drawable.female_icon);
-        } else if(announcementItemRV.getGender().equals(this.getResources().getString(R.string.male))){
+        } else if(announcementItemRV.getGender().equals(Gender.Male.toString())){
             genderImageView.setImageResource(R.drawable.male_icon);
         } else {
             genderImageView.setVisibility(View.GONE);
@@ -103,9 +106,9 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
 
     public void setTextViews(){
         nameTextView.setText(announcementItemRV.getName());
-        animalTextView.setText(announcementItemRV.getAnimal());
+        animalTextView.setText(getAnimal(announcementItemRV.getAnimal()));
         cityTextView.setText(announcementItemRV.getCity());
-        typeTextView.setText(announcementItemRV.getType());
+        typeTextView.setText(getType(announcementItemRV.getType()));
         descriptionTextView.setText(announcementItemRV.getDescription());
         dateTextView.setText(announcementItemRV.getDate());
         if(announcementItemRV.getBreed().isEmpty()){
@@ -113,7 +116,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         } else {
             breedTextView.setText(String.format("/ %s", announcementItemRV.getBreed()));
         }
-        if(!announcementItemRV.getType().equals(getString(R.string.lost))){
+        if(!announcementItemRV.getType().equals(Type.Lost.toString())){
             messageTextView.setVisibility(View.GONE);
             addLocationButton.setText(R.string.see_location);
         }
@@ -192,6 +195,36 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
         });
     }
 
+    public String getAnimal(String animal){
+        switch (Animal.valueOf(animal).ordinal()){
+            case 0:
+                return getString(R.string.dog);
+            case 1:
+                return getString(R.string.cat);
+            case 2:
+                return getString(R.string.rabbit);
+            case 3:
+                return getString(R.string.bird);
+            case 4:
+                return getString(R.string.other);
+            default:
+                return "Unknown animal";
+        }
+    }
+
+    public String getType(String type){
+        switch (Type.valueOf(type).ordinal()){
+            case 0:
+                return getString(R.string.lost);
+            case 1:
+                return getString(R.string.found);
+            case 2:
+                return getString(R.string.give_away);
+            default:
+                return "Unknown type";
+        }
+    }
+
     public void onIMBFavouriteClick(View view) {
         if(announcementItemRV.getFavoriteID()==null){
             favoriteImageButton.setColorFilter(ContextCompat.getColor(this, R.color.red), android.graphics.PorterDuff.Mode.SRC_IN);
@@ -237,7 +270,7 @@ public class ViewAnnouncementActivity extends AppCompatActivity {
     public void onAddLocationClick(View view) {
         Intent intent = new Intent(this, TrackingActivity.class);
         intent.putExtra("announcementID", announcementItemRV.getAnnouncementId());
-        intent.putExtra("isLost", announcementItemRV.getType().equals(getString(R.string.lost)));
+        intent.putExtra("isLost", announcementItemRV.getType().equals(Type.Lost.toString()));
         this.startActivity(intent);
     }
 
