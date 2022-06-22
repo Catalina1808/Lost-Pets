@@ -99,7 +99,6 @@
         android:id="@+id/pb_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/btn_register"
         app:layout_constraintStart_toStartOf="@id/btn_register"
@@ -110,7 +109,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_centerVertical="true"
-        android:layout_marginTop="70dp"
+        android:layout_marginStart="@dimen/margin25"
+        android:layout_marginTop="40dp"
         android:background="@drawable/selector_simple_button"
         android:drawableStart="@drawable/ic_paw"
         android:drawableEnd="@drawable/ic_paw"
@@ -121,12 +121,12 @@
         android:textColor="@color/white_alpha"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_marginStart="@dimen/margin25"
         app:layout_constraintEnd_toEndOf="@id/edt_password"
         app:layout_constraintHeight_percent="0.12"
+        app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="@id/edt_password"
         app:layout_constraintTop_toBottomOf="@id/edt_password"
-        app:layout_constraintWidth_percent="0.3" />
+        app:layout_constraintWidth_percent="0.4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

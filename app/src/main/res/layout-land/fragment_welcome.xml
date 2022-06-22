@@ -42,7 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.27" />
+        app:layout_constraintWidth_percent="0.32" />
 
     <Button
 
@@ -65,7 +65,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@id/imv_logo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintWidth_percent="0.27" />
+        app:layout_constraintWidth_percent="0.32" />
 
     <TextView
         android:id="@+id/tv_change_language"
