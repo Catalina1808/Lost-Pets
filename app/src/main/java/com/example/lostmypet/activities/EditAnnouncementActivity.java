@@ -108,26 +108,26 @@ public class EditAnnouncementActivity extends AppCompatActivity {
     }
 
     private void setGenderSpinner(){
-        List<String> enumGender = new ArrayList<>(
+        List<String> genderList = new ArrayList<>(
                 Arrays.asList(getResources().getString(R.string.female),
                         getResources().getString(R.string.male),
                         getResources().getString(R.string.unknown)));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.spinner_layout, enumGender);
+                R.layout.spinner_layout, genderList);
         adapter.setDropDownViewResource(R.layout.spinner_layout);
         genderSpinner.setAdapter(adapter);
         genderSpinner.setSelection(Gender.valueOf(announcementItemRV.getGender()).ordinal());
     }
 
     private void setTypeSpinner(){
-        List<String> enumType = new ArrayList<>(
+        List<String> typeList = new ArrayList<>(
                 Arrays.asList(getResources().getString(R.string.lost),
                         getResources().getString(R.string.found),
                         getResources().getString(R.string.give_away)));
 
         typeSpinner = findViewById(R.id.spn_type);
         ArrayAdapter<String>adapterType = new ArrayAdapter<>(this,
-                R.layout.spinner_layout, enumType);
+                R.layout.spinner_layout, typeList);
         adapterType.setDropDownViewResource(R.layout.spinner_layout);
         typeSpinner.setAdapter(adapterType);
         typeSpinner.setSelection(Type.valueOf(announcementItemRV.getType()).ordinal());
@@ -135,7 +135,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
     }
 
     private void setAnimalSpinner(){
-        List<String> enumAnimal = new ArrayList<>(
+        List<String> animalList = new ArrayList<>(
                 Arrays.asList(getResources().getString(R.string.dog),
                         getResources().getString(R.string.cat),
                         getResources().getString(R.string.rabbit),
@@ -144,7 +144,7 @@ public class EditAnnouncementActivity extends AppCompatActivity {
 
         animalSpinner = findViewById(R.id.spn_animal);
         ArrayAdapter<String>adapterAnimal = new ArrayAdapter<>(this,
-                R.layout.spinner_layout, enumAnimal);
+                R.layout.spinner_layout, animalList);
         adapterAnimal.setDropDownViewResource(R.layout.spinner_layout);
         animalSpinner.setAdapter(adapterAnimal);
         animalSpinner.setSelection(Animal.valueOf(announcementItemRV.getAnimal()).ordinal());

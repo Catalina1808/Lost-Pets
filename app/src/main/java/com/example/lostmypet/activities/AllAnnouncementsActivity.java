@@ -108,7 +108,6 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
     }
 
     public void getFavorites(){
-
         DatabaseReference databaseReferenceFavorites = database.getReference(Favorite.class.getSimpleName());
 
         databaseReferenceFavorites.addValueEventListener(new ValueEventListener() {
@@ -165,10 +164,12 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                     Announcement announcement = dataSnapshot.getValue(Announcement.class);
                     announcements.add(announcement);
                 }
-                for(AnnouncementItemRV announcementItemRV: recyclerViewList){
-                    setAnnouncement(announcementItemRV);
+                setAllAnnouncements();
+                if(!cityEditText.getText().toString().isEmpty()) {
+                    removeAnnouncementsWithOtherCity(cityEditText.getText().toString());
                 }
-                announcementsAdapter.notifyDataSetChanged();
+                filterByType(typeRadioGroup.getCheckedRadioButtonId());
+                filterByAnimal();
             }
 
             @Override
@@ -222,7 +223,7 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    String cityName = addresses != null ? addresses.get(0).getLocality() : null;
+                    String cityName = addresses != null ? addresses.get(0).getLocality() : "";
                     announcementItemRV.setCity(cityName);
 
                     Map<Double, Double> location = new HashMap<>();
@@ -231,26 +232,6 @@ public class AllAnnouncementsActivity extends AppCompatActivity {
                 }
                 announcementItemRV.setLocations(locationsList);
             }
-    }
-
-    private void setAnnouncement(AnnouncementItemRV announcementItemRV){
-             for(Announcement announcement: announcements) {
-                if (announcement.getAnnouncementID().equals(announcementItemRV.getAnnouncementId())) {
-                    announcementItemRV.setType(announcement.getType());
-                    announcementItemRV.setAnnouncementId(announcement.getAnnouncementID());
-                    announcementItemRV.setAnimal(announcement.getAnimal());
-                    announcementItemRV.setGender(announcement.getGender());
-                    announcementItemRV.setName(announcement.getName());
-                    announcementItemRV.setBreed(announcement.getBreed());
-                    announcementItemRV.setDescription(announcement.getDescription());
-                    announcementItemRV.setDate(announcement.getDate());
-                    announcementItemRV.setUserId(announcement.getUserID());
-                    setLocation(announcementItemRV);
-                    setFavorite(announcementItemRV);
-                    return;
-                }
-            }
-             recyclerViewList.remove(announcementItemRV);
     }
 
     @SuppressLint("NotifyDataSetChanged")

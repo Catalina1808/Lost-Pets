@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Objects;
+
 public class MainPageActivity extends AppCompatActivity {
 
     private final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
@@ -51,7 +53,6 @@ public class MainPageActivity extends AppCompatActivity {
         //Get the firebase user
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        assert currentUser != null;
 
         //Get the image and username from UI
         usernameTextView = findViewById(R.id.tv_username);
@@ -114,15 +115,16 @@ public class MainPageActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
                         //Get uri from image from gallery
-                        assert result.getData() != null;
-                        Uri photoUri = result.getData().getData();
+                        Uri photoUri = Objects.requireNonNull(result.getData()).getData();
 
                         //Put the image in the ImageView on screen
                         userImageView.setImageURI(photoUri);
 
                         //Save the image in Firebase Storage
-                        storageReference = FirebaseStorage.getInstance().getReference("Users/"+currentUser.getUid());
-                        storageReference.putFile(photoUri).addOnSuccessListener(taskSnapshot -> Toast.makeText(getApplicationContext(), "User Profile updated",
+                        storageReference = FirebaseStorage.getInstance()
+                                .getReference("Users/"+currentUser.getUid());
+                        storageReference.putFile(photoUri).addOnSuccessListener(taskSnapshot ->
+                                Toast.makeText(getApplicationContext(), R.string.image_updated,
                                 Toast.LENGTH_SHORT).show());
 
                     }}

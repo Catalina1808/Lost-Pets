@@ -159,6 +159,28 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
+            <Button
+                android:id="@+id/btn_delete_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/selector_transparent_button"
+                android:drawableStart="@drawable/ic_paw"
+                android:drawableEnd="@drawable/ic_paw"
+                android:drawablePadding="5dp"
+                android:drawableTint="@color/orange"
+                android:fontFamily="@font/sunshiney"
+                android:text="@string/delete_account"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
             <ProgressBar
                 android:id="@+id/pb_loading"
                 android:layout_width="wrap_content"

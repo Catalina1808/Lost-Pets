@@ -201,7 +201,7 @@ public class FavoritesActivity extends AppCompatActivity {
                         locationsList.add(location);
                     }
                 }
-                //STREAM
+
                 favorites.stream().filter(fav -> fav.getAnnouncementID().
                         equals(announcement.getAnnouncementID())).findAny().ifPresent
                         (favorite -> announcementItemRV.setFavoriteID(favorite.getFavoriteID()));

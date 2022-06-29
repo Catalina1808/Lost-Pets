@@ -118,20 +118,24 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
             deleteAllButton.setOnClickListener(v -> removeAllLocationPoints());
         }
 
-
         coordinates = new ArrayList<>();
         locationPoints = new ArrayList<>();
         getLocations();
-        //enableLocation();
 
         //to know if the last point added on map was saved
         isTheLastPointSaved = false;
 
         saveLocationButton.setOnClickListener(view -> {
-            isTheLastPointSaved = true;
-            coordinates.add(destinationPosition);
-            makeRoutes();
-            addLocationPoint(destinationPosition.latitude(), destinationPosition.longitude());
+            if(destinationPosition!=null) {
+                isTheLastPointSaved = true;
+                coordinates.add(destinationPosition);
+                makeRoutes();
+                addLocationPoint(destinationPosition.latitude(), destinationPosition.longitude());
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        R.string.warning_select_place,
+                        Toast.LENGTH_SHORT).show();
+            }
         });
 
         deleteLocationButton.setOnClickListener(v -> removeLocationPoints());
@@ -165,8 +169,13 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
             if (mapboxNavigation != null) {
                 mapboxNavigation.onDestroy();
             }
-            RouteOptions routeOptions = RouteOptions.builder().coordinatesList(coordinates).profile(DirectionsCriteria.PROFILE_DRIVING).user("mapbox").geometries("polyline6").steps(true).build();
-            NavigationOptions navigationOptions = new NavigationOptions.Builder(TrackingActivity.this).accessToken(getString(R.string.mapbox_access_token)).build();
+            RouteOptions routeOptions = RouteOptions.builder().coordinatesList(coordinates)
+                    .profile(DirectionsCriteria.PROFILE_WALKING)
+                    .user("mapbox").geometries("polyline6").steps(true).build();
+            NavigationOptions navigationOptions = new NavigationOptions
+                    .Builder(TrackingActivity.this)
+                    .accessToken(getString(R.string.mapbox_access_token))
+                    .build();
             mapboxNavigation = new MapboxNavigation(navigationOptions);
             mapboxNavigation.requestRoutes(routeOptions, TrackingActivity.this);
         }
@@ -223,8 +232,6 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
             //remove route
             navigationMapRoute.updateRouteVisibilityTo(false);
         }
-        addMarkersOnMap();
-        makeRoutes();
     }
 
 
@@ -248,20 +255,15 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
                             coordinates.add(Point.fromLngLat(Objects.requireNonNull(locationPoint).getLongitude(),
                                     locationPoint.getLatitude()));
                         }
-
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }
 
-
-
-    //add markers on map after changing map style
     private void addMarkersOnMap() {
 
         for (Point point : coordinates) {
@@ -271,14 +273,11 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
         }
     }
 
-
-//add first mark on map
-
+    //add first mark on map
     @Override
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
 
         mapboxMap.setStyle(Style.MAPBOX_STREETS, style -> {
-
             symbolManager = new SymbolManager(mapView, mapboxMap, style);
             symbolManager.setIconAllowOverlap(true);
             style.addImage("myMarker", BitmapFactory.decodeResource(getResources(), R.drawable.paw_mark_map));
@@ -338,7 +337,6 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     @Override
     protected void onStop() {
         super.onStop();
-        // mapboxNavigation.stopTripSession();
         mapView.onStop();
     }
 
@@ -377,15 +375,14 @@ public class TrackingActivity extends AppCompatActivity implements NavigationRou
     @SuppressLint("MissingPermission")
     @Override
     public void onRoutesReady(@NotNull List<NavigationRoute> list, @NotNull RouterOrigin routerOrigin) {
-        DirectionsRoute route = list.get(0).getDirectionsRoute();
-
         if (list.size() == 0) {
             Timber.e("No routes found");
             return;
         }
 
+        DirectionsRoute route = list.get(0).getDirectionsRoute();
+
         if (navigationMapRoute != null) {
-           // navigationMapRoute.removeRoute();
             navigationMapRoute.updateRouteVisibilityTo(false);
         } else {
             navigationMapRoute = new NavigationMapRoute(null, mapView, map);

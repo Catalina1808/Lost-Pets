@@ -1,7 +1,5 @@
 package com.example.lostmypet.models;
 
-import com.mapbox.mapboxsdk.geometry.LatLng;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;

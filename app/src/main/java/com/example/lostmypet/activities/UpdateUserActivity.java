@@ -1,5 +1,6 @@
 package com.example.lostmypet.activities;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.InputType;
@@ -16,9 +17,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.lostmypet.DAO.DAOAnnouncement;
+import com.example.lostmypet.DAO.DAOFavorite;
+import com.example.lostmypet.DAO.DAOLocationPoint;
 import com.example.lostmypet.DAO.DAOUser;
 import com.example.lostmypet.R;
 import com.example.lostmypet.helpers.UtilsValidators;
+import com.example.lostmypet.models.Announcement;
+import com.example.lostmypet.models.Favorite;
+import com.example.lostmypet.models.LocationPoint;
 import com.example.lostmypet.models.User;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -30,6 +37,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -42,11 +50,13 @@ public class UpdateUserActivity extends AppCompatActivity {
     private EditText phoneEditText;
     private EditText usernameEditText;
     private Button saveInfoButton;
+    private Button deleteAccountButton;
     private EditText oldPasswordEditText;
     private EditText newPasswordEditText;
     private Button savePasswordButton;
 
     private FirebaseUser firebaseUser;
+    private FirebaseDatabase database;
     private String password;
     private User user;
 
@@ -59,6 +69,9 @@ public class UpdateUserActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.getCurrentUser();
         firebaseUser = mAuth.getCurrentUser();
+
+        database = FirebaseDatabase.getInstance(
+                "https://lostmypet-32687-default-rtdb.europe-west1.firebasedatabase.app/");
 
         getUIElements();
         getUser();
@@ -75,6 +88,25 @@ public class UpdateUserActivity extends AppCompatActivity {
             }
         });
 
+        deleteAccountButton.setOnClickListener(v -> {
+            android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(this);
+            alert.setTitle(R.string.delete);
+            alert.setIcon(R.drawable.ic_delete);
+            alert.setMessage(R.string.warning_delete_account);
+            alert.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                //if user is sure then delete
+                firebaseUser.delete().addOnSuccessListener(success -> {
+                    Toast.makeText(this, "Account deleted!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(UpdateUserActivity.this, WelcomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                });
+                deleteAnnouncements();
+            });
+            alert.setNegativeButton(android.R.string.no, (dialog, which) -> dialog.cancel());
+            alert.show();
+        });
+
         emailEditText.setText(firebaseUser.getEmail());
 
     }
@@ -88,6 +120,7 @@ public class UpdateUserActivity extends AppCompatActivity {
         oldPasswordEditText = findViewById(R.id.edt_old_password);
         newPasswordEditText = findViewById(R.id.edt_new_password);
         savePasswordButton = findViewById(R.id.btn_update_password);
+        deleteAccountButton = findViewById(R.id.btn_delete_account);
     }
 
 
@@ -101,7 +134,8 @@ public class UpdateUserActivity extends AppCompatActivity {
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams
+                (LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         int dpToPx = (int) (15 * Resources.getSystem().getDisplayMetrics().density);
         lp.setMargins(dpToPx, 0, dpToPx, 0);
         input.setLayoutParams(lp);
@@ -195,7 +229,6 @@ public class UpdateUserActivity extends AppCompatActivity {
     }
 
     private void updateFireBaseUser() {
-
         progressBar.setVisibility(View.VISIBLE);
 
         AuthCredential credential = EmailAuthProvider
@@ -262,4 +295,93 @@ public class UpdateUserActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.GONE);
     }
+
+    private void deleteAnnouncements() {
+        DAOAnnouncement daoAnnouncement = new DAOAnnouncement();
+
+        DatabaseReference databaseReferenceFavorites = database
+                .getReference(Announcement.class.getSimpleName());
+        databaseReferenceFavorites.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    if(Objects.equals(Objects.requireNonNull(dataSnapshot
+                                    .getValue(Announcement.class)).getUserID(),
+                            firebaseUser.getUid())) {
+                        Announcement announcement = dataSnapshot.getValue(Announcement.class);
+                        daoAnnouncement.remove(Objects.requireNonNull(announcement).getAnnouncementID())
+                                .addOnSuccessListener(success -> Timber.w("Announcement removed"))
+                                .addOnFailureListener(err -> Timber.w("Announcement removal failed"));
+                        deletePictures(announcement.getAnnouncementID());
+                        deleteLocationPoints(announcement.getAnnouncementID());
+                        deleteFromAllUsersFavorites(announcement.getAnnouncementID());
+                    }}}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+
+    private void deleteFromAllUsersFavorites(String announcementID) {
+        DAOFavorite daoFavorite = new DAOFavorite();
+
+        DatabaseReference databaseReferenceFavorites = database.getReference(Favorite.class.getSimpleName());
+        databaseReferenceFavorites.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    if(Objects.equals(Objects.requireNonNull(dataSnapshot.getValue(Favorite.class))
+                            .getAnnouncementID(), announcementID)) {
+                        Favorite favorite = dataSnapshot.getValue(Favorite.class);
+                        daoFavorite.remove(Objects.requireNonNull(favorite).getFavoriteID())
+                                .addOnSuccessListener(success -> Timber.w("Favorites removed"))
+                                .addOnFailureListener(err -> Timber.w("Favorites removal failed"));
+                    }}}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void deleteLocationPoints(String announcementID) {
+        DAOLocationPoint daoLocationPoint = new DAOLocationPoint();
+
+        DatabaseReference databaseReferenceFavorites = database.getReference(LocationPoint.class.getSimpleName());
+        databaseReferenceFavorites.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    if(Objects.equals(Objects.requireNonNull(dataSnapshot.getValue(LocationPoint.class))
+                            .getAnnouncementID(), announcementID)) {
+                        LocationPoint locationPoint = dataSnapshot.getValue(LocationPoint.class);
+                        daoLocationPoint.remove(Objects.requireNonNull(locationPoint).getLocationPointID())
+                                .addOnSuccessListener(success -> Timber.w("Locations removed"))
+                                .addOnFailureListener(err -> Timber.w("Locations removal failed"));
+                    }}}
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
+
+    private void deletePictures(String announcementID){
+        FirebaseStorage.getInstance()
+                .getReference("Announcements/")
+                .child(announcementID)
+                .delete()
+                .addOnSuccessListener(success -> Timber.w("Announcement picture removed"))
+                .addOnFailureListener(err -> Timber.w("Announcement picture removal failed"));
+
+        FirebaseStorage.getInstance()
+                .getReference("Users/")
+                .child(firebaseUser.getUid())
+                .delete()
+                .addOnSuccessListener(success -> Timber.w("User picture removed"))
+                .addOnFailureListener(err -> Timber.w("User picture removal failed"));
+    }
+
 }

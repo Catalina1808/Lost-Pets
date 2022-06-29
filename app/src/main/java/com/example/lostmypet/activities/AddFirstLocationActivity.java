@@ -45,7 +45,6 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
     private Location originLocation;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +58,6 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
         switchMapStyle = findViewById(R.id.switchMapStyle);
 
         enableLocation();
-
 
         saveLocationButton.setOnClickListener(view -> {
             if(position !=null) {
@@ -129,8 +127,6 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
     @SuppressLint("MissingPermission")
     private void enableLocation() {
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
-            // Get the user location
-
             //initialize local engine
 
             LocationEngine locationEngine = LocationEngineProvider.getBestLocationEngine(this);
@@ -144,7 +140,6 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
                     } else {
                         Toast.makeText(AddFirstLocationActivity.this, R.string.current_location_not_found,
                                 Toast.LENGTH_LONG).show();
-                        //position = Point.fromLngLat(26.021101, 44.940918);
                     }
                 }
 
@@ -182,7 +177,6 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
 
         position = Point.fromLngLat(point.getLongitude(), point.getLatitude());
 
-        saveLocationButton.setVisibility(View.VISIBLE);
         return false;
     }
 
@@ -227,7 +221,5 @@ public class AddFirstLocationActivity extends AppCompatActivity implements OnMap
         super.onDestroy();
         mapView.onDestroy();
     }
-
-
 
 }

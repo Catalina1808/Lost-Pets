@@ -164,4 +164,8 @@
     <string name="warning_delete_announcement">Sunteți sigur ca doriți să ștergeți anunțul?</string>
     <string name="warning_delete_comment">Sunteți sigur că doriți să ștergeți comentariul?</string>
     <string name="comment_deleted">Comentariu șters!</string>
+    <string name="image_updated">Imagine de profil actualizata!</string>
+    <string name="delete_account">Ștergere cont</string>
+    <string name="warning_delete_account">Sunteți sigur ca doriți să ștergeți contul?
+        Acest lucru va avea ca și urmare ștergerea anunțurilor dvs..</string>
 </resources>

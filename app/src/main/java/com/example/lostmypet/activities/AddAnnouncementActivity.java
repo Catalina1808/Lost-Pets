@@ -75,8 +75,6 @@ public class AddAnnouncementActivity extends AppCompatActivity {
         //Get the firebase user
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        assert currentUser != null;
-
 
         setGenderSpinner();
         setAnimalSpinner();
@@ -132,35 +130,35 @@ public class AddAnnouncementActivity extends AppCompatActivity {
     }
 
     private void setGenderSpinner(){
-        List<String> enumGender = new ArrayList<>(
+        List<String> genderList = new ArrayList<>(
                 Arrays.asList(getResources().getString(R.string.female),
                         getResources().getString(R.string.male),
                         getResources().getString(R.string.unknown)));
 
         genderSpinner = findViewById(R.id.spn_gender);
         ArrayAdapter<String>adapter = new ArrayAdapter<>(this,
-                R.layout.spinner_layout, enumGender);
+                R.layout.spinner_layout, genderList);
         adapter.setDropDownViewResource(R.layout.spinner_layout);
         genderSpinner.setAdapter(adapter);
 
     }
 
     private void setTypeSpinner(){
-        List<String> enumType = new ArrayList<>(
+        List<String> typeList = new ArrayList<>(
                 Arrays.asList(getResources().getString(R.string.lost),
                         getResources().getString(R.string.found),
                         getResources().getString(R.string.give_away)));
 
         typeSpinner = findViewById(R.id.spn_type);
         ArrayAdapter<String>adapterType = new ArrayAdapter<>(this,
-                R.layout.spinner_layout, enumType);
+                R.layout.spinner_layout, typeList);
         adapterType.setDropDownViewResource(R.layout.spinner_layout);
         typeSpinner.setAdapter(adapterType);
 
     }
 
     private void setAnimalSpinner(){
-        List<String> enumAnimal = new ArrayList<>(
+        List<String> animalList = new ArrayList<>(
                 Arrays.asList(getResources().getString(R.string.dog),
                         getResources().getString(R.string.cat),
                         getResources().getString(R.string.rabbit),
@@ -170,13 +168,12 @@ public class AddAnnouncementActivity extends AppCompatActivity {
 
         animalSpinner = findViewById(R.id.spn_animal);
         ArrayAdapter<String>adapterAnimal = new ArrayAdapter<>(this,
-                R.layout.spinner_layout, enumAnimal);
+                R.layout.spinner_layout, animalList);
         adapterAnimal.setDropDownViewResource(R.layout.spinner_layout);
         animalSpinner.setAdapter(adapterAnimal);
     }
 
     public void onClickAddImage(View view) {
-
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
@@ -215,8 +212,7 @@ public class AddAnnouncementActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == AppCompatActivity.RESULT_OK) {
                         //Get uri from image from gallery
-                        assert result.getData() != null;
-                        photoUri = result.getData().getData();
+                        photoUri = Objects.requireNonNull(result.getData()).getData();
 
                         //Put the image in the ImageView on screen
                         petImageView.setImageURI(photoUri);
